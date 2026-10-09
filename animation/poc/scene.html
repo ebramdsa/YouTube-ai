@@ -1,0 +1,111 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000}svg{display:block}</style></head><body>
+<svg id="s" width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#f3d58a"/><stop offset="1" stop-color="#c9933f"/></radialGradient>
+  <filter id="rough"><feTurbulence baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+  <g id="scratch"><path d="M-14,-10 L10,14 M-6,-16 L16,8 M-14,6 L12,-12" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+</defs>
+<rect width="1280" height="720" fill="url(#sky)"/>
+<!-- distant hills and dust -->
+<path d="M0,520 Q200,450 420,500 T860,490 T1280,470 L1280,720 L0,720Z" fill="#b98a46" opacity=".7"/>
+<g id="army" opacity=".55" fill="#7a5a33">
+  <rect x="80" y="470" width="300" height="30" rx="10"/><rect x="900" y="465" width="320" height="30" rx="10"/>
+</g>
+<path d="M0,600 Q640,560 1280,600 L1280,720 L0,720Z" fill="#a67a3d"/>
+
+<!-- HANNIBAL -->
+<g id="han" transform="translate(380,250)" filter="url(#rough)">
+  <g id="hanBody">
+    <path d="M-120,200 Q-130,90 -40,80 L40,80 Q130,90 120,200 L130,480 L-130,480Z" fill="#6b3f8f" stroke="#1a1a1a" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M-60,85 L0,170 L60,85" fill="#c99a3c" stroke="#1a1a1a" stroke-width="6"/>
+    <use href="#scratch" x="-70" y="260"/><use href="#scratch" x="60" y="340"/>
+    <path d="M-60,180 Q-90,260 -60,300" stroke="#1a1a1a" stroke-width="5" fill="none" opacity=".5"/>
+  </g>
+  <g id="hanHead">
+    <circle r="120" fill="#f2ece0" stroke="#1a1a1a" stroke-width="8"/>
+    <!-- beard -->
+    <path d="M-95,30 Q-80,125 0,128 Q80,125 95,30 Q60,70 0,72 Q-60,70 -95,30Z" fill="#2b211c" stroke="#1a1a1a" stroke-width="6"/>
+    <!-- eyes -->
+    <g id="hanEyes">
+      <circle cx="-45" cy="-10" r="30" fill="#fff" stroke="#1a1a1a" stroke-width="6"/>
+      <circle cx="-38" cy="-6" r="7" fill="#1a1a1a"/>
+      <!-- eyepatch on right eye -->
+      <ellipse cx="45" cy="-10" rx="32" ry="28" fill="#1a1a1a"/>
+      <path d="M-115,-55 L115,-30" stroke="#1a1a1a" stroke-width="7"/>
+    </g>
+    <rect id="hanLid" x="-78" y="-42" width="66" height="0" fill="#f2ece0" stroke="#1a1a1a" stroke-width="5"/>
+    <path id="hanBrow" d="M-85,-55 L-10,-35" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
+    <ellipse id="hanMouth" cx="0" cy="58" rx="22" ry="4" fill="#5a1a1a" stroke="#1a1a1a" stroke-width="5"/>
+    <use href="#scratch" x="80" y="40"/>
+    <!-- helmet -->
+    <path d="M-125,-40 Q-120,-150 0,-155 Q120,-150 125,-40 Q0,-75 -125,-40Z" fill="#c4913a" stroke="#1a1a1a" stroke-width="8"/>
+    <path d="M-20,-150 Q0,-250 90,-230 Q40,-200 25,-150Z" fill="#7b3fa0" stroke="#1a1a1a" stroke-width="6"/>
+    <use href="#scratch" x="-60" y="-100"/>
+  </g>
+</g>
+
+<!-- ROMAN -->
+<g id="rom" transform="translate(920,280) scale(.9)" filter="url(#rough)">
+  <g id="romBody">
+    <path d="M-120,200 Q-130,90 -40,80 L40,80 Q130,90 120,200 L130,480 L-130,480Z" fill="#b8322a" stroke="#1a1a1a" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M-110,200 L110,200 M-115,250 L115,250 M-118,300 L118,300" stroke="#8c8c8c" stroke-width="16"/>
+    <use href="#scratch" x="40" y="380"/>
+  </g>
+  <g id="romHead">
+    <circle r="120" fill="#f2ece0" stroke="#1a1a1a" stroke-width="8"/>
+    <circle cx="-42" cy="-5" r="30" fill="#fff" stroke="#1a1a1a" stroke-width="6"/>
+    <circle cx="42" cy="-5" r="30" fill="#fff" stroke="#1a1a1a" stroke-width="6"/>
+    <circle id="romP1" cx="-48" cy="-2" r="7" fill="#1a1a1a"/><circle id="romP2" cx="36" cy="-2" r="7" fill="#1a1a1a"/>
+    <path id="romBrowL" d="M-75,-48 L-15,-58" stroke="#1a1a1a" stroke-width="9" stroke-linecap="round"/>
+    <path id="romBrowR" d="M15,-58 L75,-48" stroke="#1a1a1a" stroke-width="9" stroke-linecap="round"/>
+    <path id="romMouth" d="M-25,62 Q0,52 25,62" stroke="#1a1a1a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M-20,90 l6,6 M10,92 l6,-6 M-5,98 l4,5" stroke="#1a1a1a" stroke-width="3"/>
+    <!-- galea helmet -->
+    <path d="M-125,-30 Q-125,-150 0,-150 Q125,-150 125,-30 L100,-40 Q0,-80 -100,-40Z" fill="#a9a9a9" stroke="#1a1a1a" stroke-width="8"/>
+    <path d="M-110,-110 Q0,-260 110,-110 Q0,-170 -110,-110Z" fill="#d23a2e" stroke="#1a1a1a" stroke-width="6"/>
+    <path d="M-125,-30 L-120,60 L-95,40 L-100,-35Z M125,-30 L120,60 L95,40 L100,-35Z" fill="#a9a9a9" stroke="#1a1a1a" stroke-width="6"/>
+  </g>
+  <g id="sweat" opacity="0"><path d="M120,-60 q12,22 0,30 q-12,-8 0,-30Z" fill="#7fc4ee" stroke="#1a1a1a" stroke-width="4"/></g>
+</g>
+
+<!-- caption -->
+<g id="cap" opacity="0">
+  <rect x="290" y="620" width="700" height="70" rx="14" fill="#1a1a1a" opacity=".8"/>
+  <text x="640" y="667" font-family="Comic Sans MS, Comic Neue, Arial Rounded MT Bold, sans-serif" font-size="34" font-weight="bold" fill="#fff" text-anchor="middle">216 BC — Cannae, Italy</text>
+</g>
+</svg>
+<script>
+const $=id=>document.getElementById(id);
+const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
+window.render=function(t){
+  // idle bob
+  $('hanHead').setAttribute('transform',`translate(0,${Math.sin(t*3)*4}) rotate(${Math.sin(t*1.7)*3})`);
+  $('romHead').setAttribute('transform',`translate(0,${Math.sin(t*3+1)*4})`);
+  // Hannibal blinks (single eye)
+  const blink=[1.2,3.6,5.2].some(b=>t>b&&t<b+0.12);
+  $('hanLid').setAttribute('height',blink?64:0);
+  // Hannibal talks 0.5s-3.5s (fake lip-sync)
+  const talking=t>0.5&&t<3.5;
+  const open=talking?Math.abs(Math.sin(t*14))*22+Math.abs(Math.sin(t*23))*8:4;
+  $('hanMouth').setAttribute('ry',open.toFixed(1));
+  // evil brow raise when finishing line
+  const r=ease((t-3.2)/0.4);
+  $('hanBrow').setAttribute('d',`M-85,${-55-r*18} L-10,${-35+r*6}`);
+  // Roman reacts from 3.8s: eyes wide, brows up, sweat, shaky
+  const k=ease((t-3.8)/0.3);
+  $('romBrowL').setAttribute('d',`M-75,${-48-k*30} L-15,${-58-k*20}`);
+  $('romBrowR').setAttribute('d',`M15,${-58-k*20} L75,${-48-k*30}`);
+  $('romP1').setAttribute('r',7-k*3);$('romP2').setAttribute('r',7-k*3);
+  $('romMouth').setAttribute('d',`M-25,62 Q0,${52-k*14} 25,${62+k*6}`);
+  $('sweat').setAttribute('opacity',k);
+  $('sweat').setAttribute('transform',`translate(0,${((t*60)%40)*k})`);
+  const shake=k*Math.sin(t*60)*3;
+  $('rom').setAttribute('transform',`translate(${920+shake},280) scale(.9)`);
+  // slow camera push-in
+  const z=1+t*0.01;
+  $('s').setAttribute('viewBox',`${640-640/z} ${360-360/z} ${1280/z} ${720/z}`);
+  $('cap').setAttribute('opacity',ease(t/0.4)*(1-ease((t-2.6)/0.4)));
+};
+render(0);
+</script></body></html>
