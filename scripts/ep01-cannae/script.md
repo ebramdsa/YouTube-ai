@@ -1,6 +1,6 @@
 # Episode 1 — Cannae: How Hannibal Deleted a Roman Army in One Day
 
-**Target length:** ~9 minutes · **Voices:** NARRATOR, SOBIUS, HANNIBAL, VARRO, ELDER (Fabius + Maharbal) · Voice files: `voice/`
+**Target length:** ~22 minutes · **Voices:** NARRATOR, SOBIUS, HANNIBAL, VARRO, ELDER (Fabius + Maharbal) · Voice files: `voice/`
 
 **Main sources:** Polybius, *Histories* III.106–118 · Livy, *History of Rome* XXI–XXII ·
 Adrian Goldsworthy, *Cannae* (2001) · Gregory Daly, *Cannae: The Experience of Battle in the Second Punic War* (2002)
