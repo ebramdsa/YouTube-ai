@@ -1,0 +1,160 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000}svg{display:block}</style></head><body>
+<svg id="s" width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="skyGrad" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#f3d58a"/><stop offset="1" stop-color="#c9933f"/></radialGradient>
+  <linearGradient id="seaGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0" stop-color="#1b4965"/><stop offset="1" stop-color="#0f2332"/></linearGradient>
+  <filter id="rough"><feTurbulence baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+  <g id="scratch"><path d="M-14,-10 L10,14 M-6,-16 L16,8 M-14,6 L12,-12" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+</defs>
+
+<!-- Group 1: Plain with armies (0-0.75s) -->
+<g id="plainScene" opacity="1">
+  <rect width="1280" height="720" fill="url(#skyGrad)"/>
+  <!-- distant hills -->
+  <path d="M0,520 Q200,450 420,500 T860,490 T1280,470 L1280,720 L0,720Z" fill="#b98a46" opacity=".7"/>
+  <!-- dust clouds -->
+  <ellipse id="dust1" cx="200" cy="480" rx="80" ry="30" fill="#a67a3d" opacity=".4"/>
+  <ellipse id="dust2" cx="1000" cy="470" rx="120" ry="40" fill="#a67a3d" opacity=".3"/>
+  <!-- ground -->
+  <path d="M0,600 Q640,560 1280,600 L1280,720 L0,720Z" fill="#a67a3d"/>
+  <!-- Roman army (red sticks, left side) -->
+  <g id="romanArmy" opacity=".8" fill="#E63946">
+    <rect x="50" y="480" width="200" height="60" rx="15"/>
+    <g opacity=".6">
+      <rect x="40" y="540" width="40" height="40"/><rect x="85" y="540" width="40" height="40"/><rect x="130" y="540" width="40" height="40"/>
+      <rect x="175" y="540" width="40" height="40"/><rect x="60" y="585" width="40" height="40"/><rect x="110" y="585" width="40" height="40"/>
+    </g>
+  </g>
+  <!-- Hannibal alone (right side) -->
+  <g id="hannibalAlone" transform="translate(950,300)" filter="url(#rough)">
+    <g id="hanBody2">
+      <path d="M-40,50 Q-45,20 -15,15 L15,15 Q45,20 40,80 L45,160 L-45,160Z" fill="#6b3f8f" stroke="#1a1a1a" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M-20,18 L0,50 L20,18" fill="#FFB81C" stroke="#1a1a1a" stroke-width="3"/>
+    </g>
+    <g id="hanHead2">
+      <circle r="50" fill="#f2ece0" stroke="#1a1a1a" stroke-width="4"/>
+      <!-- beard -->
+      <path d="M-40,12 Q-30,50 0,52 Q30,50 40,12 Q25,30 0,30 Q-25,30 -40,12Z" fill="#2b211c" stroke="#1a1a1a" stroke-width="3"/>
+      <!-- eyes -->
+      <circle cx="-18" cy="-8" r="12" fill="#fff" stroke="#1a1a1a" stroke-width="3"/>
+      <circle cx="-15" cy="-6" r="4" fill="#1a1a1a"/>
+      <!-- eyepatch -->
+      <ellipse cx="18" cy="-8" rx="13" ry="12" fill="#1a1a1a"/>
+      <path d="M-48,-22 L48,-12" stroke="#1a1a1a" stroke-width="3"/>
+      <!-- helmet -->
+      <path d="M-55,-15 Q-52,-65 0,-68 Q52,-65 55,-15 Q0,-35 -55,-15Z" fill="#FFB81C" stroke="#1a1a1a" stroke-width="4"/>
+      <path d="M-8,-68 Q0,-110 35,-100 Q18,-90 12,-65Z" fill="#9D4EDD" stroke="#1a1a1a" stroke-width="3"/>
+    </g>
+  </g>
+</g>
+
+<!-- Group 2: Map view (0.75-3.5s) -->
+<g id="mapScene" opacity="0">
+  <rect width="1280" height="720" fill="#0f2332"/>
+
+  <!-- Mediterranean Sea -->
+  <path id="sea" d="M100,150 Q200,100 400,120 Q600,80 900,140 Q1100,100 1200,200 L1200,650 Q1000,700 800,680 Q600,720 400,700 Q200,680 100,650Z" fill="url(#seaGrad)"/>
+
+  <!-- Europe landmass (simplified) -->
+  <path d="M0,0 L300,80 L400,40 L500,100 L600,60 L700,120 L800,80 L900,140 L1000,100 L1100,200 L1280,150 L1280,0 L0,0Z" fill="#5a5a5a"/>
+
+  <!-- North Africa -->
+  <path d="M100,200 L200,220 L350,210 L450,240 L550,220 L650,250 L750,230 L850,260 L950,240 L1050,270 L1200,250 L1200,400 Q1000,420 800,400 Q600,430 400,410 Q200,390 100,400Z" fill="#8b7355"/>
+
+  <!-- Rome (red circle) -->
+  <g id="rome">
+    <circle cx="280" cy="190" r="18" fill="#E63946" stroke="#fff" stroke-width="3"/>
+    <text x="280" y="230" font-family="Arial, sans-serif" font-size="18" fill="#fff" text-anchor="middle" font-weight="bold">Rome</text>
+  </g>
+
+  <!-- Carthage (purple circle) -->
+  <g id="carthage">
+    <circle cx="400" cy="380" r="18" fill="#9D4EDD" stroke="#fff" stroke-width="3"/>
+    <text x="400" y="420" font-family="Arial, sans-serif" font-size="18" fill="#fff" text-anchor="middle" font-weight="bold">Carthage</text>
+  </g>
+
+  <!-- Spain -->
+  <g id="spain">
+    <circle cx="150" cy="290" r="16" fill="#FFB81C" stroke="#fff" stroke-width="2"/>
+    <text x="150" y="330" font-family="Arial, sans-serif" font-size="16" fill="#fff" text-anchor="middle">Spain</text>
+  </g>
+
+  <!-- Hannibal character on map (small) -->
+  <g id="hanSmall" transform="translate(130, 250)">
+    <circle r="12" fill="#f2ece0" stroke="#1a1a1a" stroke-width="2"/>
+    <ellipse cx="8" cy="-2" rx="6" ry="5" fill="#1a1a1a"/>
+    <path d="M-12,-8 L12,-5" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M-8,-3 L8,-3" fill="#6b3f8f" stroke="#1a1a1a" stroke-width="2"/>
+  </g>
+</g>
+
+<!-- Group 3: Title Card (appears ~0.4s) -->
+<g id="titleCard" opacity="0">
+  <rect width="1280" height="720" fill="#000" opacity=".7"/>
+  <text x="640" y="300" font-family="Georgia, serif" font-size="72" fill="#E63946" text-anchor="middle" font-weight="bold">CANNAE</text>
+  <text x="640" y="360" font-family="Arial, sans-serif" font-size="32" fill="#fff" text-anchor="middle">August 2, 216 BC</text>
+  <text x="640" y="410" font-family="Arial, sans-serif" font-size="24" fill="#aaa" text-anchor="middle">The Day Rome Lost Everything</text>
+</g>
+
+<!-- Caption for timeline -->
+<g id="caption" opacity="0">
+  <rect x="290" y="620" width="700" height="70" rx="14" fill="#1a1a1a" opacity=".9"/>
+  <text x="640" y="668" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle" id="captionText">216 BC — Cannae, Italy</text>
+</g>
+
+</svg>
+
+<script>
+const $=id=>document.getElementById(id);
+const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
+
+// Opacity fades
+const fade=(id,t,startT,dur,endOp=0)=>{
+  const phase=Math.max(0,Math.min(1,(t-startT)/dur));
+  if(t<startT) return startOp=1;
+  if(t<startT+dur) return startOp*(1-phase)+endOp*phase;
+  return endOp;
+};
+
+window.render=function(t){
+  // 0-0.75s: Plain scene with armies
+  $('plainScene').setAttribute('opacity',ease(Math.max(0,0.75-t)/0.2));
+  $('titleCard').setAttribute('opacity',Math.max(0,ease((t-0.25)/0.3)*ease((0.75-t)/0.1)));
+
+  // 0.75-3.5s: Map scene
+  $('mapScene').setAttribute('opacity',ease((t-0.75)/0.3)*ease((3.5-t)/0.2));
+
+  // Caption fades in ~0s, fades out ~0.8s
+  $('caption').setAttribute('opacity',Math.max(0,ease(t/0.3)*ease((0.8-t)/0.2)));
+
+  // Dust animation
+  $('dust1').setAttribute('cx',200+Math.sin(t*0.5)*30);
+  $('dust1').setAttribute('opacity',0.4+Math.sin(t*1.2)*0.2);
+  $('dust2').setAttribute('cx',1000+Math.sin(t*0.4)*40);
+  $('dust2').setAttribute('opacity',0.3+Math.sin(t*0.8)*0.15);
+
+  // Hannibal breathing animation (idle)
+  $('hannibalAlone').setAttribute('transform',`translate(950,${300+Math.sin(t*1.5)*5})`);
+
+  // Map animations: Rome pulses red
+  const romePulse=1+Math.sin(t*2)*0.3;
+  $('rome').setAttribute('transform',`scale(${romePulse})`);
+  $('rome').setAttribute('transform-origin','280px 190px');
+
+  // Carthage pulses purple
+  const carthagePulse=1+Math.sin(t*2.2)*0.3;
+  $('carthage').setAttribute('transform',`scale(${carthagePulse})`);
+  $('carthage').setAttribute('transform-origin','400px 380px');
+
+  // Hannibal on map slowly moves toward Italy (if showing map)
+  if(t>0.75 && t<3.5){
+    const moveProgress=ease((t-0.75)/2.75);
+    const startX=130, endX=500;
+    const startY=250, endY=200;
+    $('hanSmall').setAttribute('transform',`translate(${startX+(endX-startX)*moveProgress},${startY+(endY-startY)*moveProgress})`);
+  }
+};
+
+window.render(0);
+</script></body></html>

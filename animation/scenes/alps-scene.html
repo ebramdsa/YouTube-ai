@@ -1,0 +1,171 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000}svg{display:block}</style></head><body>
+<svg id="s" width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="alpsSky" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0" stop-color="#0a1428"/><stop offset="0.5" stop-color="#3a5a7a"/><stop offset="1" stop-color="#8a9aaa"/></linearGradient>
+  <linearGradient id="snowGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d0d8e0"/></linearGradient>
+  <filter id="wind"><feTurbulence baseFrequency="0.05" numOctaves="3" seed="2" type="fractalNoise"/><feDisplacementMap in="SourceGraphic" scale="8" xChannelSelector="R"/></filter>
+  <filter id="blur"><feGaussianBlur in="SourceGraphic" stdDeviation="1"/></filter>
+</defs>
+
+<!-- Sky gradient -->
+<rect width="1280" height="720" fill="url(#alpsSky)"/>
+
+<!-- Distant mountains (background) -->
+<path id="distMounts" d="M0,300 Q100,200 200,250 Q350,150 500,280 Q650,200 800,260 Q950,180 1100,240 Q1200,200 1280,280 L1280,720 L0,720Z" fill="#4a6a8a" opacity=".5" filter="url(#blur)"/>
+
+<!-- Close mountains (midground) -->
+<path id="midMounts" d="M0,350 Q150,220 300,320 Q450,180 600,340 Q750,200 900,320 Q1050,240 1200,300 L1280,320 L1280,720 L0,720Z" fill="#3a4a5a" opacity=".7"/>
+
+<!-- Snow-covered peaks (foreground) -->
+<path id="snowPeaks" d="M0,400 L80,280 L160,350 L250,200 L340,320 L420,240 L500,360 L600,150 L700,340 L780,220 L860,370 L950,250 L1050,340 L1120,260 L1200,380 L1280,300 L1280,720 L0,720Z" fill="url(#snowGrad)"/>
+
+<!-- Avalanche/rocks falling (animated) -->
+<g id="avalanche1" opacity="0" filter="url(#wind)">
+  <circle cx="300" cy="200" r="15" fill="#a0a0a0" stroke="#5a5a5a" stroke-width="2"/>
+  <circle cx="280" cy="240" r="12" fill="#b0b0b0" stroke="#5a5a5a" stroke-width="2"/>
+  <circle cx="320" cy="280" r="18" fill="#9a9a9a" stroke="#5a5a5a" stroke-width="2"/>
+</g>
+
+<!-- Snow swirl/wind effect -->
+<g id="windSnow" opacity=".4" filter="url(#wind)">
+  <circle cx="200" cy="300" r="3" fill="#fff" opacity=".6"/>
+  <circle cx="250" cy="280" r="2.5" fill="#fff" opacity=".5"/>
+  <circle cx="150" cy="320" r="2" fill="#fff" opacity=".7"/>
+  <circle cx="300" cy="340" r="3" fill="#fff" opacity=".4"/>
+  <circle cx="180" cy="360" r="2.5" fill="#fff" opacity=".6"/>
+  <circle cx="280" cy="300" r="2" fill="#fff" opacity=".5"/>
+  <circle cx="100" cy="280" r="3" fill="#fff" opacity=".6"/>
+  <circle cx="350" cy="320" r="2" fill="#fff" opacity=".7"/>
+</g>
+
+<!-- Hannibal character (large, on horseback) -->
+<g id="hannibalHorse" transform="translate(640, 420)">
+  <!-- Horse body -->
+  <ellipse cx="0" cy="0" rx="80" ry="50" fill="#8B6914" stroke="#1a1a1a" stroke-width="4"/>
+  <!-- Horse neck -->
+  <path d="M-50,-40 Q-60,-120 -40,-140" stroke="#8B6914" stroke-width="35" fill="none" stroke-linecap="round"/>
+  <!-- Horse head -->
+  <circle cx="-45" cy="-155" r="35" fill="#8B6914" stroke="#1a1a1a" stroke-width="3"/>
+  <circle cx="-55" cy="-160" r="12" fill="#fff" opacity=".8"/>
+  <circle cx="-35" cy="-160" r="12" fill="#fff" opacity=".8"/>
+
+  <!-- Hannibal on horse -->
+  <g transform="translate(-10,-60)">
+    <!-- Body in armor -->
+    <path d="M-25,0 L25,0 L30,80 L-30,80Z" fill="#6b3f8f" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Head -->
+    <circle r="38" fill="#f2ece0" stroke="#1a1a1a" stroke-width="3"/>
+    <!-- Beard -->
+    <path d="M-30,8 Q-20,35 0,36 Q20,35 30,8 Q15,22 0,22 Q-15,22 -30,8Z" fill="#2b211c" stroke="#1a1a1a" stroke-width="2"/>
+    <!-- Eyes -->
+    <circle cx="-15" cy="-8" r="12" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <circle cx="15" cy="-8" r="12" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <circle cx="-14" cy="-6" r="4" fill="#3a3a2a"/>
+    <!-- Eyepatch -->
+    <ellipse cx="15" cy="-8" rx="13" ry="11" fill="#1a1a1a" opacity=".8"/>
+    <!-- Pointing forward gesture -->
+    <g transform="translate(30,-20)">
+      <path d="M0,0 L50,-80" stroke="#f2ece0" stroke-width="8" stroke-linecap="round" fill="none"/>
+      <circle cx="50" cy="-80" r="12" fill="#f2ece0" stroke="#1a1a1a" stroke-width="2"/>
+    </g>
+    <!-- Helmet -->
+    <path d="M-45,-15 Q-45,-50 0,-52 Q45,-50 45,-15" fill="#FFB81C" stroke="#1a1a1a" stroke-width="3"/>
+    <!-- Helmet plume -->
+    <path d="M-15,-52 Q0,-95 35,-80 Q20,-70 10,-50Z" fill="#9D4EDD" stroke="#1a1a1a" stroke-width="2"/>
+  </g>
+</g>
+
+<!-- Soldiers climbing (small silhouettes struggling) -->
+<g id="soldiers" opacity=".7">
+  <!-- Soldier 1 (stumbling) -->
+  <g transform="translate(250,500)">
+    <circle r="10" fill="#666" stroke="#1a1a1a" stroke-width="1"/>
+    <path d="M-8,10 L-5,35 M8,10 L5,35" stroke="#666" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- Soldier 2 (falling backward) -->
+  <g transform="translate(200,480)">
+    <circle r="9" fill="#555" stroke="#1a1a1a" stroke-width="1"/>
+    <path d="M-6,9 L-30,30 M6,9 L10,40" stroke="#555" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+  </g>
+  <!-- Soldier 3 (exhausted) -->
+  <g transform="translate(320,520)">
+    <circle r="8" fill="#444" stroke="#1a1a1a" stroke-width="1"/>
+    <path d="M-6,8 L-8,30 M6,8 L8,30" stroke="#444" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <!-- Elephant struggling -->
+  <g transform="translate(500,480) scale(.8)">
+    <ellipse cx="0" cy="0" rx="40" ry="35" fill="#8a7a6a" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M-20,-30 Q-25,-50 -20,-70" stroke="#8a7a6a" stroke-width="15" stroke-linecap="round" fill="none"/>
+    <circle cx="-20" cy="-75" r="15" fill="#8a7a6a" stroke="#1a1a1a" stroke-width="2"/>
+  </g>
+</g>
+
+<!-- Falling/dying characters (fading) -->
+<g id="fallen" opacity="0.2">
+  <!-- Body lying on mountain -->
+  <g transform="translate(400,350)">
+    <ellipse cx="0" cy="0" rx="25" ry="12" fill="#5a5a5a" opacity=".5"/>
+  </g>
+</g>
+
+<!-- Snow accumulation at bottom -->
+<rect x="0" y="600" width="1280" height="120" fill="url(#snowGrad)" opacity=".8"/>
+
+<!-- Caption -->
+<g id="caption" opacity="0">
+  <rect x="150" y="600" width="980" height="100" rx="10" fill="#1a1a1a" opacity=".95"/>
+  <text x="640" y="650" font-family="Arial, sans-serif" font-size="26" fill="#fff" text-anchor="middle">Hannibal leads his army through the Alps</text>
+  <text x="640" y="685" font-family="Arial, sans-serif" font-size="18" fill="#aaa" text-anchor="middle">Half of his men will never reach Italy</text>
+</g>
+
+</svg>
+
+<script>
+const $=id=>document.getElementById(id);
+const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
+
+window.render=function(t){
+  // Fade in scene
+  const fadeIn=ease(t/0.5);
+  document.querySelector('svg').setAttribute('opacity',fadeIn);
+
+  // Wind snow particle movement
+  $('windSnow').setAttribute('transform',`translate(${Math.sin(t*0.8)*40},${(t*50)%200})`);
+
+  // Avalanche effect (0.8-1.5s)
+  if(t>0.8 && t<1.5){
+    const avPhase=ease((t-0.8)/0.7);
+    $('avalanche1').setAttribute('opacity',avPhase*0.8);
+    $('avalanche1').setAttribute('transform',`translate(0,${(t-0.8)*200})`);
+  }
+
+  // Hannibal on horse: bobbing motion, pointing forward
+  $('hannibalHorse').setAttribute('transform',`translate(640,${420+Math.sin(t*1.5)*8})`);
+
+  // Soldiers with struggling motion
+  // Soldier 1 (climbing, slipping)
+  $('soldiers').querySelector('g:nth-child(1)').setAttribute('transform',`translate(250,${500+Math.sin(t*2)*5})`);
+
+  // Fallen bodies fade in/out
+  if(t>1.5 && t<3){
+    const fallPhase=Math.min(0.5,ease((t-1.5)/1.5));
+    $('fallen').setAttribute('opacity',fallPhase);
+  }
+
+  // Caption appears
+  if(t>1 && t<3.5){
+    const capPhase=Math.min(1,ease((t-1)/0.5));
+    const capOut=Math.max(0,ease((3.5-t)/0.5));
+    $('caption').setAttribute('opacity',capPhase*capOut);
+  }
+
+  // Fade out at end
+  if(t>3){
+    const fadeOut=ease((3.5-t)/0.5);
+    document.querySelector('svg').setAttribute('opacity',fadeOut);
+  }
+};
+
+window.render(0);
+</script></body></html>
