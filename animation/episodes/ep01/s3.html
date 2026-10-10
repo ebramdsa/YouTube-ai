@@ -1,0 +1,119 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script>
+<script>
+// Section 3 — Rome tries. Rome fails. Twice.
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(3);
+const hits = [];
+const H = t => (hits.push(t), t);
+const river = (t, y, front) => {
+  let d = `M-40,${y}`; for (let x = -40; x <= 1980; x += 80) d += ` q40,${f(-12 - Math.sin(t * 2 + x * .02) * 5)} 80,0`;
+  return `<path d="${d} L1980,1120 L-40,1120Z" fill="#7fb5d6" opacity="${front ? .85 : 1}" stroke="${C.ink}" stroke-width="6"/>`;
+};
+
+const shots = [
+  [0, (t, lt) => { // Rome sends an army
+    let s = K.ground('#d0b060', 650, '#bf9f4f');
+    for (let r = 0; r < 2; r++) for (let i = 0; i < 8; i++) { const m = K.march(t, i + r * 3);
+      s += T.legionary({ x: -200 + i * 230 + r * 110 + lt * 70, y: 560 + r * 160 + m.bob, s: .45 + r * .08, step: m.step, e: E('determined'), shield: [-40, 175, .78], spear: [50, 270, 110, -250], seed: i + r * 8 }); }
+    s += T.standard(1500 + lt * 70, 620, .8);
+    return K.cam(s, 1, 960, 540, 0, t) + K.chapter(3, 'ROME TRIES. ROME FAILS. TWICE.', t, 0, 2.8);
+  }],
+  [S(1), (t, lt) => { // Trebia on the map
+    const z = lerp(1, 2.2, ease(lt / 1.6));
+    let s = K.map(t, { tint: { italy: .35 } }) + K.city('', 'rome', t, 0, C.red) + K.arrowAlong(K.ROUTE, 1, C.purple, 16) + K.battleMark(1010, 300, t, H(W('trebia')), .7);
+    return K.cam(s, z, 1010, 330, 0, t) + K.say('RIVER TREBIA', 960, 830, 110, t, W('trebia')) + K.dateCard('DEC 218 BC', t, W('december'));
+  }],
+  [S(2), (t, lt) => { // wading through icy water, ambush waiting
+    let s = `<rect width="1920" height="1080" fill="#b9c6cf"/>` + K.hills(t, '#7f8f6a', '#6f7f5a', 520);
+    for (let i = 0; i < 4; i++) s += K.bush(220 + i * 480, 520, .9, i + 2, '#4f6f3a');
+    for (let i = 0; i < 4; i++) { const pk = clamp((t - W('hid') - i * .3) / .4); if (pk > 0) s += K.peeker(220 + i * 480 + 40, 470 - 50 * ease(pk) + 50, .45, t, i); }
+    for (let i = 0; i < 4; i++) s += K.bush(220 + i * 480, 540, .9, i + 2, '#4f6f3a').replace(/<circle[^>]*>/g, m => m).slice(0);
+    s += river(t, 700, false);
+    for (let i = 0; i < 6; i++) { const x = 100 + i * 300 + lt * 25, bob = Math.sin(t * 3 + i) * 6, shiver = Math.sin(t * 50 + i) * 3;
+      s += T.legionary({ x: x + shiver, y: 620 + bob, s: .55, e: E('worried', { look: [0, -.3] }), sweat: 1, seed: i + 2, shield: [-40, 120, .7] }); }
+    s += river(t, 728, true) + K.fog(t, .5, 4, -100);
+    const o = K.say('ICY RIVER', 960, 150, 100, t, H(W('icy')), { fill: '#cfe6f5' }) + K.stamp('BEFORE BREAKFAST', 960, 290, t, H(W('breakfast')), -3, { cross: false, size: 76, fill: C.gold });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+  [S(3), (t, lt) => { // surrounded (top-down)
+    let s = `<rect width="1920" height="1080" fill="#b8c49a"/>` + `<path d="M-20,820 Q600,760 1100,860 T1940,820 L1940,1100 L-20,1100Z" fill="#7fb5d6" stroke="${C.ink}" stroke-width="7"/>`;
+    for (const [x, y] of K.romanBlock(960, 560, 16, 7, 28, 28)) s += K.token(x + Math.sin(t * 8 + x) * 1.5, y, C.red, 12, { helm: C.iron });
+    const k = ease((t - W('surrounded')) / 1.4), ring = [];
+    for (let i = 0; i < 44; i++) { const a = i / 44 * Math.PI * 2, R0 = 1200, R1 = 300 + (i % 2) * 34;
+      ring.push([960 + Math.cos(a) * lerp(R0, R1 * 1.2, k), 560 + Math.sin(a) * lerp(R0 * .7, R1 * .62, k)]); }
+    ring.forEach(([x, y]) => s += K.token(x, y, C.purple, 13, { helm: C.bronze }));
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('surrounded') + 1.2], .3), t) + K.stamp('SURROUNDED', 960, 160, t, H(W('surrounded') + 1.2), -3, { cross: false, size: 120, fill: C.purple });
+  }],
+  [S(4), (t, lt) => { // drowned
+    let s = `<rect width="1920" height="1080" fill="#5f7f95"/>` + river(t, 300, false);
+    for (let i = 0; i < 9; i++) { const x = 160 + i * 200, y = 560 + Math.sin(t * 1.5 + i) * 14 + (i % 3) * 90, sink = ease((t - S(4) - i * .2) / 2.5);
+      s += `<g transform="translate(${x},${f(y + sink * 60)}) scale(.38)" opacity="${f(1 - sink * .7)}">${T.galea({ seed: i })}</g>`;
+      for (let b = 0; b < 2; b++) { const bk = (t * .8 + i * .37 + b * .5) % 1; s += `<circle cx="${x + b * 20 - 10}" cy="${f(y - 60 - bk * 120)}" r="${8 + b * 4}" fill="none" stroke="#fff" stroke-width="4" opacity="${f(1 - bk)}"/>`; } }
+    return K.cam(s, 1, 960, 540, 0, t) + K.say('THOUSANDS DROWNED', 960, 170, 110, t, H(S(4) + .2));
+  }],
+  [S(5), (t, lt) => { // Trasimene on the map
+    const z = lerp(1, 2.4, ease((t - S(6)) / 1.6));
+    let s = K.map(t, { tint: { italy: .35 } }) + K.city('', 'rome', t, 0, C.red) + K.battleMark(1010, 300, t, 0, .6)
+      + `<ellipse cx="1085" cy="385" rx="${f(26 * ease((t - S(6)) / .4))}" ry="${f(18 * ease((t - S(6)) / .4))}" fill="#4f8db3" stroke="${C.ink}" stroke-width="5"/>`
+      + K.battleMark(1085, 385, t, H(S(6) + 1.2), .6);
+    return K.cam(s, z, 1080, 400, 0, t) + K.say('AGAIN.', 960, 160, 120, t, H(S(5) + .6)) + K.say('LAKE TRASIMENE', 960, 860, 104, t, S(6)) + K.dateCard('JUNE 217 BC', t, W('june'));
+  }],
+  [S(7), (t, lt) => { // same trick
+    let s = K.burst(t, '#6d3f91', '#7b4ca0');
+    s += T.hannibal({ x: 960, y: 400, s: 1.2, e: E('smug'), arms: { r: { x: 160, y: 60, pose: 'thumb' } } });
+    return K.cam(s, 1, 960, 540, 0, t) + K.stamp('SAME TRICK', 960, 200, t, H(S(7) + .5), -4, { cross: false, size: 130, fill: C.gold });
+  }],
+  [S(8), (t, lt) => { // hills above a foggy lakeshore; Romans march in
+    let s = `<rect width="1920" height="1080" fill="#c9d3d8"/>` + K.hills(t, '#7f9a5a', '#6a8448', 560);
+    for (let i = 0; i < 6; i++) { const pk = clamp((t - S(8) - .5 - i * .25) / .4); s += K.peeker(200 + i * 300, 560 - 70 * ease(pk) + 60 - (i % 2) * 30, .42, t, i); }
+    s += K.hills(t, '#7f9a5a', '#6a8448', 560).split('</path>')[0].slice(0, 0);
+    s += `<path d="M-20,640 Q600,600 1100,660 T1940,630 L1940,700 L-20,700Z" fill="#6a8448" stroke="${C.ink}" stroke-width="6"/>`;
+    s += `<rect x="-20" y="880" width="1960" height="220" fill="#7fb5d6" stroke="${C.ink}" stroke-width="7"/>`;
+    if (t > S(9)) for (let i = 0; i < 7; i++) { const m = K.march(t, i), x = -300 + i * 210 + (t - S(9)) * 220;
+      s += T.legionary({ x, y: 690 + m.bob, s: .5, step: m.step, e: E('neutral'), shield: [-40, 175, .78], spear: [50, 270, 110, -250], seed: i + 4 }); }
+    s += K.fog(t, .75, 7, 300);
+    const o = K.say('FOG', 1600, 820, 90, t, H(W('foggy')), { fill: '#fff' }) + K.stamp('TRAP', 960, 180, t, H(W('trap')), -5, { cross: false, size: 150, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('trap')], .2), t) + o;
+  }],
+  [S(10), (t, lt) => { // the toll
+    let s = `<rect width="1920" height="1080" fill="#2a1d17"/>`;
+    const icons = (n, x0, y0, col, k) => { let g = ''; for (let i = 0; i < n; i++) { const kk = clamp(k * n / 3 - i * .1); if (kk <= 0) continue;
+      g += `<g transform="translate(${x0 + (i % 10) * 70},${y0 + Math.floor(i / 10) * 80}) scale(${f(.26 * T.back(kk))})">${T.galea({ seed: i, crest: col })}</g>`; } return g; };
+    s += icons(20, 300, 330, C.red, (t - S(10)) / 1.2);
+    s += icons(20, 300, 700, C.iron, (t - S(11)) / 1.2);
+    s += K.say('15,000 DEAD', 1460, 380, 110, t, H(S(10)), { fill: C.red }) + K.say('15,000 CAPTURED', 1460, 760, 92, t, H(S(11)), { fill: '#cfd4dc' });
+    if (t > S(12)) { const k = clamp((t - S(12)) / .5);
+      s = `<rect width="1920" height="1080" fill="#2a1d17"/>` + T.legionary({ x: 960, y: 380 + k * 0, s: 1.15, pose: 'bust', e: E('shocked'), metal: C.gold, crest: '#f2eee4', seed: 30, rot: 0 })
+        + K.lowerThird('FLAMINIUS', 'Roman consul', t, S(12) + .1) + K.stamp('KILLED', 960, 200, t, H(S(12) + .5), -6, { cross: false, size: 140, fill: C.red }); }
+    return s;
+  }],
+  [S(13), (t, lt) => { // the swamp
+    let s = `<rect width="1920" height="1080" fill="#7a8a5a"/>` + `<rect y="640" width="1920" height="440" fill="#5f6f3a" stroke="${C.ink}" stroke-width="7"/>`;
+    for (let i = 0; i < 8; i++) s += `<path d="M${120 + i * 250},660 q-6,-90 8,-160 M${140 + i * 250},660 q6,-70 -6,-120" stroke="#3f4f2a" stroke-width="10" stroke-linecap="round" fill="none"/>`;
+    s += `<g transform="translate(${f(400 + lt * 60)},740)"><g transform="translate(-40,-430) scale(.6)">${T.hannibal({ pose: 'chibi', noPatch: true, e: E('worried'), sweat: 1 })}</g>${K.elephant(0, 0, .8, { t, walk: true, e: E('worried'), sweat: .6 })}</g>`;
+    s += `<rect y="820" width="1920" height="260" fill="#4f5f2f" opacity=".85"/>`;
+    for (let i = 0; i < 12; i++) { const a = t * 6 + i; s += `<circle cx="${f(520 + lt * 60 + Math.cos(a) * 160)}" cy="${f(300 + Math.sin(a * 1.3) * 80)}" r="5" fill="${C.ink}"/>`; }
+    return K.cam(s, 1, 960, 540, 0, t) + K.say('SWAMP', 960, 160, 120, t, H(W('swamp')), { fill: '#c9e08a' });
+  }],
+  [S(14), (t, lt) => { // infection; loses the eye
+    let s = K.burst(t, '#5f7a3a', '#6a8644');
+    s += T.hannibal({ x: 960, y: 400, s: 1.2, noPatch: true, e: E('worried'), sweat: 1, arms: { r: { x: 40, y: -10, pose: 'open' } } });
+    const o = K.say('INFECTION', 960, 170, 110, t, H(W('infection')), { fill: '#c9e08a', out: S(15) }) + K.say('ONE EYE: GONE', 960, 170, 110, t, H(S(15)));
+    return K.cam(s, 1 + lt * .02, 960, 500, 0, t) + o;
+  }],
+  [S(16), (t, lt) => { // go home? No. Eyepatch.
+    let s = K.burst(t, '#6d3f91', '#7b4ca0');
+    const patched = t > W('eyepatch');
+    const drop = patched ? T.back((t - W('eyepatch')) / .35) : 0;
+    s += T.hannibal({ x: 960, y: 400, s: 1.2, noPatch: !patched, e: patched ? E('smug') : E('bored') });
+    if (!patched && t > W('eyepatch') - .5) s += `<g transform="translate(${1000},${f(lerp(-100, 380, ease((t - W('eyepatch') + .5) / .5)))})"><ellipse rx="40" ry="44" fill="#1b1512"/></g>`;
+    const o = K.say('GO HOME?', 960, 170, 120, t, H(S(16)), { out: S(17) }) + K.stamp('NO.', 960, 190, t, H(S(17)), -4, { cross: false, size: 180, fill: C.red })
+      + K.say('KEPT GOING', 960, 960, 110, t, H(W('kept')), { fill: C.gold });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(17), W('eyepatch')], .2), t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

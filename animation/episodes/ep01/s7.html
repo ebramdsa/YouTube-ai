@@ -1,0 +1,120 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="battle.js"></script>
+<script>
+// Section 7 — Rome refuses to die
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(7);
+const hits = [];
+const H = t => (hits.push(t), t);
+const carthHall = t => K.columns(t, '#e6d2a8', '#6d3f91', 5) + `<rect width="1920" height="1080" fill="#2a1d17" opacity=".2"/>`;
+const ringPile = (t, t0, cx, cy, n, sc = 1) => { const R = T.rng(5); let s = ''; const k = clamp((t - t0) / 3);
+  for (let i = 0; i < n; i++) { const a = R() * Math.PI, rr = Math.sqrt(R()), x = cx + Math.cos(a) * rr * 300 * sc, y = cy - Math.sin(a) * rr * 120 * sc * Math.min(1, k * 1.4);
+    const ki = clamp(k * n / 10 - i * .1); if (ki <= 0) continue; const fall = 1 - ease(clamp(ki * 3));
+    s += K.ring(x, y - fall * 500, .8 * sc, R() * 360); } return s; };
+
+const shots = [
+  [0, (t, lt) => { // ship home
+    let s = K.map(t, { tint: { italy: .3, africa: .35 } }) + K.city('CARTHAGE', 'carthage', t, H(W('carthage')), C.purple, { dy: 64 }) + K.city('', 'cannae', t, 0, C.gold);
+    const k = ease(lt / 4.2), x = lerp(1250, 1000, k), y = lerp(640, 690, k);
+    s += K.arrowAlong([[1300, 560], [1180, 660], [1010, 690]], k, C.purple, 10);
+    s += K.ship(x, y - 30, .22, C.purple, { t });
+    return K.cam(s, 1.8, 1120, 600, 0, t) + K.chapter(7, 'ROME REFUSES TO DIE', t, 0, 2.8);
+  }],
+  [S(1), (t, lt) => { // rings poured onto the senate floor
+    let s = carthHall(t);
+    const shock = t > W('poured') + .6;
+    for (let i = 0; i < 4; i++) s += T.senator({ x: 980 + i * 260, y: 640 + K.breathe(t, i), s: .55, carth: true, seed: 20 + i * 5, e: E(shock ? 'shocked' : 'neutral'), flip: true });
+    s += T.mago({ x: 420, y: 470, s: .95, e: E('proud'), arms: { r: { x: 240, y: 120, pose: 'grip' } } });
+    s += `<g transform="translate(700,520) rotate(${f(lerp(0, 110, ease((t - W('poured')) / .5)))})"><path d="M-60,-80 Q0,-110 60,-80 L80,60 Q0,100 -80,60Z" fill="#a8875a" stroke="${C.ink}" stroke-width="7"/><path d="M-40,-90 Q0,-120 40,-90" stroke="${C.ink}" stroke-width="10" fill="none"/></g>`;
+    s += ringPile(t, W('poured'), 760, 960, 40, .9);
+    return K.cam(s, 1, 960, 540, 0, t) + K.lowerThird('MAGO', "Hannibal's brother", t, H(.5), C.purple) + K.say('GOLD RINGS', 1300, 200, 100, t, H(W('rings')), { fill: C.gold });
+  }],
+  [S(2), (t, lt) => { // the pile
+    let s = `<rect width="1920" height="1080" fill="#3a2a24"/>` + ringPile(t, S(2) - 2.5, 960, 860, 90, 1.6);
+    return K.cam(s, lerp(1.2, 1, ease(lt / 5)), 960, 640, 0, t) + K.say('FROM DEAD ROMAN NOBLES', 960, 170, 84, t, H(W('fingers'))) + K.stamp('THOUSANDS', 960, 330, t, H(S(3)), -4, { cross: false, size: 140, fill: C.gold });
+  }],
+  [S(4), (t, lt) => { // Rome expects surrender
+    let s = K.columns(t, '#e8dcc4', '#c9a46a', 5);
+    for (let i = 0; i < 4; i++) s += T.senator({ x: 260 + i * 466, y: 560 + Math.sin(t * 30 + i) * 3, s: .8, seed: i * 4 + 2, e: E('scared'), sweat: 1, flip: i > 1 });
+    s += K.flag(960, 1000, '#f2eee4', ease(lt / 1.5), t);
+    return K.cam(s, 1, 960, 540, 0, t) + K.say('SURRENDER?', 960, 170, 120, t, H(W('surrender')));
+  }],
+  [S(5), (t, lt) => { // Maharbal: march on Rome
+    let s = K.burst(t, '#2e8a84', '#3a968f');
+    s += T.maharbal({ x: 960, y: 420, s: 1.15, e: E('shout'), talk: 1, t, arms: { r: { x: 190, y: -60, pose: 'point' } } });
+    return K.cam(s, 1, 960, 540, 0, t) + K.lowerThird('MAHARBAL', 'Cavalry commander', t, H(W('maharbal')), C.teal) + K.speech('MARCH ON ROME. NOW!', 1100, 140, t, H(W('march')), { size: 60 });
+  }],
+  [S(6), (t, lt) => { // the famous line
+    let s = `<rect width="960" height="1080" fill="#2e8a84"/><rect x="960" width="960" height="1080" fill="#6d3f91"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="10"/>`;
+    s += T.maharbal({ x: 480, y: 470, s: 1, e: E('angry'), talk: t < S(7) + 2.4 ? 1 : 0, t, arms: { r: { x: 190, y: 40, pose: 'point' } } });
+    s += T.hannibal({ x: 1440, y: 470, s: 1, e: E('bored', { look: [.4, 0] }), flip: true });
+    const o = K.speech('YOU KNOW HOW TO WIN A VICTORY…', 960, 150, t, H(S(6) + .2), { size: 50, out: S(7) }) + K.speech("…BUT NOT HOW TO USE ONE.", 960, 150, t, H(S(7) + .1), { size: 54 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(8), (t, lt) => { // hesitation
+    let s = K.burst(t, '#4a3a5a', '#54446a');
+    s += T.hannibal({ x: 960, y: 440, s: 1.3, e: E('worried', { look: [.5, 0], lid: .3 }) });
+    for (let i = 0; i < 3; i++) { const k = (t * .7 + i / 3) % 1; s += `<text x="${1340 + i * 30}" y="${f(300 - k * 120)}" font-family="Luckiest" font-size="${70 + i * 20}" fill="#fff" opacity="${f(1 - k)}">?</text>`; }
+    return K.cam(s, 1 + lt * .02, 960, 500, 0, t) + K.say('HANNIBAL HESITATED', 960, 960, 100, t, H(S(8) + .2), { out: S(9) + .2 }) + K.say('…AND THAT CHANGED EVERYTHING', 960, 960, 80, t, H(S(9) + .4), { fill: C.gold });
+  }],
+  [S(10), (t, lt) => { // Rome refused to give up
+    let s = K.burst(t, '#c4372c', '#d24a3c');
+    s += T.legionary({ x: 960, y: 420, s: 1.2, pose: 'bust', e: E('determined'), seed: 12, arms: { r: { x: 170, y: 120, pose: 'fist' } } });
+    s += T.standard(1500, 1000, 1.2);
+    const o = K.stamp('PEACE TALKS', 520, 300, t, H(S(12)), -6, { size: 90 }) + K.stamp('SURRENDER', 520, 520, t, H(S(13)), 4, { size: 100 });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(12), S(13)], .2), t) + K.say('ROME REFUSED TO GIVE UP', 960, 960, 96, t, H(W('refused'))) + o;
+  }],
+  [S(14), (t, lt) => { // new legions, armed slaves
+    let s = K.ground('#d8b468', 560, '#c9a457');
+    for (let r = 0; r < 3; r++) for (let i = 0; i < 10; i++) { const k = T.back((t - S(14) - r * .5 - i * .06) / .3); if (k <= 0) continue; const m = K.march(t, i + r);
+      s += `<g transform="translate(0,${f((1 - k) * 200)})">${T.legionary({ x: 120 + i * 190 + r * 60, y: 480 + r * 150 + m.bob, s: .34 + r * .07, step: m.step, e: E('determined'), shield: [-40, 175, .78], spear: [50, 270, 110, -250], seed: i + r * 10 })}</g>`; }
+    if (t > S(15)) for (let i = 0; i < 4; i++) { const k = T.back((t - S(15) - i * .15) / .3);
+      s += `<g transform="translate(0,${f((1 - k) * 300)})">${T.iberian({ x: 400 + i * 380, y: 900, s: .5, e: E('determined'), spear: [50, 270, 110, -250], seed: 40 + i })}</g>`; }
+    return K.cam(s, 1, 960, 540, 0, t) + K.say('NEW LEGIONS', 960, 160, 110, t, H(W('legions')), { out: S(15) }) + K.say('THEY EVEN ARMED SLAVES', 960, 160, 96, t, H(S(15)), { fill: C.gold });
+  }],
+  [S(16), (t, lt) => { // back to the Delayer
+    let s = `<rect width="1920" height="1080" fill="#a9c4d6"/>` + K.hills(t, '#8fb35a', '#7a9e48', 640);
+    s += T.fabius({ x: 960, y: 420, s: 1, e: E('smug', { lid: .5 }), cup: [130, 240], arms: { r: { x: 130, y: 230, pose: 'grip' } } });
+    return K.cam(s, 1, 960, 540, 0, t) + K.say("FABIUS'S STRATEGY", 960, 160, 96, t, H(W('fabiuss'))) + K.speech('TOLD YOU SO.', 1450, 300, t, H(S(17) + .3), { size: 60 });
+  }],
+  [S(18), (t, lt) => { // thirteen years in Italy
+    let s = K.map(t, { tint: { italy: .35 } }) + K.city('ROME', 'rome', t, 0, C.red, { size: 32, dy: -36 });
+    const path = [[1290, 560], [1200, 610], [1240, 680], [1330, 600], [1250, 520], [1160, 560], [1220, 650]];
+    const u = ((t - S(18)) / 10) % 1, L = path.length - 1, x = u * L, i = Math.floor(x), q = x - i;
+    const hx = lerp(path[i][0], path[i + 1][0], q), hy = lerp(path[i][1], path[i + 1][1], q);
+    s += `<g transform="translate(${f(hx)},${f(hy)}) scale(.13)">${T.hannibal({})}</g>`;
+    for (let b = 0; b < 5; b++) s += K.battleMark(1180 + (b % 3) * 60, 520 + Math.floor(b / 3) * 90 + (b % 2) * 30, t, H(S(19) + b * .3), .3);
+    const shield = ease((t - S(20)) / .4);
+    if (shield > 0) s += `<g transform="translate(1075,445) scale(${f(.5 * shield)})"><path d="M-70,-80 L70,-80 L70,10 Q70,70 0,100 Q-70,70 -70,10Z" fill="${C.red}" stroke="${C.ink}" stroke-width="9"/><text y="16" font-family="Luckiest" font-size="44" text-anchor="middle" fill="${C.gold}">SPQR</text></g>`;
+    const yrs = Math.min(13, Math.max(0, Math.floor((t - S(18)) * 3)));
+    const o = K.say(`${yrs} YEARS`, 520, 860, 110, t, S(18)) + K.say('NEVER TOOK ROME', 520, 1000, 70, t, H(S(20)), { fill: C.gold });
+    return K.cam(s, 2, 1200, 520, 0, t) + o;
+  }],
+  [S(22), (t, lt) => { // Zama
+    let s = K.map(t, { tint: { italy: .35, africa: .35 } }) + K.city('ROME', 'rome', t, 0, C.red) + K.city('CARTHAGE', 'carthage', t, 0, C.purple, { dy: -44 });
+    s += K.arrowAlong([[1075, 445], [1150, 640], [1080, 800], [900, 840]], ease((t - W('africa')) / 1.2), C.red, 18);
+    s += K.battleMark(880, 850, t, H(W('zama')), .7);
+    return K.cam(s, 1.3, 1000, 640, 0, t) + K.say('ZAMA', 700, 900, 100, t, W('zama')) + K.dateCard('202 BC', t, W('202'));
+  }],
+  [S(23), (t, lt) => { // studied for 2,000 years
+    let s = `<rect width="1920" height="1080" fill="#8a6a4a"/><rect y="860" width="1920" height="220" fill="#5a3a22"/>`;
+    const d = ease((t - S(23)) / 2.5);
+    let inner = `<text x="700" y="80" font-family="Luckiest" font-size="64" fill="#e8e8e0" text-anchor="middle">CANNAE</text>`;
+    for (const [x, y] of B.romanPts(700, 300, 12, 22, 20, 0).slice(0, 96)) inner += `<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="#f0a0a0" stroke-width="4" opacity="${f(d)}"/>`;
+    inner += `<path d="M380,${f(380 - 0)} Q700,${f(lerp(380, 560, d))} 1020,380" stroke="#e8e8e0" stroke-width="10" fill="none" stroke-dasharray="20 14" opacity="${f(d)}"/>`;
+    inner += K.arrowAlong([[300, 380], [260, 160], [700, 120], [1140, 160], [1100, 380]], ease((t - S(24)) / 2), '#e8e8e0', 8);
+    s += K.chalkboard(260, 120, 1400, 600, inner);
+    for (let i = 0; i < 5; i++) s += `<g transform="translate(${360 + i * 300},980) scale(.55)">${T.senator({ seed: 60 + i * 3, e: E(i % 2 ? 'determined' : 'neutral', { look: [0, -.4] }) })}</g>`;
+    return K.cam(s, 1, 960, 540, 0, t) + K.say('NEVER FORGOTTEN', 960, 80, 80, t, H(S(23) + .2), { out: S(24) }) + K.say('STUDIED FOR 2,000+ YEARS', 960, 80, 80, t, H(W('academies')), { fill: C.gold, out: S(25) })
+      + K.say('THE PERFECT ENCIRCLEMENT', 960, 80, 80, t, H(W('surrounding')), { fill: C.gold });
+  }],
+  [S(26), (t, lt) => { // won the battle, lost the war
+    let s = K.sunset(lt) + `<rect width="1920" height="1080" fill="#2a1d17" opacity=".25"/>`;
+    s += T.hannibal({ x: 960, y: 460, s: 1.1, e: E('bored', { lid: .55, look: [.3, -.1] }) });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + K.say('WON THE BATTLE', 960, 160, 100, t, H(W('won')), { fill: C.gold }) + K.say('LOST THE WAR', 960, 290, 120, t, H(W('lost')), { fill: C.red });
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

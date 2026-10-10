@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../lib/toon.js"></script><script src="../lib/kit.js"></script>
+<script>
+window.render = t => { T.reset(); const E=T.expr, C=T.C; const q = location.hash.slice(1) || 'cast';
+  let s = T.defs();
+  if (q === 'cast') {
+    s += T.bg('#d9b46a');
+    s += T.fabius({x:200,y:430,s:.85,cup:[120,260],arms:{r:{x:120,y:250,pose:'grip'}}});
+    s += T.paullus({x:560,y:430,s:.85});
+    s += T.senator({x:920,y:430,s:.85,seed:3});
+    s += T.senator({x:1280,y:430,s:.85,seed:8,carth:true,e:E('shocked')});
+    s += T.mago({x:1640,y:430,s:.85});
+    s += T.maharbal({x:300,y:860,s:.6});
+    s += T.african({x:620,y:860,s:.6,shield:[40,170,.9],spear:[50,270,110,-250]});
+    s += K.elephant(1000,860,.9,{t,walk:true});
+    s += K.rider(1550,940,.85,T.hannibal({pose:'chibi',arms:{r:{x:120,y:40,pose:'point'}}}),{t,gallop:true,blanket:C.purple});
+  } else if (q === 'map') {
+    s += K.map(t,{tint:{italy:.35,africa:.35,spain:.3}}) + K.city('ROME','rome',t,0) + K.city('CARTHAGE','carthage',t,0,C.purple,{dy:60}) + K.city('CANNAE','cannae',t,0,C.gold)
+      + K.arrowAlong(K.ROUTE,.8,C.purple) + K.ship(700,900,.5,C.purple,{t});
+  } else if (q === 'battle') {
+    s += K.plain(t);
+    for (const [x,y] of K.romanBlock(960,330,24,10,26,24)) s += K.token(x,y,C.red,11,{helm:C.iron});
+    for (const [x,y] of K.crescent(960,600,26,700,90,2)) s += K.token(x,y,'#c9a23a',11);
+    for (const [x,y] of K.romanBlock(560,640,4,6,26,26)) s += K.token(x,y,C.purpleDark,11,{helm:C.bronze});
+    for (const [x,y] of K.romanBlock(1360,640,4,6,26,26)) s += K.token(x,y,C.purpleDark,11,{helm:C.bronze});
+    for (let i=0;i<10;i++) s += K.cavToken(380+(i%5)*34,600+Math.floor(i/5)*40,C.purple,-90);
+    for (let i=0;i<10;i++) s += K.cavToken(380+(i%5)*34,330+Math.floor(i/5)*40,C.red,90);
+    s += K.columns(t).slice(0,0);
+  } else if (q === 'alps') {
+    s += K.mountains(t) + K.elephant(900,760,.9,{t,e:E('scared'),sweat:1}) + K.snowfall(t);
+  }
+  s += T.overlay();
+  document.getElementById('s').innerHTML = s; };
+render(0);
+</script></body></html>
