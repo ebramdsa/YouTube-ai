@@ -2,6 +2,8 @@
 
 **Target length:** ~22 minutes · **Voices:** NARRATOR, SOBIUS, HANNIBAL, VARRO, ELDER (Fabius + Maharbal) · Voice files: `voice/`
 
+**Target length (extended):** 22 minutes, following Hussain Ahn's proven format.
+
 **Main sources:** Polybius, *Histories* III.106–118 · Livy, *History of Rome* XXI–XXII ·
 Adrian Goldsworthy, *Cannae* (2001) · Gregory Daly, *Cannae: The Experience of Battle in the Second Punic War* (2002)
 
