@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="battle.js"></script>
+<script>
+// YouTube thumbnail variants: #a (Hannibal + "86,000 GONE"), #b (encirclement board + Hannibal)
+const { C, f } = T, E = T.expr;
+window.render = () => { T.reset();
+  const v = location.hash.slice(1) || 'a';
+  let s = T.defs();
+  if (v === 'a') {
+    s += K.burst(0, '#c4372c', '#d84a3a', 1500, 560);
+    s += T.hannibal({ x: 1480, y: 470, s: 1.75, e: E('smug', { brow: { r: 26 }, mouth: { type: 'smirk', w: 34 } }) });
+    s += T.legionary({ x: 470, y: 790, s: 1.0, pose: 'bust', e: E('shocked'), sweat: 1, seed: 4, arms: { l: { x: -190, y: -20, pose: 'open' }, r: { x: 190, y: -20, pose: 'open' } } });
+    s += T.text('86,000', 600, 300, 250, { fill: '#fff', sw: 30 });
+    s += T.text('GONE', 600, 520, 230, { fill: C.gold, sw: 30, rot: -4 });
+  } else {
+    const P = { rom: { cx: 960, cy: 600, cols: 24, gx: 15, gy: 21, op: 1, fall: 0 }, jitter: 0, gaul: { op: 1, cy: 610, bulge: -170, width: 560 }, afr: { op: 1, k: 1 },
+      ccav: { path: [[960, 400]], u: 1, rear: 1, numX: 1300, numY: 470, numA: 180 } };
+    s += `<g transform="translate(-260,-60) scale(1.15)">${B.board(0, P)}</g>`;
+    s += `<rect width="1920" height="1080" fill="#2a1d17" opacity=".25"/>`;
+    s += T.hannibal({ x: 1580, y: 520, s: 1.5, e: E('smug', { mouth: { type: 'smirk', w: 34 } }) });
+    s += T.text('THE PERFECT', 620, 170, 130, { fill: '#fff', sw: 22 });
+    s += T.text('TRAP', 620, 1000, 230, { fill: C.red, stroke: '#fff', sw: 26, rot: -3 });
+  }
+  s += T.overlay({ paper: .25, vig: .8 });
+  document.getElementById('s').innerHTML = s; };
+render();
+</script></body></html>
