@@ -1,0 +1,83 @@
+[
+ {
+  "index": 0,
+  "title": "COLD OPEN",
+  "start": "0:00",
+  "end": "0:45",
+  "file": "00_cold-open.mp3",
+  "duration": 31.007347,
+  "audio_start": 0.0
+ },
+ {
+  "index": 1,
+  "title": "TWO EMPIRES, ONE GRUDGE",
+  "start": "0:45",
+  "end": "3:30",
+  "file": "01_two-empires-one-grudge.mp3",
+  "duration": 54.752653,
+  "audio_start": 31.01
+ },
+ {
+  "index": 2,
+  "title": "THE SHORTCUT NOBODY TAKES",
+  "start": "3:30",
+  "end": "5:00",
+  "file": "02_the-shortcut-nobody-takes.mp3",
+  "duration": 39.706122,
+  "audio_start": 85.76
+ },
+ {
+  "index": 3,
+  "title": "ROME TRIES. ROME FAILS. TWICE.",
+  "start": "5:00",
+  "end": "7:00",
+  "file": "03_rome-tries-rome-fails-twice.mp3",
+  "duration": 63.190204,
+  "audio_start": 125.47
+ },
+ {
+  "index": 4,
+  "title": "THE MAN WHO SAID 'NO'",
+  "start": "7:00",
+  "end": "8:45",
+  "file": "04_the-man-who-said-no.mp3",
+  "duration": 63.712653,
+  "audio_start": 188.66
+ },
+ {
+  "index": 5,
+  "title": "THE TRAP IS SET",
+  "start": "8:45",
+  "end": "10:30",
+  "file": "05_the-trap-is-set.mp3",
+  "duration": 74.475102,
+  "audio_start": 252.37
+ },
+ {
+  "index": 6,
+  "title": "THE JAWS CLOSE",
+  "start": "10:30",
+  "end": "16:00",
+  "file": "06_the-jaws-close.mp3",
+  "duration": 107.075918,
+  "audio_start": 326.84
+ },
+ {
+  "index": 7,
+  "title": "ROME REFUSES TO DIE",
+  "start": "16:00",
+  "end": "19:30",
+  "file": "07_rome-refuses-to-die.mp3",
+  "duration": 94.876735,
+  "audio_start": 433.92
+ },
+ {
+  "index": 8,
+  "title": "OUTRO",
+  "start": "19:30",
+  "end": "22:00",
+  "file": "08_outro.mp3",
+  "duration": 41.508571,
+  "audio_start": 528.8
+ }
+]
