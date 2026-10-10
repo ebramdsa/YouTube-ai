@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../lib/toon.js"></script>
+<script>
+window.render = t => { T.reset(); const E=T.expr;
+  let s = T.defs() + T.bg('#d9b46a');
+  s += T.legionary({x:200,y:520,s:1.05,e:E('smug'),shield:[40,170,.95],arms:{r:{x:120,y:150,pose:'grip'}},spear:[110,320,140,-260]});
+  s += T.varro({x:560,y:430,s:.95,e:E('smug')});
+  s += T.hannibal({x:1010,y:430,s:.95,e:E('bored')});
+  s += T.hamilcar({x:1440,y:430,s:.95,e:E('angry')});
+  s += T.boyHannibal({x:1780,y:520,s:.9,e:E('determined')});
+  s += T.gaul({x:420,y:870,s:.6,e:E('bored'),arms:{l:{x:-110,y:200},r:{x:110,y:170,pose:'thumb'}}});
+  s += T.iberian({x:820,y:870,s:.6,e:E('angry'),arms:{l:{x:-110,y:200},r:{x:100,y:130,pose:'grip'}}});
+  s += T.legionary({x:1200,y:870,s:.6,e:E('scared'),sweat:1,arms:{l:{x:-120,y:20,pose:'open'},r:{x:120,y:20,pose:'open'}}});
+  s += T.legionary({x:1600,y:870,s:.6,e:E('shout'),arms:{l:{x:-100,y:200},r:{x:120,y:40,pose:'point'}}});
+  s += T.overlay();
+  document.getElementById('s').innerHTML = s; };
+render(0);
+</script></body></html>

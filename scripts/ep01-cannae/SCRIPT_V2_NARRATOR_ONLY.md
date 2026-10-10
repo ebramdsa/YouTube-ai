@@ -13,7 +13,7 @@
 [*Screen: Black. Wind sound. Fade in: dusty plain. Tens of thousands of tiny stick figures in red formation.*]
 
 **NARRATOR:** 
-"It's August 2nd, 216 BC. Southern Italy. The Roman Republic has done something it has never done before — it raised the biggest army in its entire history. Eighty thousand soldiers. Plus allies. Against a Carthaginian general with maybe thirty thousand. And one working eye."
+"August 2nd, 216 BC. Southern Italy. The Roman Republic has just done something it has never done before. It has raised the biggest army in its entire history. Eighty-six thousand men. And across the field? A Carthaginian general, with about fifty thousand... and one working eye."
 
 [*Stick figure with eyepatch stands alone across the battlefield.*]
 
@@ -102,7 +102,7 @@
 
 [*Map zooms to lake. Morning fog. Roman army marching along the shore.*]
 
-"Hannibal does the same thing. He hides his army in the hills above a foggy lakeshore. The Romans march straight into the trap. Thirty thousand Romans die in a few hours. Their general is killed."
+"Hannibal does the same thing. He hides his army in the hills above a foggy lakeshore. The Romans march straight into the trap. Fifteen thousand Romans die in a few hours. Fifteen thousand more are captured. Their general is killed."
 
 [*Roman general falls, covered in Carthaginian soldiers.*]
 
@@ -297,7 +297,7 @@
 [*Cannae plain, empty, grass growing over the old battlefield.*]
 
 **NARRATOR:**
-"So what do we learn from Cannae? That numbers don't always win. That strategy beats brute force. That one general's genius can matter more than eighty thousand soldiers."
+"So what do we learn from Cannae? That numbers don't always win. That strategy beats brute force. That one general's genius can matter more than eighty-six thousand soldiers."
 
 [*Hannibal and Varro facing each other one more time, in shadow.*]
 
