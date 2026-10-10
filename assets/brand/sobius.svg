@@ -4,37 +4,37 @@
   <line x1="150" y1="-260" x2="150" y2="430" stroke="#6b4423" stroke-width="16" stroke-linecap="round"/>
   <path d="M150,-360 L182,-262 L150,-240 L118,-262Z" fill="#b9bec4" stroke="#1a1a1a" stroke-width="7" stroke-linejoin="round"/>
   <!-- body -->
-  <path d="M-110,190 Q-120,95 -40,85 L40,85 Q120,95 110,190 L118,430 L-118,430Z" fill="#c0392b" stroke="#1a1a1a" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M-110,190 Q-120,95 -40,85 L40,85 Q120,95 110,190 L118,430 L-118,430Z" fill="#E63946" stroke="#1a1a1a" stroke-width="10" stroke-linejoin="round"/>
   <path d="M-112,250 L112,250" stroke="#7a4b24" stroke-width="20"/>
-  <circle cx="0" cy="250" r="14" fill="#d9a441" stroke="#1a1a1a" stroke-width="5"/>
+  <circle cx="0" cy="250" r="16" fill="#FFD700" stroke="#1a1a1a" stroke-width="6"/>
   <path d="M-80,330 l18,18 M-62,326 l-14,24" stroke="#1a1a1a" stroke-width="3"/>
   <!-- arm gripping spear -->
   <path d="M60,150 Q120,170 140,120" stroke="#1a1a1a" stroke-width="26" stroke-linecap="round" fill="none"/>
-  <path d="M60,150 Q120,170 140,120" stroke="#c0392b" stroke-width="14" stroke-linecap="round" fill="none"/>
-  <circle cx="148" cy="118" r="20" fill="#f2ece0" stroke="#1a1a1a" stroke-width="6"/>
+  <path d="M60,150 Q120,170 140,120" stroke="#E63946" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <circle cx="148" cy="118" r="20" fill="#FFF8DC" stroke="#1a1a1a" stroke-width="7"/>
   <!-- head -->
-  <circle r="120" fill="#f2ece0" stroke="#1a1a1a" stroke-width="8"/>
+  <circle r="120" fill="#FFF8DC" stroke="#1a1a1a" stroke-width="10"/>
   <!-- worried brows -->
   <path d="M-78,-30 L-20,-52" stroke="#1a1a1a" stroke-width="9" stroke-linecap="round"/>
   <path d="M20,-52 L78,-30" stroke="#1a1a1a" stroke-width="9" stroke-linecap="round"/>
   <!-- eyes -->
-  <circle cx="-44" cy="0" r="30" fill="#fff" stroke="#1a1a1a" stroke-width="6"/>
-  <circle cx="44" cy="0" r="30" fill="#fff" stroke="#1a1a1a" stroke-width="6"/>
+  <circle cx="-44" cy="0" r="30" fill="#fff" stroke="#1a1a1a" stroke-width="7"/>
+  <circle cx="44" cy="0" r="30" fill="#fff" stroke="#1a1a1a" stroke-width="7"/>
   <circle cx="-40" cy="6" r="8" fill="#1a1a1a"/><circle cx="40" cy="6" r="8" fill="#1a1a1a"/>
   <circle cx="-36" cy="2" r="3" fill="#fff"/><circle cx="44" cy="2" r="3" fill="#fff"/>
   <!-- tear streams -->
-  <path d="M-58,28 Q-70,80 -62,120" stroke="#5db7ee" stroke-width="14" stroke-linecap="round" fill="none" opacity=".9"/>
-  <path d="M58,28 Q70,80 62,120" stroke="#5db7ee" stroke-width="14" stroke-linecap="round" fill="none" opacity=".9"/>
+  <path d="M-58,28 Q-70,80 -62,120" stroke="#00D4FF" stroke-width="14" stroke-linecap="round" fill="none" opacity=".9"/>
+  <path d="M58,28 Q70,80 62,120" stroke="#00D4FF" stroke-width="14" stroke-linecap="round" fill="none" opacity=".9"/>
   <path d="M-92,40 q10,20 0,28 q-10,-8 0,-28Z" fill="#7fc4ee" stroke="#1a1a1a" stroke-width="4"/>
   <!-- wobbly crying mouth -->
-  <path d="M-36,86 Q0,46 36,86 Q0,100 -36,86Z" fill="#5a1a1a" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M-36,86 Q0,46 36,86 Q0,100 -36,86Z" fill="#5a1a1a" stroke="#1a1a1a" stroke-width="7" stroke-linejoin="round"/>
   <!-- scratch -->
   <path d="M70,-70 l18,18 M84,-74 l-14,22" stroke="#1a1a1a" stroke-width="3"/>
   <!-- bronze helmet with red crest -->
   <path d="M-95,-105 Q0,-300 95,-105Z" fill="#d23a2e" stroke="#1a1a1a" stroke-width="7"/>
-  <path d="M-126,-38 Q-124,-152 0,-155 Q124,-152 126,-38 Q0,-78 -126,-38Z" fill="#c4913a" stroke="#1a1a1a" stroke-width="8"/>
+  <path d="M-126,-38 Q-124,-152 0,-155 Q124,-152 126,-38 Q0,-78 -126,-38Z" fill="#FFB81C" stroke="#1a1a1a" stroke-width="10"/>
   <path d="M-70,-120 l16,16 M-58,-124 l-12,20" stroke="#1a1a1a" stroke-width="3"/>
   <!-- helmet cheek guards -->
-  <path d="M-126,-38 L-122,40 L-98,22 L-100,-44Z" fill="#c4913a" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
-  <path d="M126,-38 L122,40 L98,22 L100,-44Z" fill="#c4913a" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M-126,-38 L-122,40 L-98,22 L-100,-44Z" fill="#FFB81C" stroke="#1a1a1a" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M126,-38 L122,40 L98,22 L100,-44Z" fill="#FFB81C" stroke="#1a1a1a" stroke-width="7" stroke-linejoin="round"/>
 </g>
