@@ -1,8 +1,8 @@
 # Cannae Episode 1 — Production Status
 
 **Project:** Spears & Tears (@SpearsAndTears) — YouTube History Channel  
-**Target Episode:** "Cannae: The Day Rome Lost Everything" (22 minutes)  
-**Status:** PREVIEW GENERATED ✓
+**Target Episode:** "Cannae: The Day Rome Lost Everything" (~9.5 minutes, first cut)  
+**Status:** NARRATION COMPLETE ✓ — animation in progress
 
 ---
 
@@ -85,10 +85,9 @@
 ## 🎯 Next Steps (Remaining Work)
 
 ### Immediate (This Week)
-1. **Voice Recording**
-   - User to record all narrator lines in ElevenLabs
-   - Generate single MP3 with consistent tone/pacing
-   - Sync timing with 22-minute script sections
+1. ~~**Voice Recording**~~ ✅ Done — Daniel voice, all 9 sections
+   - `scripts/ep01-cannae/voice/narrator/NARRATOR_full.mp3` (9.5 min)
+   - Section start times in `timings.json` (use these, not the script's 22-min timestamps)
 
 2. **Character Sprite Library**
    - Finalize all 8 character designs with consistent style
@@ -141,10 +140,10 @@
 |--------|--------|--------|
 | Script Length | 22 min | ✅ Complete (2,118 words) |
 | Animation Scenes | 9 sections | 🟡 3/9 previewed (33%) |
-| Voice Track | Single narrator | ⏳ Pending user recording |
+| Voice Track | Single narrator | ✅ Daniel, 9.5 min |
 | Character Sprites | 8 unique | ⏳ Design in progress |
 | Maps | 5 animated | ⏳ In production queue |
-| Total Runtime | 22 min | 🟡 ~2.5 min preview ready |
+| Total Runtime | ~9.5 min (first cut; 22 min later) | 🟡 ~2.5 min preview ready |
 | Video Quality | 1280×720 @ 24fps | ✅ Preview at full spec |
 | YouTube Format | 1920×1080 @ 24fps | ⏳ Will upscale from 720p |
 
