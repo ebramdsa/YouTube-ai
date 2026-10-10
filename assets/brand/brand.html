@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:LG;src:url(../fonts/LuckiestGuy.woff2)}
+html,body{margin:0;background:transparent}svg{display:block}
+.t{font-family:LG;fill:#fff8e6;stroke:#1a1a1a;stroke-width:14;paint-order:stroke;letter-spacing:4px}
+</style></head><body><div id="root"></div>
+<script>
+window.build=(mode,m)=>{
+ const defs=`<defs><radialGradient id="bg" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#f6dc95"/><stop offset="1" stop-color="#d39a43"/></radialGradient>
+ <filter id="rough"><feTurbulence baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter></defs>`;
+ let svg;
+ if(mode==='logo'){
+  svg=`<svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">${defs}
+  <circle cx="400" cy="400" r="400" fill="url(#bg)"/>
+  <path d="M0,600 Q400,540 800,600 L800,800 L0,800Z" fill="#a67a3d"/>
+  <g transform="translate(385,440) scale(1.02)" filter="url(#rough)">${m}</g></svg>`;
+ } else if(mode==='banner'){
+  // YouTube banner 2560x1440, safe area 1546x423 centred
+  svg=`<svg width="2560" height="1440" viewBox="0 0 2560 1440" xmlns="http://www.w3.org/2000/svg">${defs}
+  <rect width="2560" height="1440" fill="url(#bg)"/>
+  <path d="M0,860 Q500,780 1000,840 T2000,820 T2560,800 L2560,1440 L0,1440Z" fill="#b98a46" opacity=".7"/>
+  <path d="M0,940 Q1280,880 2560,940 L2560,1440 L0,1440Z" fill="#a67a3d"/>
+  <g opacity=".35" fill="#6b4a26">${Array.from({length:14},(_,i)=>`<line x1="${200+i*170}" y1="700" x2="${200+i*170}" y2="840" stroke="#6b4a26" stroke-width="8"/><path d="M${200+i*170},680 l14,30 h-28z"/>`).join('')}</g>
+  <g transform="translate(800,770) scale(.7)" filter="url(#rough)">${m}</g>
+  <text class="t" x="1480" y="690" font-size="150" text-anchor="middle">SPEARS</text>
+  <text class="t" x="1480" y="830" font-size="150" text-anchor="middle">&amp; TEARS</text>
+  <text x="1480" y="905" font-family="LG" font-size="42" fill="#1a1a1a" text-anchor="middle">Ancient wars. Real history. Way too much crying.</text>
+  </svg>`;
+ }
+ document.getElementById('root').innerHTML=svg;
+ return document.fonts.ready.then(()=>new Promise(r=>setTimeout(r,200)));
+};
+</script></body></html>
