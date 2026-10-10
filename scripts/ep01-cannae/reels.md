@@ -19,7 +19,7 @@ How do you destroy an army twice your size? You let it win… then close the tra
 #battleofcannae #hannibal #militaryhistory #ancientrome #strategy #animation #shorts
 
 ## Schedule (after the full episode goes live on Sunday)
-- Reel 1: Monday 12 Oct, 18:00 Mecca time
-- Reel 2: Wednesday 14 Oct, 18:00 Mecca time
-- Reel 3: Friday 16 Oct, 18:00 Mecca time
+- Reel 1: Monday 12 Oct, 17:00 Germany time (CEST)
+- Reel 2: Wednesday 14 Oct, 17:00 Germany time (CEST)
+- Reel 3: Friday 16 Oct, 17:00 Germany time (CEST)
 On YouTube Shorts, link each one to the full video ("Related video").

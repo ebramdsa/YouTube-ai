@@ -40,8 +40,8 @@ Subscribe so you don't miss it ⚔️
 Battle of Cannae, Cannae, Hannibal, Hannibal Barca, Second Punic War, Punic Wars, Ancient Rome, Roman Republic, Carthage, ancient history, military history, history animated, animated history, double envelopment, Varro, Fabius Maximus, Spears and Tears, معركة كاناي, هانيبال, التاريخ الروماني
 
 ## Publish time
-Sunday 11 October 2026, 15:00 UTC
-= 11:00 New York (EDT) · 16:00 London · 18:00 Mecca/Sana'a
+Sunday 11 October 2026, 17:00 Germany time (CEST)
+= 15:00 UTC · 11:00 New York (EDT) · 16:00 London
 Weekend late morning in the US/UK, when history viewers watch long videos.
 After this: one long video every week, same day and time.
 
