@@ -30,3 +30,16 @@ tools/assemble.sh previews/ep01-full.mp4 26 previews/ep01-cold-open.mp4 out/s1.m
 
 Shots reference narration by sentence (`S(k)`) or word (`W('now')`), so re-generated audio only needs step 1 again.
 Check frames quickly with `node tools/still.js episodes/ep01/s3.html /tmp/s3 12 40`.
+
+## Music and subtitles
+
+```
+# original score (synthesized, no licensing) following the intensity curve in music.json
+python3 tools/music.py episodes/ep01/music.json out/music.wav
+# English + Arabic SRT from the word timings (Arabic text: scripts/ep01-cannae/subtitles/ar.json)
+python3 tools/subtitles.py episodes/ep01/timing.js ../scripts/ep01-cannae/subtitles
+# duck the music under the narration and embed both subtitle tracks
+tools/finish.sh out/ep01-joined.mp4 out/music.wav ../scripts/ep01-cannae/subtitles/ep01.en.srt ../scripts/ep01-cannae/subtitles/ep01.ar.srt previews/ep01-full.mp4
+```
+
+For YouTube, upload `ep01.en.srt` and `ep01.ar.srt` as separate caption tracks.
