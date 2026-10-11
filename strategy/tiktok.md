@@ -19,15 +19,15 @@ from 1 Nov both on winter time again: 22:00 CET = 16:00 New York. Schedule up to
 
 | Date | Video | Length |
 |---|---|---|
-| Mon 12 Oct | ep01-short1-cease-to-exist | 0:37 |
+| Mon 12 Oct | ep01-short1-cease-to-exist | 0:41 |
 | Tue 13 Oct | ep01-part1 | 1:33 |
 | Wed 14 Oct | ep01-part2 | 1:43 |
-| Thu 15 Oct | ep01-part3 | 1:04 |
-| Fri 16 Oct | ep01-part4 | 1:14 |
-| Sat 17 Oct | ep01-part5 | 1:48 |
+| Thu 15 Oct | ep01-part3 | 2:18 |
+| Fri 16 Oct | ep01-part4 | 1:47 |
+| Sat 17 Oct | ep01-part5 | 2:16 |
 | Sun 18 Oct | ep02-short1-ambushed (same day as the YouTube episode) | 0:51 |
-| Mon 19 – Sat 24 Oct | ep02-part1 … ep02-part6, one a day | 1:07–1:57 |
-| Week of 25 Oct | ep01-short2-elephants, ep01-short3-the-trap, ep02-short2-the-spies, ep02-short3-his-version (fill days around episode 3) | 0:31–0:54 |
+| Mon 19 – Sat 24 Oct | ep02-part1 … ep02-part6, one a day | 1:07–1:57 (1:43, 1:57, 1:07, 1:08, 1:21, 1:41) |
+| Week of 25 Oct | ep01-short2-elephants, ep01-short3-the-trap, ep02-short2-the-spies, ep02-short3-his-version (fill days around episode 3) | 0:34, 0:49, 0:54, 0:31 |
 
 If a short does clearly better than the parts after 48 h, post more shorts and fewer parts (and the other way round).
 
