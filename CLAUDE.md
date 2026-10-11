@@ -6,3 +6,5 @@
 - Reply to the owner in Arabic; channel content (titles, descriptions, narration) is in English.
 - Default slot: weekend, 17:00 Germany time in summer time (= 11:00 New York). Between the
   European and US clock changes (late Oct to early Nov, and March) the gap is one hour different — check it.
+- Narrator voice: ElevenLabs credits ran out after episode 1 (voice: Daniel). From episode 2 use Google AI Studio
+  (Gemini TTS) via `scripts/tts_gemini.py`; the key is read from the `GEMINI_API_KEY` environment variable.
