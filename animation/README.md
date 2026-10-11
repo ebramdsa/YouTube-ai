@@ -61,3 +61,11 @@ tools/assemble.sh out/ep02/joined.mp4 20 out/ep02/s0.mp4 ... out/ep02/s9.mp4
 python3 tools/music.py episodes/ep02/music.json out/ep02/music.wav
 ```
 Preview the cast with `node tools/still.js "episodes/ep02/sheet.html#cast" /tmp/cast 0` (pages: cast, chariots, map, places, wall, misc, abu).
+
+Subtitles, thumbnail and reels for ep02 (`scripts/ep02-kadesh/subtitles/sections.json` tells `subtitles.py` there is no separate cold open):
+```
+python3 tools/subtitles.py episodes/ep02/timing.js ../scripts/ep02-kadesh/subtitles
+tools/finish.sh out/ep02/joined.mp4 out/ep02/music.wav ../scripts/ep02-kadesh/subtitles/ep02.en.srt ../scripts/ep02-kadesh/subtitles/ep02.ar.srt previews/ep02-full.mp4
+node tools/still.js "episodes/ep02/thumbnail.html#a" /tmp/thumb 0      # variants a, b
+cd .. && python3 animation/tools/reels.py animation/episodes/ep02/reels.json
+```

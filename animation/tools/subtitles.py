@@ -4,6 +4,9 @@ Cold open: lines placed at the cue times of the cold-open animation (cold-open.j
 Sections 1-8: English cues from word timings (<= 2 lines of ~42 chars); Arabic cues (ar.json, one entry
 per English sentence) share the English sentence timing.
 Section k starts at 38 s (cold open) plus the rendered length of the sections before it (frames at 24 fps).
+Episodes without a separate cold open put a sections.json in the subtitle folder instead of cold-open.json:
+{"prefix": "ep02", "tail": {"0": 2.6}} — every section in timing.js is subtitled, and "tail" lists the seconds a
+scene runs past its narration (e.g. a held title card).
 
 Usage: python3 animation/tools/subtitles.py animation/episodes/ep01/timing.js scripts/ep01-cannae/subtitles
 """
@@ -13,8 +16,11 @@ timing_js, sub_dir = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
 src = timing_js.read_text()
 TM = json.loads(src[src.index("{"):src.rindex("}") + 1])
 AR = json.loads((sub_dir / "ar.json").read_text())
-CO = json.loads((sub_dir / "cold-open.json").read_text())
-FPS, COLD = 24, CO["duration"]
+SEC = json.loads((sub_dir / "sections.json").read_text()) if (sub_dir / "sections.json").exists() else None
+CO = None if SEC else json.loads((sub_dir / "cold-open.json").read_text())
+FPS, COLD = 24, CO["duration"] if CO else 0
+PREFIX, TAIL = (SEC or {}).get("prefix", "ep01"), (SEC or {}).get("tail", {})
+KEYS = sorted(TM, key=int) if SEC else [str(k) for k in range(1, 9)]
 norm = lambda w: re.sub(r"[^a-z0-9]", "", w.lower())
 MAXC = 84
 
@@ -43,15 +49,15 @@ def split_text(text, parts):
 
 en, ar = [], []
 # --- cold open ---
-for ln in CO["lines"]:
+for ln in (CO["lines"] if CO else []):
     en.append([ln["start"], ln["end"], ln["en"]])
     ar.append([ln["start"], ln["end"], ln["ar"]])
 
 # --- sections ---
 offset = COLD
-for k in range(1, 9):
-    tm = TM[str(k)]
-    sec_len = math.ceil(tm["duration"] * FPS) / FPS
+for k in KEYS:
+    tm = TM[k]
+    sec_len = math.ceil((tm["duration"] + TAIL.get(k, 0)) * FPS) / FPS
     words = iter(tm["w"])
     sent_chunks = []  # per sentence: list of (start, last_word_time, last_word, text)
     for si, sent in enumerate(tm["text"]):
@@ -85,7 +91,7 @@ for k in range(1, 9):
         en.append([offset + st, offset + end, text])
         ends.setdefault(si, []).append((st, end))
     for si, spans in ends.items():
-        text = AR[str(k)][si]
+        text = AR[k][si]
         st, end = spans[0][0], spans[-1][1]
         parts = max(len(spans), math.ceil(len(text) / MAXC))
         pieces = split_text(text, parts)
@@ -101,7 +107,7 @@ def ts(x):
     ms = int(round(x * 1000)); h, ms = divmod(ms, 3600000); m, ms = divmod(ms, 60000); s, ms = divmod(ms, 1000)
     return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
 
-for name, cues in (("ep01.en.srt", en), ("ep01.ar.srt", ar)):
+for name, cues in ((f"{PREFIX}.en.srt", en), (f"{PREFIX}.ar.srt", ar)):
     cues.sort(key=lambda c: c[0])
     for i in range(len(cues) - 1):  # never overlap
         cues[i][1] = min(cues[i][1], cues[i + 1][0] - .02)
