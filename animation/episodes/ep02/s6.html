@@ -1,0 +1,138 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 6 — Ramesses fights back: his version, and what probably happened
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(6);
+const hits = [], H = t => (hits.push(t), t);
+const hitCrew = i => [EP.hittite({ s: .45, seed: 3 + i, e: E('angry') }), EP.hittite({ s: .45, seed: 5 + i, shield: [-40, 150, .8] }), EP.hittite({ s: .45, seed: 7 + i, spear: [50, 270, 110, -250] })];
+const epicChariot = (t, x, y, s, glow = 1) => EP.chariot({ x, y, s, t, crew: [EP.ramesses({ s: .45, pose: 'chibi', glow, e: E('determined'), arms: { r: { x: 140, y: 30, pose: 'grip' }, l: { x: 120, y: 60, pose: 'fist' } } })] });
+
+const shots = [
+  [0, (t, lt) => { // here's where it gets interesting
+    let s = K.burst(t, '#6d3f91', '#7b4ca0');
+    s += EP.historian({ x: 960, y: 420, s: .95, e: E('proud', { look: [0, .2] }), arms: { r: { x: 200, y: 120, pose: 'grip' } } });
+    s += `<g transform="translate(1180,620) rotate(8)">${EP.path('M-60,-80 L60,-80 L44,80 L-44,80Z', '#f2eee4', 7)}<path d="M-56,-40 L56,-40 M-52,0 L52,0 M-48,40 L48,40" stroke="${C.red}" stroke-width="14"/>`;
+    for (let i = 0; i < 7; i++) s += `<circle cx="${-46 + i * 15}" cy="${-88 - (i % 2) * 14}" r="18" fill="#fff7d6" stroke="${C.ink}" stroke-width="5"/>`;
+    s += `</g>`;
+    const o = K.chapter(6, 'RAMESSES FIGHTS BACK', t, 0, 2.2) + K.say('IT GETS INTERESTING', 960, 960, 90, t, H(W('interesting')), { fill: C.gold });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(1), (t, lt) => { // according to Ramesses: everyone abandoned him
+    let s = EP.desert(t, { horizon: 560 });
+    for (let i = 0; i < 4; i++) s += EP.tent(200 + i * 500, 700, .8, '#efe2c4', i % 2 ? 1 : .2);
+    const ab = W('abandoned');
+    for (let i = 0; i < 6; i++) { const k = ease((t - ab + .4 - i * .08) / 1.2), dir = i % 2 ? 1 : -1, m = K.march(t, i, 16);
+      if (k < 1) s += EP.egyptian({ x: 960 + dir * (200 + i * 60 + k * 1200), y: 780 + (i % 3) * 40 + m.bob, s: .5, flip: dir < 0, step: m.step, seed: 900 + i, e: E('scared'), sweat: 1 }); }
+    s += EP.ramesses({ pose: 'chibi', x: 960, y: 560, s: .9, e: t > ab ? E('worried', { look: [Math.sin(t * 2) * .7, 0] }) : E('neutral') });
+    const o = K.say('ACCORDING TO RAMESSES...', 960, 160, 84, t, H(W('according')), { fill: C.gold }) + K.stamp('EVERYONE LEFT', 960, 290, t, H(ab), -3, { cross: false, size: 100, fill: '#fff' });
+    return K.cam(s, 1 + lt * .02, 960, 560, 0, t) + o;
+  }],
+  [S(2), (t, lt) => { // he prays, climbs into his chariot and charges. Alone. Again and again.
+    const pr = t < W('climbed');
+    let s = `<rect width="1920" height="1080" fill="#f6d46a"/>` + K.burst(t, '#f6d46a', '#fbe38a', 960, 300).slice(41);
+    if (pr) { s += `<path d="M760,-20 L1160,-20 L1260,1100 L660,1100Z" fill="#fff8d0" opacity=".6"/>`;
+      s += EP.ramesses({ x: 960, y: 420, s: 1, e: E('worried', { look: [0, -.8], lid: 0 }), arms: { l: { x: -170, y: -120, pose: 'open' }, r: { x: 170, y: -120, pose: 'open' } } }) + K.say('AMUN, HELP!', 960, 160, 90, t, H(W('prayed')), { fill: '#fff' }); }
+    else {
+      const ch = W('charged'), x = t < ch ? 400 : lerp(400, 700, ease((t - ch) / .6));
+      s += K.dust(t * 2, 18, -1, '#fff1c0', 3);
+      for (let i = 0; i < 9; i++) { const R = T.rng(i + 2), hk = clamp((t - W('again') - i * .25) / .7);
+        const hx = 1200 + R() * 600, hy = 380 + R() * 500;
+        s += `<g transform="translate(${f(hx + hk * 500)},${f(hy - Math.sin(hk * Math.PI) * 300 - hk * 200)}) rotate(${f(hk * 720)})" opacity="${f(1 - clamp(hk * 1.3 - .3))}">${EP.hittite({ s: .5, seed: 950 + i, e: E('shocked') })}</g>`; }
+      s += epicChariot(t, x, 980, 1.25, 1);
+      const n = t > W('again', 2) ? 2 : 1, cnt = Math.min(999, Math.floor(Math.max(0, t - W('defeating')) * 900));
+      s += K.stamp('ALONE.', 760, 200, t, H(W('alone')), -5, { cross: false, size: 130, fill: '#fff' })
+        + K.say('AGAIN', 1300, 180, 90, t, H(W('again')), { fill: C.red }) + K.say('...AND AGAIN', 1420, 290, 80, t, H(W('again', 2)), { fill: C.red })
+        + (t > W('defeating') ? K.say(`ENEMIES DEFEATED: ${cnt}${cnt >= 999 ? '+' : ''}`, 1380, 1010, 56, t, W('defeating'), { fill: '#fff' }) : '');
+    }
+    return K.cam(s, 1, 960, 540, pr ? 0 : .08, t);
+  }],
+  [S(6), (t, lt) => { // that's HIS version — temple carvings, even a pet lion; historians are skeptical
+    const sk = S(8);
+    let s = EP.wall(t, { glyphs: [1460, 160, 5, 14] });
+    const relief = EP.chariot({ t: 0, speed: 0, crew: [EP.ramesses({ s: .45, pose: 'chibi', e: E('proud'), arms: { r: { x: 140, y: 30, pose: 'fist' } } })] })
+      + EP.hittite({ x: 600, y: -190, s: .38, flip: true, e: E('scared'), rot: -60 }) + EP.hittite({ x: 690, y: -110, s: .38, e: E('shocked'), rot: 70 }) + EP.hittite({ x: 560, y: -40, s: .38, e: E('scared'), rot: 100 });
+    s += EP.carve(relief, 180, 760, 1.25);
+    const lk = W('lion');
+    if (t > lk) s += EP.carve(EP.lion(0, 0, .55, { t: 0, e: E('smug') }), 330, 920 - (1 - T.back((t - lk) / .4)) * 40, 1);
+    if (t > sk) s += `<rect width="1920" height="1080" fill="#000" opacity="${f(.25 * ease((t - sk) / .3))}"/>` + EP.historian({ x: 1480, y: lerp(1400, 560, T.back((t - sk) / .45)), s: .9, e: E('neutral', { lid: .45, brow: { r: 26, l: -4 }, mouth: { type: 'frown', w: 18 }, look: [-.6, 0] }), arms: { r: { x: -40, y: 120, pose: 'grip' } } })
+      + `<g transform="translate(${f(lerp(1600, 1400, ease((t - sk) / .5)))},680)"><circle r="70" fill="#cfe6f5" fill-opacity=".4" stroke="${C.ink}" stroke-width="12"/><path d="M50,50 L130,130" stroke="${C.ink}" stroke-width="24" stroke-linecap="round"/><path d="M50,50 L130,130" stroke="#8a5a3a" stroke-width="12" stroke-linecap="round"/></g>`;
+    const o = K.stamp('HIS VERSION', 960, 190, t, H(W('version')), -4, { cross: false, size: 130, fill: C.gold })
+      + K.say('PET LION', 360, 560, 70, t, H(lk), { fill: '#fff' }) + K.say('HISTORIANS:', 1480, 120, 70, t, H(sk), { fill: '#fff' }) + K.say('🤨 HMM...', 1480, 220, 80, t, W('skeptical'), { fill: C.gold, font: 'Luckiest' });
+    return K.cam(s, 1, 960, 540, 0, t) + (t > sk ? o.replace(/HIS VERSION/g, '') : o);
+  }],
+  [S(9), (t, lt) => { // what probably happened: he fought bravely, with his bodyguard
+    let s = EP.desert(t, { horizon: 560 });
+    s += K.stamp('WHAT PROBABLY HAPPENED', 960, 160, t, H(S(9) + .2), -2, { cross: false, size: 84, fill: '#fff' });
+    const bg = W('bodyguard');
+    for (let i = 0; i < 4; i++) { const k = T.back((t - bg - i * .1) / .35); if (k <= 0) continue; const x = 960 + [-420, -250, 250, 420][i];
+      s += EP.egyptian({ x, y: 600 + (1 - k) * 500, s: .8, flip: x < 960, seed: 980 + i, e: E('determined'), shield: [-40, 170, .7], spear: [50, 270, 110, -250] }); }
+    s += EP.ramesses({ pose: 'chibi', x: 960, y: 560, s: .95, e: E('determined'), sweat: .7, arms: { r: { x: 120, y: 20 + Math.sin(t * 9) * 30, pose: 'fist' }, l: { x: -120, y: 60, pose: 'fist' } } });
+    for (let i = 0; i < 3; i++) s += EP.hittite({ x: 1700 + Math.sin(t * 3 + i) * 30, y: 640 + i * 60, s: .6, flip: true, seed: 990 + i, e: E('angry'), spear: [50, 270, 110, -250] });
+    const o = K.say('BRAVELY', 600, 330, 80, t, H(W('bravely')), { fill: C.gold }) + K.say('+ BODYGUARD', 1300, 330, 80, t, H(bg), { fill: '#fff' });
+    return K.cam(s, 1, 960, 560, 0, t) + o;
+  }],
+  [S(11), (t, lt) => { // classic mistake: they stopped to loot. Gold. Food. Weapons.
+    let s = EP.desert(t, { horizon: 560 });
+    for (let i = 0; i < 4; i++) s += EP.tent(200 + i * 500, 700, .8, '#efe2c4', i % 2 ? 1 : .3);
+    s += EP.chariot({ kind: 'hit', x: 120, y: 900, s: .55, speed: 0, t, crew: [] }) + EP.chariot({ kind: 'hit', x: 1480, y: 760, s: .45, speed: 0, t, crew: [] });
+    const lt0 = W('loot'), g = W('gold'), fd = W('food'), wp = W('weapons');
+    const loot = (x, y, kind, i) => {
+      if (kind === 'gold') return `<g transform="translate(${x},${y})">${EP.path('M-60,-30 Q-70,-80 0,-80 Q70,-80 60,-30 L70,60 L-70,60Z', C.gold, 7)}<path d="M-30,-80 L0,-110 L30,-80" stroke="${C.ink}" stroke-width="8" fill="none"/></g>`;
+      if (kind === 'food') return `<g transform="translate(${x},${y}) rotate(${Math.sin(t * 6) * 10})">${EP.path('M-50,0 Q-60,-50 0,-50 Q60,-50 50,0 Q0,24 -50,0Z', '#d79a4a', 7)}<path d="M-30,-30 Q0,-40 30,-30" stroke="#a86a2a" stroke-width="5" fill="none"/></g>`;
+      return `<g transform="translate(${x},${y}) rotate(-30)">${T.spear(-90, 0, 90, 0)}</g>`; };
+    const crew = [['gold', g, 560], ['food', fd, 960], ['weapons', wp, 1360]];
+    crew.forEach(([kind, t0, x], i) => {
+      const got = t > t0, chew = kind === 'food' && got;
+      s += EP.hittite({ x, y: 600 + Math.abs(Math.sin(t * 5 + i)) * -10, s: .85, seed: 1000 + i, helm: true, e: got ? E('proud', chew ? { mouth: { type: 'o', w: 14, open: Math.abs(Math.sin(t * 12)) } } : {}) : E('smug', { look: [0, .6] }),
+        arms: { r: { x: 130, y: got ? 20 : 160, pose: 'grip' }, l: { x: -130, y: got ? 20 : 160, pose: 'grip' } } });
+      if (got) s += loot(x + 120, 560 + (kind === 'food' ? 60 : 0), kind, i); });
+    const o = K.stamp('CLASSIC MISTAKE', 960, 170, t, H(W('mistake')), -3, { cross: false, size: 110, fill: C.red, }) + K.say('LOOTING', 960, 170, 100, t, H(lt0), { fill: C.gold, out: g - .1 })
+      + K.say('GOLD', 560, 1000, 80, t, H(g), { fill: C.gold }) + K.say('FOOD', 960, 1000, 80, t, H(fd), { fill: '#fff' }) + K.say('WEAPONS', 1360, 1000, 80, t, H(wp), { fill: '#cfd4dc' });
+    return K.cam(s, 1, 960, 560, 0, t) + (t > lt0 ? o.replace(/CLASSIC MISTAKE/g, '') : o);
+  }],
+  [S(16), (t, lt) => { // a fresh Egyptian unit arrives from the coast: the Ne'arin
+    let s = EP.desert(t, { horizon: 560 }) + `<path d="M-20,560 Q200,540 420,600 L420,1100 L-20,1100Z" fill="#6fa8c9" stroke="${C.ink}" stroke-width="7"/>`;
+    s += EP.column(7, -900 + lt * 260, 820, 190, t, EP.egSoldier(C.teal, E('determined')), .55, { sp: 8 });
+    const o = K.say('FRESH TROOPS!', 960, 170, 100, t, H(W('fresh')), { fill: C.gold }) + K.say('FROM THE COAST', 960, 290, 64, t, H(W('coast')), { fill: '#cfe6f5' })
+      + K.lowerThird("THE NE'ARIN", 'Egyptian elite unit', t, H(W('nearin')), C.teal);
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(18), (t, lt) => { // overhead: Ne'arin hit the distracted Hittites from the side; Ptah finally arrives
+    let s = EP.board(t);
+    for (let i = 0; i < 6; i++) s += EP.tentTop(500 + (i % 3) * 70, 240 + Math.floor(i / 3) * 70, 1, .8);
+    const hk = ease((t - W('hit') + .4) / 1), pk = ease((t - W('ptah') + .2) / 1.6), push = clamp((t - W('hit') - .4) / 3);
+    for (let i = 0; i < 16; i++) { const r = Math.floor(i / 4), c = i % 4; s += K.cavToken(560 + r * 50 + push * 500, 230 + c * 50 + Math.sin(t * 6 + i) * 5, EP.P.hit, push > 0 ? 0 : 200, 17); }
+    for (let i = 0; i < 16; i++) { const r = Math.floor(i / 4), c = i % 4; s += K.token(lerp(-120, 380, hk) + r * 34 + push * 400, 230 + c * 50, C.teal, 13); }
+    for (let i = 0; i < 20; i++) s += K.token(560 + (i % 5) * 34, lerp(1200, 620, pk) + Math.floor(i / 5) * 34, C.teal, 12, { helm: '#fff' });
+    const o = K.say("NE'ARIN", 300, 120, 60, t, W('hit'), { fill: C.teal }) + K.stamp('FROM THE SIDE!', 960, 980, t, H(W('side')), -3, { cross: false, size: 90, fill: '#fff' })
+      + K.say('PTAH: FINALLY', 760, 980, 80, t, H(W('finally')), { fill: C.gold }) ;
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('hit') + .5], .25), t) + (t > W('finally') ? o.replace(/FROM THE SIDE!/g, '') : o);
+  }],
+  [S(20), (t, lt) => { // Muwatalli sends another thousand chariots
+    let s = `<rect width="1920" height="1080" fill="#1f2a3e"/>` + `<circle cx="760" cy="420" r="420" fill="#ffd27a" opacity=".12"/>`;
+    s += EP.muwatalli({ x: 700, y: 380, s: 1.05, e: E('angry', { lid: .5 }), arms: { r: { x: 340, y: 0, pose: 'point' } } });
+    const o = K.stamp('+1,000 CHARIOTS', 1400, 500, t, H(W('thousand')), -4, { cross: false, size: 100, fill: '#9fc3ff' });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('thousand')], .2), t) + o;
+  }],
+  [S(21), (t, lt) => { // ...but the huge infantry never crossed the river
+    let s = `<rect width="1920" height="1080" fill="#e9c77d"/>` + `<path d="M-20,420 Q960,380 1940,420 L1940,1100 L-20,1100Z" fill="#c9a457" stroke="${C.ink}" stroke-width="7"/>` + EP.river(640, t, 160);
+    for (let r = 0; r < 2; r++) for (let i = 0; i < 9; i++) { const x = 120 + i * 210 + r * 100, y = 470 + r * 90;
+      s += `<g transform="translate(${x},${y + Math.sin(t * 1.5 + i) * 3}) scale(.42)">${EP.hittite({ seed: 1100 + i + r * 9, e: E(i % 3 ? 'bored' : 'neutral', { lid: .6 }), shield: [-40, 170, .7] })}</g>`; }
+    s += `<g transform="translate(1600,420)">${EP.path('M-80,0 L80,0 L60,-30 L-60,-30Z', '#e6d7b8', 5)}</g>`;
+    const o = K.say('HUGE INFANTRY', 960, 160, 100, t, H(W('huge')), { fill: '#9fc3ff' }) + K.stamp('NEVER CROSSED', 960, 960, t, H(W('never')), -3, { cross: false, size: 110, fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(22), (t, lt) => { // by nightfall, the chariots pulled back
+    const nk = ease(lt / 1.2);
+    let s = `<rect width="1920" height="1080" fill="#e9c77d"/><rect width="1920" height="1080" fill="#22305a" opacity="${f(nk * .85)}"/><circle cx="1500" cy="${f(lerp(500, 180, nk))}" r="70" fill="#f3efe0" opacity="${f(nk)}"/>`;
+    s += `<path d="M-20,520 Q960,480 1940,520 L1940,1100 L-20,1100Z" fill="#5a4a32" stroke="${C.ink}" stroke-width="7"/>` + EP.river(700, t, 120, '#3f6f95');
+    for (let i = 0; i < 3; i++) s += EP.chariot({ kind: 'hit', x: 400 + i * 420 + lt * 160, y: 660 - i * 20, s: .5, t: t + i, crew: hitCrew(i) });
+    const o = K.say('NIGHTFALL', 960, 170, 110, t, H(W('nightfall')), { fill: '#cfe0ff' }) + K.stamp('PULLED BACK', 960, 960, t, H(W('pulled')), -3, { cross: false, size: 110, fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

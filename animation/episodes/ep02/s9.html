@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 9 — Outro: who won? Ramesses won the story
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(9);
+const hits = [], H = t => (hits.push(t), t);
+const TAIL = 1.5;
+
+const shots = [
+  [0, (t, lt) => { // the empty plain by the river
+    let s = EP.desert(t, { horizon: 560, sky: '#f3dda5' }) + EP.river(720, t, 120);
+    for (let i = 0; i < 40; i++) { const R = T.rng(i + 5), x = R() * 1920, y = 620 + R() * 80, sw = Math.sin(t * 2 + x * .01) * 12;
+      s += `<path d="M${f(x)},${f(y)} q${f(sw)},-30 ${f(sw * 1.4)},-60" stroke="#8a7a3a" stroke-width="6" fill="none" stroke-linecap="round"/>`; }
+    s += K.dust(t, 8, 1, '#fff1c0', 9);
+    const o = K.chapter(9, 'SO WHO WON?', t, 0, 2) + K.say('WHO WON?', 960, 300, 140, t, H(W('won')) + .1, { fill: C.gold, out: S(1) - .1 }) + K.say('ON THE BATTLEFIELD:', 960, 220, 76, t, H(W('battlefield')), { fill: '#fff' }) + K.stamp('NOBODY', 960, 380, t, H(W('nobody')), -3, { cross: false, size: 160, fill: C.gold });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+  [S(2), (t, lt) => { // Ramesses survived; Muwatalli kept Kadesh; both decided it wasn't worth it
+    let s = `<rect width="1920" height="1080" fill="${EP.P.egBlue}"/><rect x="960" width="960" height="1080" fill="${EP.P.hit}"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="12"/>`;
+    const shrug = t > W('decided');
+    const arms = shrug ? { l: { x: -230, y: 20, pose: 'open' }, r: { x: 230, y: 20, pose: 'open' } } : {};
+    s += EP.ramesses({ x: 480, y: 400, s: .9, e: shrug ? E('bored', { brow: { raise: 14 } }) : E('proud'), arms });
+    s += EP.muwatalli({ x: 1440, y: 420, s: .9, flip: true, e: shrug ? E('bored', { brow: { raise: 14 } }) : E('smug', { lid: .55 }), arms });
+    const o = K.say('SURVIVED THE TRAP ✓', 480, 980, 64, t, H(W('survived')), { fill: C.gold }) + K.say('KEPT KADESH ✓', 1440, 980, 64, t, H(W('kept')), { fill: '#fff' })
+      + K.stamp('NOT WORTH IT', 960, 160, t, H(W('worth')), -4, { cross: false, size: 110, fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(5), (t, lt) => { // but Ramesses won something else — 3,000 years later we still read his version
+    let s = EP.abuSimbel(t);
+    const tk = W('know');
+    if (t > tk) for (let i = 0; i < 5; i++) { const x = 240 + i * 360;
+      s += `<g transform="translate(${x},${f(1010 + Math.sin(t * 3 + i) * 4)}) scale(.38)">${EP.historian({ seed: 270 + i, e: E('shocked', { look: [0, -.8] }), arms: { r: { x: 170, y: -40, pose: 'point' } } })}</g>`; }
+    const o = K.say('BUT RAMESSES WON SOMETHING ELSE', 960, 120, 70, t, H(S(5) + .2), { fill: '#fff', out: W('three') - .1 }) + K.say('3,000+ YEARS LATER', 960, 120, 90, t, H(W('three')), { fill: C.gold, out: W('fight') - .1 })
+      + K.say('WE STILL KNOW HIS NAME', 960, 230, 64, t, H(tk), { fill: '#fff', out: W('fight') - .1 })
+      + K.say("HE DIDN'T JUST FIGHT THE BATTLE...", 960, 140, 70, t, H(W('fight')), { fill: '#fff' }) + K.stamp('HE WON THE STORY', 960, 280, t, H(W('story')), -3, { cross: false, size: 120, fill: C.gold });
+    return K.cam(s, lerp(1.08, 1, ease(lt / 6)), 960, 560, K.shakeAt(t, [W('story')], .2), t) + o;
+  }],
+  [S(9), (t, lt) => { // next time: Assyria — subscribe
+    let s = `<rect width="1920" height="1080" fill="#3a1414"/>` + K.burst(t, '#3a1414', '#4a1c1c').slice(41);
+    for (let i = 0; i < 2; i++) s += `<g transform="translate(${i ? 1560 : 360},620) scale(${i ? -1 : 1},1)">${EP.path('M-120,240 L-120,-60 Q-120,-180 0,-200 Q120,-180 120,-60 L120,240Z', '#8a6a4a', 8)}<path d="M-60,-120 Q0,-160 60,-120 M-80,-40 L80,-40 M-80,40 L80,40 M-80,120 L80,120" stroke="#5a4636" stroke-width="10" fill="none"/>${EP.path('M-40,-200 Q-80,-260 -40,-300 Q0,-260 40,-300 Q80,-260 40,-200Z', '#5a3a22', 6)}</g>`;
+    const o = K.say('NEXT TIME', 960, 300, 90, t, H(W('next')), { fill: '#fff' }) + K.say('ASSYRIA', 960, 480, 200, t, H(W('assyria')), { fill: '#e8584a' })
+      + K.say('THE MOST FEARED EMPIRE ON EARTH', 960, 620, 64, t, H(W('feared')), { fill: C.gold }) + K.subscribe(960, 860, t, H(W('subscribe')));
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('assyria')], .25), t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur + TAIL, hits });
+</script></body></html>

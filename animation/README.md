@@ -43,3 +43,21 @@ tools/finish.sh out/ep01-joined.mp4 out/music.wav ../scripts/ep01-cannae/subtitl
 ```
 
 For YouTube, upload `ep01.en.srt` and `ep01.ar.srt` as separate caption tracks.
+
+## Episode 2 (Kadesh)
+
+Same pipeline; the narration is Gemini TTS (voice Algenib) in `scripts/ep02-kadesh/voice/narrator`.
+
+| File | Role |
+|---|---|
+| `episodes/ep02/cast.js` | Kadesh cast and props: Ramesses II, Muwatalli II, Egyptian/Hittite soldiers, the nomad spies, a historian, both chariot types, the Middle East map, Kadesh, carved temple walls, clay tablets |
+| `episodes/ep02/s0.html` … `s9.html` | One scene per narrator section (s0 = cold open, holds the title card 2.6 s past the narration) |
+| `episodes/ep02/music.json` | Intensity curve for the score, keyed to the section start times |
+
+```
+python3 tools/align.py ../scripts/ep02-kadesh/voice/narrator episodes/ep02/timing.js
+node tools/render-section.js episodes/ep02/s5.html ../scripts/ep02-kadesh/voice/narrator/05_the-chariots-strike.mp3 out/ep02/s5.mp4
+tools/assemble.sh out/ep02/joined.mp4 20 out/ep02/s0.mp4 ... out/ep02/s9.mp4
+python3 tools/music.py episodes/ep02/music.json out/ep02/music.wav
+```
+Preview the cast with `node tools/still.js "episodes/ep02/sheet.html#cast" /tmp/cast 0` (pages: cast, chariots, map, places, wall, misc, abu).

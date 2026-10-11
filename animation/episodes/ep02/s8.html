@@ -1,0 +1,76 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 8 — The peace treaty
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(8);
+const hits = [], H = t => (hits.push(t), t);
+const silver = (x, y, s, rot) => EP.tablet(x, y, s, rot, { col: '#cfd4dc', dark: '#8d939d', seed: 9 });
+
+const shots = [
+  [0, (t, lt) => { // the twist: sixteen years later, a peace treaty
+    let s = K.burst(t, '#2e8a84', '#3e9a94');
+    const tw = S(1), meet = ease((t - tw) / 1.2), hs = t > W('signed');
+    s += EP.egyptian({ x: lerp(-200, 720, meet), y: 520, s: 1, e: E('proud'), seed: 41, arms: { r: { x: 130, y: hs ? 60 : 120, pose: 'grip' } } });
+    s += EP.hittite({ x: lerp(2120, 1200, meet), y: 520, s: 1, flip: true, cap: 1, e: E('proud'), seed: 42, arms: { r: { x: 130, y: hs ? 60 : 120, pose: 'grip' } } });
+    if (meet > .5) s += EP.tablet(lerp(820, 1100, hs ? ease((t - W('signed')) / .6) : 0), 600, .5, -6) + silver(lerp(1100, 820, hs ? ease((t - W('signed')) / .6) : 0), 600, .5, 6);
+    const o = K.chapter(8, 'THE PEACE TREATY', t, 0, 2) + K.stamp('PLOT TWIST', 960, 300, t, H(W('twist')), -5, { cross: false, size: 140, fill: C.gold })
+      + K.dateCard('16 YEARS LATER', t, H(W('sixteen'))) + K.say('PEACE TREATY', 960, 980, 110, t, H(W('treaty')), { fill: '#fff' })
+      + K.say('ONE OF THE OLDEST EVER FOUND', 960, 180, 70, t, H(W('oldest')), { fill: C.gold });
+    return K.cam(s, 1, 960, 540, 0, t) + (t > tw ? o.replace(/PLOT TWIST/g, '') : o);
+  }],
+  [S(3), (t, lt) => { // what they promised
+    let s = `<rect width="1920" height="1080" fill="#e9d6a8"/>` + EP.path('M460,80 L1460,80 L1460,1000 L460,1000Z', '#f6efd8', 10);
+    const items = [['NO ATTACKING EACH OTHER', 'attack'], ['HELP AGAINST ENEMIES', 'help'], ['SEND BACK RUNAWAYS', 'runaways']];
+    s += T.text('WE PROMISE:', 960, 220, 84, { fill: C.ink, stroke: '#f6efd8', sw: 2 });
+    items.forEach(([str, w], i) => { const k = T.back((t - W(w)) / .35); if (k <= 0) return; const y = 400 + i * 200;
+      s += `<g transform="translate(560,${y}) scale(${f(k)})"><rect x="-50" y="-50" width="100" height="100" rx="12" fill="#fff" stroke="${C.ink}" stroke-width="8"/><path d="M-30,0 L-6,26 L36,-30" stroke="#2f8a3a" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>`
+        + `<text x="650" y="${y + 20}" font-family="Lilita" font-size="62" fill="${C.ink}" opacity="${f(clamp(k))}">${str}</text>`; });
+    for (let i = 0; i < 3; i++) H(W(items[i][1]));
+    return K.cam(s, 1, 960, 540, 0, t);
+  }],
+  [S(4), (t, lt) => { // two copies: hieroglyphs on temple walls, clay tablets in Hattusa — they match
+    let s = `<rect width="1920" height="1080" fill="${EP.P.egBlue}"/><rect x="960" width="960" height="1080" fill="${EP.P.hit}"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="12"/>`;
+    const ek = T.back((t - W('hieroglyphs')) / .4), hk = T.back((t - W('clay')) / .4);
+    if (ek > 0) s += `<g transform="translate(480,560) scale(${f(ek)})"><rect x="-300" y="-380" width="600" height="760" fill="${EP.P.stone}" stroke="${C.ink}" stroke-width="9"/>${EP.glyphs(-240, -320, 9, 14, .9, 7)}</g>`;
+    if (hk > 0) s += `<g transform="translate(1440,560) scale(${f(hk)})">${EP.tablet(0, 0, 2.6, 0, { seed: 11 })}</g>`;
+    const mk = W('match');
+    if (t > mk) for (let i = 0; i < 6; i++) { const k = clamp((t - mk - i * .25) / .3), y = 260 + i * 110;
+      s += `<path d="M700,${y} L${f(lerp(700, 1220, k))},${y}" stroke="#fff" stroke-width="8" stroke-dasharray="18 12"/>`;
+      if (k >= 1) s += T.text('✓', 960, y + 22, 64, { fill: '#7fe08a', sw: 8 }); }
+    const o = K.say('EGYPTIAN COPY', 480, 120, 70, t, H(W('egyptian')), { fill: C.gold }) + K.say('HITTITE COPY', 1440, 120, 70, t, H(W('hittite')), { fill: '#fff' })
+      + K.say('BOTH FOUND', 960, 1000, 90, t, H(W('both')), { fill: '#fff', out: mk - .1 }) + K.say('LINE BY LINE', 960, 1000, 90, t, H(W('line')), { fill: '#7fe08a' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(7), (t, lt) => { // except one detail: each side says the other asked first
+    let s = `<rect width="1920" height="1080" fill="${EP.P.egBlue}"/><rect x="960" width="960" height="1080" fill="${EP.P.hit}"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="12"/>`;
+    const ak = W('asked');
+    s += EP.ramesses({ x: 480, y: 400, s: .95, e: t > W('each') ? E('angry') : E('neutral'), arms: t > W('each') ? { r: { x: 330, y: 40, pose: 'point' } } : {} });
+    s += EP.muwatalli({ x: 1440, y: 420, s: .95, flip: true, e: t > W('each') ? E('angry', { lid: .4 }) : E('neutral', { lid: .5 }), arms: t > W('each') ? { r: { x: 330, y: 40, pose: 'point' } } : {} });
+    const o = K.say('EXCEPT ONE DETAIL...', 960, 150, 96, t, H(W('except')), { out: W('each') - .1 })
+      + K.speech('HE ASKED FIRST!', 520, 140, t, H(ak - .2), { size: 54, tail: -1 }) + K.speech('NO, HE DID!', 1420, 140, t, H(W('first')), { size: 54, tail: 1 });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('first')], .15), t) + o;
+  }],
+  [S(9), (t, lt) => { // Ramesses even married a Hittite princess
+    let s = K.burst(t, '#e88aa0', '#f09ab0');
+    s += EP.ramesses({ x: 720, y: 400, s: .95, e: E('proud', { look: [.5, 0] }) }) + EP.princess({ x: 1220, y: 420, s: .9, e: E('proud', { look: [-.5, 0], mouth: { type: 'smile', w: 22 } }) });
+    for (let i = 0; i < 26; i++) { const R = T.rng(i + 1), y = ((R() * 1200 + t * (120 + R() * 80)) % 1200) - 80; s += `<rect x="${f(R() * 1920)}" y="${f(y)}" width="18" height="10" fill="${[C.gold, '#fff', C.red, EP.P.hit][i % 4]}" transform="rotate(${f(t * 90 + i * 30)} ${f(R() * 1920)} ${f(y)})"/>`; }
+    for (let i = 0; i < 3; i++) { const k = ((t * .5 + i / 3) % 1); s += `<g transform="translate(${f(970 + Math.sin(t * 2 + i) * 40)},${f(300 - k * 260)}) scale(${f(.8 + k * .5)})" opacity="${f(1 - k)}"><path d="M0,30 C-60,-10 -40,-60 0,-30 C40,-60 60,-10 0,30Z" fill="${C.red}" stroke="${C.ink}" stroke-width="7"/></g>`; }
+    const o = K.say('JUST MARRIED', 960, 980, 110, t, H(W('married')), { fill: '#fff' }) + K.lowerThird('A HITTITE PRINCESS', "Ramesses' new wife", t, H(W('princess')), EP.P.hit);
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(10), (t, lt) => { // today: a copy at the United Nations in New York
+    let s = `<rect width="1920" height="1080" fill="#bcd8ea"/><path d="M-20,900 L1940,900 L1940,1100 L-20,1100Z" fill="#9aa3ab" stroke="${C.ink}" stroke-width="7"/>`;
+    for (let i = 0; i < 6; i++) s += `<rect x="${60 + i * 150}" y="${560 - (i % 3) * 120}" width="110" height="${340 + (i % 3) * 120}" fill="#8f9fb0" stroke="${C.ink}" stroke-width="5" opacity=".6"/>`;
+    s += EP.un(1340, 905, .9, t);
+    const dk = T.back((t - W('display')) / .4);
+    if (dk > 0) s += `<g transform="translate(560,640) scale(${f(dk)})"><rect x="-200" y="-260" width="400" height="480" rx="16" fill="#e4f2fa" fill-opacity=".6" stroke="${C.ink}" stroke-width="9"/>${EP.tablet(0, -20, 1.2, 0, { seed: 11 })}<rect x="-230" y="220" width="460" height="60" fill="#5a4636" stroke="${C.ink}" stroke-width="7"/></g>`;
+    const o = K.say('TODAY', 960, 140, 100, t, H(W('today')), { out: W('united') - .1 }) + K.say('UNITED NATIONS, NEW YORK', 960, 140, 80, t, H(W('united')), { fill: C.gold })
+      + K.stamp('OLDEST PEACE DEAL', 660, 1000, t, H(S(11)), -3, { cross: false, size: 80, fill: '#fff' }) + K.say('IN THE HOME OF PEACE DEALS', 1320, 260, 54, t, H(W('home')), { fill: '#2f5fa8', stroke: '#fff', sw: 10 });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

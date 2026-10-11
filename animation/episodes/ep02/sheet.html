@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="cast.js"></script>
+<script>
+const { C } = T, E = T.expr;
+const pages = {
+  cast: t => `<rect width="1920" height="1080" fill="#e9d6a8"/>` + EP.ramesses({ x: 230, y: 300, s: .8 }) + EP.muwatalli({ x: 640, y: 330, s: .8, staff: [180, 300, 380] })
+    + EP.historian({ x: 1060, y: 320, s: .8 }) + EP.princess({ x: 1470, y: 320, s: .8 })
+    + EP.ramesses({ x: 160, y: 750, s: .6, pose: 'chibi' }) + EP.muwatalli({ x: 360, y: 750, s: .6, pose: 'chibi' })
+    + EP.egyptian({ x: 560, y: 750, s: .6, spear: [50, 270, 110, -250], shield: [-40, 170, .7] }) + EP.hittite({ x: 760, y: 750, s: .6, shield: [-40, 170, .7], spear: [50, 270, 110, -250] })
+    + EP.nomad({ x: 960, y: 750, s: .6 }) + EP.nomad({ x: 1160, y: 750, s: .6, wink: 1, band: C.teal }) + EP.hittite({ x: 1360, y: 750, s: .6, cap: 1, e: E('scared'), sweat: 1 })
+    + EP.lion(1700, 860, .7, { t }) ,
+  chariots: t => EP.desert(t) + EP.chariot({ x: 200, y: 520, s: .9, t, crew: [EP.egyptian({ s: .45 }), EP.ramesses({ s: .45, pose: 'chibi' })] })
+    + EP.chariot({ x: 200, y: 1000, s: .9, t, kind: 'hit', crew: [EP.hittite({ s: .45 }), EP.hittite({ s: .45, seed: 3, shield: [-40, 150, .8] }), EP.hittite({ s: .45, seed: 5, spear: [50, 270, 110, -250] })] })
+    + EP.car(1400, 420, .8, t) + EP.tank(1450, 900, .8, t),
+  map: t => EP.memap(t, { tint: { hit: .5, egypt: .5, strip: .7 } }) + K.city('KADESH', EP.PL.kadesh, t, 0, C.red) + K.city('', EP.PL.aleppo, t, 0, EP.P.hit),
+  places: t => EP.desert(t) + EP.city(960, 560, .9, t, { flag: EP.P.hit }) + EP.river(700, t, 140) + EP.tent(300, 1000, 1, '#efe2c4', 0, C.gold) + EP.tent(700, 1000, 1, '#efe2c4', .7) + EP.campfire(1100, 1000, 1, t) + EP.tablet(1500, 900, .8, -8, { crack: 1 }) + EP.un(1800, 1060, .5, t),
+  wall: t => EP.wall(t, { glyphs: [1300, 160, 7, 14] }) + EP.carve(EP.chariot({ t: 0, speed: 0, crew: [EP.ramesses({ s: .45, pose: 'chibi', arms: { r: { x: 130, y: 60, pose: 'grip' } } })] }), 300, 800, 1.3) + EP.lion(700, 960, .5, { t }),
+  misc: t => K.burst(t, '#f2cf2e', '#f7dc55') + EP.sunFace(400, 400, 160, t, E('proud'), { thumb: 1 }) + EP.scissors(1100, 400, 1, .5 + .5 * Math.sin(t * 4)) + EP.pylon(1400, 1000, .8, 'KARNAK'),
+  abu: t => EP.abuSimbel(t),
+};
+window.render = (t, page) => { T.reset(); document.getElementById('s').innerHTML = T.defs() + pages[page || location.hash.slice(1) || 'cast'](t) + T.overlay({ paper: .3 }); };
+window.render(0);
+</script></body></html>

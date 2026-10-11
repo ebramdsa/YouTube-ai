@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 4 — The truth comes out
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(4);
+const hits = [], H = t => (hits.push(t), t);
+const stars = (x, y, t, n = 5) => { let s = ''; for (let i = 0; i < n; i++) { const a = t * 4 + i / n * Math.PI * 2; s += `<g transform="translate(${f(x + Math.cos(a) * 90)},${f(y + Math.sin(a) * 26)}) scale(.5)"><path d="M0,-40 L12,-12 L40,-10 L18,8 L26,38 L0,20 L-26,38 L-18,8 L-40,-10 L-12,-12Z" fill="${C.gold}" stroke="${C.ink}" stroke-width="6"/></g>`; } return s; };
+
+const shots = [
+  [0, (t, lt) => { // patrols catch two real Hittite scouts
+    let s = EP.desert(t, { horizon: 620 });
+    s += T.tube('M960,980 L960,420', 26, '#8a5a3a', 7);
+    const bumps = t > S(1) + 1.6;
+    for (const [x, fl, seed] of [[820, false, 31], [1100, true, 32]]) s += EP.hittite({ x, y: 600, s: .95, flip: fl, cap: 1, seed, e: bumps ? E('worried', { look: [0, -.4] }) : E('scared'), sweat: 1, talk: t > S(2) - .3 && t < S(2) + 3, t });
+    s += `<path d="M720,820 Q960,860 1200,820 M720,860 Q960,900 1200,860" stroke="${C.ink}" stroke-width="18" fill="none"/><path d="M720,820 Q960,860 1200,820 M720,860 Q960,900 1200,860" stroke="#c9a46a" stroke-width="10" fill="none"/>`;
+    s += EP.egyptian({ x: 380, y: 580, s: .95, e: E('angry'), spear: [50, 270, 110, -250], shield: [-40, 170, .7] }) + EP.egyptian({ x: 1540, y: 580, s: .95, flip: true, e: E('angry'), seed: 9, spear: [50, 270, 110, -250], shield: [-40, 170, .7] });
+    const bt = W('beating');
+    if (t > bt && t < bt + 1.6) s += K.poof(960, 640, ((t - bt) * 2.5) % 1, 2, Math.floor((t - bt) * 2.5) + 3) + K.say('BONK!', 760, 380, 90, t, bt, { fill: C.gold, rot: -10 }) + K.say('THWACK!', 1180, 420, 80, t, bt + .5, { fill: C.red, rot: 8 });
+    if (bumps) s += stars(820, 330, t) + stars(1100, 330, t + 1);
+    const o = K.chapter(4, 'THE TRUTH COMES OUT', t, 0, 2.6) + K.say('REAL HITTITE SCOUTS', 960, 170, 90, t, H(W('scouts')), { fill: '#9fc3ff', out: bt - .1 })
+      + K.speech('OK OK! THE TRUTH!', 960, 200, t, H(W('truth')), { size: 54 });
+    return K.cam(s, 1, 960, 560, K.shakeAt(t, [bt, bt + .5], .2), t) + o;
+  }],
+  [S(2), (t, lt) => { // not in Aleppo — right there, behind Kadesh. Ready.
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6 } });
+    s += K.city('ALEPPO', EP.PL.aleppo, t, 0, EP.P.hit, { dy: -50 }) + K.battleMark(EP.PL.aleppo[0], EP.PL.aleppo[1], t, H(W('werent') + .2), .8);
+    s += K.city('KADESH', EP.PL.kadesh, t, 0, C.gold, { dx: -120, dy: 10 });
+    const rk = W('right');
+    if (t > rk) for (let i = 0; i < 20; i++) { const k = T.back((t - rk - i * .03) / .3); s += K.token(EP.PL.kadesh[0] + 50 + (i % 5) * 24 + (Math.floor(i / 5) % 2) * 12, EP.PL.kadesh[1] - 40 + Math.floor(i / 5) * 22, EP.P.hit, 10 * k); }
+    const o = K.stamp('NOT IN ALEPPO', 960, 900, t, H(W('werent')), -3, { cross: false, size: 90, fill: '#fff' });
+    const o2 = K.say('RIGHT THERE.', 960, 900, 110, t, H(rk), { fill: '#9fc3ff' });
+    const o3 = K.say('BEHIND KADESH.', 960, 900, 100, t, H(W('behind'))) + K.stamp('READY.', 1460, 560, t, H(W('ready')), -5, { cross: false, size: 140, fill: C.red });
+    const z = lerp(1.7, 2.3, ease((t - rk) / 1.5));
+    return K.cam(s, z, 960, 400, K.shakeAt(t, [W('ready')], .2), t) + (t < rk ? o : t < W('behind') ? o2 : o3);
+  }],
+  [S(6), (t, lt) => { // Ramesses is furious; messengers race south
+    let s = K.burst(t, '#b8352a', '#c8453a');
+    const yell = t > W('yelled');
+    s += EP.ramesses({ x: 1100 + Math.sin(t * 40) * (yell ? 5 : 2), y: 380, s: 1.05, e: yell ? E('shout') : E('angry'), arms: { r: { x: 220, y: -60 + Math.sin(t * 12) * 20, pose: 'fist' }, l: { x: -260, y: 60, pose: 'point' } } });
+    for (let i = 0; i < 2; i++) { const k = ((t * .8 + i * .5) % 1); s += `<g opacity="${f(1 - k)}"><path d="${T.blobPath(1100 + (i ? 190 : -190) * (1 + k * .5), 120 - k * 160, 50 + k * 30, T.rng(i + 4))}" fill="#fff" stroke="${C.ink}" stroke-width="6"/></g>`; }
+    const mk = W('messengers');
+    if (t > mk) for (let i = 0; i < 3; i++) { const x = lerp(700, -300, ease((t - mk - i * .25) / 1.4)), m = K.march(t, i, 14);
+      s += EP.egyptian({ x, y: 760 + i * 60 + m.bob, s: .55, flip: true, seed: 600 + i, e: E('scared'), sweat: 1, step: m.step }) + K.dust(t * 2, 3, 1, '#f1dfae', i).replace(/<path/g, `<path transform="translate(${f(x + 200)},0) scale(.3)"`); }
+    const o = K.stamp('FURIOUS', 520, 200, t, H(W('furious')), -6, { cross: false, size: 120, fill: C.gold }) + K.speech('HURRY UP!!', 640, 420, t, H(W('hurry')), { size: 64, tail: 1 });
+    return K.cam(s, 1, 960, 540, yell ? .12 : 0, t) + o;
+  }],
+  [S(8), (t, lt) => { // it was too late
+    let s = `<rect width="1920" height="1080" fill="#2a1d17"/>` + K.hourglass(960, 560, 1.1, clamp(.85 + lt * .1), t);
+    const o = K.stamp('TOO LATE', 960, 180, t, H(W('late')), -4, { cross: false, size: 150, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('late')], .25), t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

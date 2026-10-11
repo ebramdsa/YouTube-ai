@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 1 — Two superpowers (and a correction)
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(1);
+const hits = [], H = t => (hits.push(t), t);
+const PL = EP.PL;
+
+const shots = [
+  [0, (t, lt) => { // CORRECTION
+    let s = K.burst(t, '#c4372c', '#d4473c');
+    s += EP.historian({ x: 960, y: 420 + K.breathe(t), s: .95, e: E('worried', { look: [0, .2] }), sweat: .8, arms: { r: { x: 170, y: -40, pose: 'point' } } });
+    const o = K.stamp('CORRECTION', 960, 900, t, H(W('correction')), -4, { cross: false, size: 150, fill: C.gold });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('correction')], .25), t) + o + K.chapter(1, 'TWO SUPERPOWERS', t, 0, 1.6);
+  }],
+  [S(1), (t, lt) => { // last episode: "two pharaohs" → it wasn't → one is a Hittite king
+    let s = `<rect width="1920" height="1080" fill="#d8b468"/>`;
+    const swap = W('hittite'), sk = clamp((t - swap) / .5);
+    s += K.pharaoh({ x: 480, y: 450, s: .95, e: E(t > S(3) ? 'proud' : 'smug'), col: C.blue, seed: 3 });
+    if (sk < .5) s += `<g opacity="${f(1 - sk * 2)}">${K.pharaoh({ x: 1440, y: 450, s: .95, e: E(t > S(2) ? 'worried' : 'angry'), col: C.red, seed: 7 }).replace('scale(0.95)', 'scale(-0.95,0.95)')}</g>`;
+    if (sk > .3) s += EP.muwatalli({ x: 1440, y: 420 + K.breathe(t), s: .9, flip: true, e: t > S(5) ? E('smug', { lid: .5 }) : E('neutral', { lid: .4 }), arms: t > S(5) ? { r: { x: 150, y: 110, pose: 'thumb' } } : {} });
+    s += K.poof(1440, 460, (t - swap) / .8, 1.6, 4);
+    // VHS-style replay frame before the correction lands
+    const vhs = t < S(2);
+    if (vhs) s += `<rect width="1920" height="1080" fill="#000" opacity=".18"/>` + T.text('◀◀ LAST EPISODE', 300, 90, 54, { fill: '#fff', font: 'Lilita', sw: 8 });
+    const o = K.stamp('TWO PHARAOHS', 960, 190, t, H(W('pharaohs')), -3, { size: 110, cross: t > S(2) })
+      + (t > S(3) ? K.say('PHARAOH ✓', 480, 950, 80, t, H(S(3) + .5), { fill: C.gold }) : '')
+      + K.say('HITTITE KING', 1440, 950, 80, t, H(swap + .2), { fill: '#9fc3ff' })
+      + K.say('EVEN BETTER', 960, 190, 100, t, H(W('better')), { fill: C.gold, d: .25 });
+    // hide the crossed stamp once "even better" lands
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(2)], .2), t) + (t > W('better') ? K.say('EVEN BETTER', 960, 190, 100, t, W('better'), { fill: C.gold }) : o);
+  }],
+  [S(6), (t, lt) => { // the Middle East around 1300 BC: two superpowers
+    const tin = ease((t - W('superpowers')) / 1);
+    let s = EP.memap(t, { tint: { hit: tin * .6, egypt: tin * .6 } });
+    const o = K.dateCard('c. 1300 BC', t, H(W('1300'))) + K.say('TWO SUPERPOWERS', 960, 540, 110, t, H(W('superpowers')), { out: S(7) - .2 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(7), (t, lt) => { // Egypt: rich, ancient, god-kings for a thousand years
+    let s = K.burst(t, '#e2b84a', '#ecc85e', 960, 760);
+    const pyr = (x, y, sc) => `<g transform="translate(${x},${y}) scale(${sc})">${EP.path('M-300,0 L0,-280 L300,0Z', '#e8c87a', 8)}<path d="M-200,-90 L200,-90 M-110,-180 L110,-180" stroke="#b49b6e" stroke-width="6"/></g>`;
+    s += pyr(420, 900, .9) + pyr(1500, 900, .8) + pyr(960, 960, 1.4);
+    s += K.pharaoh({ x: 960, y: 260 + K.breathe(t), s: .75, e: E('proud'), col: C.blue, seed: 3 });
+    const rk = W('rich');
+    if (t > rk) for (let i = 0; i < 14; i++) { const k = clamp((t - rk) * 1.4 - i * .05), y = lerp(-80, 760 + (i % 4) * 40, ease(k));
+      s += `<g transform="translate(${180 + i * 115},${f(y)})"><circle r="30" fill="${C.gold}" stroke="${C.ink}" stroke-width="6"/><circle r="16" fill="none" stroke="${C.bronzeDark}" stroke-width="4"/></g>`; }
+    if (t > W('ancient')) s += `<g opacity="${f(ease((t - W('ancient')) / .4))}" stroke="#fff" stroke-width="3" fill="none"><path d="M690,60 L860,230 M690,60 L690,240 M690,60 L870,60 M720,90 Q760,90 750,130 Q790,120 780,160 M760,60 Q770,110 720,120"/></g>`;
+    const o = K.say('EGYPT', 960, 140, 120, t, 0, { fill: C.gold }) + K.stamp('RICH', 300, 300, t, H(W('rich')), -6, { cross: false, size: 96, fill: C.gold })
+      + K.stamp('ANCIENT', 1620, 300, t, H(W('ancient')), 5, { cross: false, size: 90 }) + K.stamp('GOD-KINGS', 960, 600, t, H(W('god')), -3, { cross: false, size: 100, fill: '#fff' })
+      + K.say('1,000+ YEARS', 960, 740, 80, t, H(W('thousand')), { fill: C.gold });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('rich'), W('god')], .15), t) + o;
+  }],
+  [S(9), (t, lt) => { // the Hittites: mountains of Turkey, tough soldiers, best chariots
+    let s = K.mountains(t, { sky: '#a9c4d6' });
+    const ch = W('chariots');
+    for (let i = 0; i < 3; i++) s += EP.hittite({ x: 420 + i * 260, y: 560 + K.breathe(t, i), s: .85, seed: 410 + i, e: E(t > W('tough') ? 'angry' : 'determined'), shield: [-40, 170, .7], spear: [50, 270, 110, -250],
+      arms: t > W('tough') ? { l: { x: -110, y: -30 + Math.sin(t * 8 + i) * 10, pose: 'fist' } } : {} });
+    if (t > ch - .4) s += EP.chariot({ kind: 'hit', x: lerp(2300, 1180, ease((t - ch + .4) / 1)), y: 980, s: .85, t, crew: [EP.hittite({ s: .45, seed: 3 }), EP.hittite({ s: .45, seed: 5, shield: [-40, 150, .8] }), EP.hittite({ s: .45, seed: 7, spear: [50, 270, 110, -250] })] });
+    const o = K.say('HITTITES', 960, 150, 120, t, H(S(9) + .1), { fill: '#9fc3ff' }) + K.say('(TODAY: TURKEY)', 960, 260, 60, t, H(W('turkey')), { fill: C.gold })
+      + K.stamp('TOUGH', 360, 380, t, H(W('tough')), -6, { cross: false, size: 96, fill: C.red }) + K.stamp('BEST CHARIOTS', 1450, 420, t, H(ch), 4, { cross: false, size: 84, fill: C.gold });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('tough'), ch], .15), t) + o;
+  }],
+  [S(11), (t, lt) => { // the strip everyone wanted: Syria and Canaan
+    const fl = t > W('syria') ? .55 + .3 * Math.sin(t * 6) : ease((t - W('strip')) / .4) * .5;
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6, strip: fl } });
+    s += K.arrowAlong([[560, 900], [700, 820], [820, 700], [900, 520], [1000, 330]], clamp((t - W('trade')) / 1), C.gold, 12);
+    s += K.arrowAlong([[1600, 560], [1300, 520], [1040, 460]], clamp((t - W('routes')) / 1), C.gold, 12);
+    for (const [k, x, y] of [['cities', 850, 640], ['cities', 1000, 300], ['cities', 930, 470]]) s += K.city('', [x, y], t, W(k), '#fff');
+    const gk = W('gold');
+    if (t > gk) for (let i = 0; i < 6; i++) { const k = T.back((t - gk - i * .08) / .3); s += `<g transform="translate(${880 + (i % 3) * 70},${520 + Math.floor(i / 3) * 70}) scale(${f(k)})"><circle r="26" fill="${C.gold}" stroke="${C.ink}" stroke-width="5"/></g>`; }
+    const ck = clamp((t - W('ruled', 2)) / .5);
+    if (ck > 0) s += `<g transform="translate(930,${f(lerp(-200, 360, T.back(ck)))}) scale(.9)">${EP.path('M-80,0 L-90,-90 L-45,-50 L0,-110 L45,-50 L90,-90 L80,0Z', C.gold, 7)}<rect x="-84" y="-6" width="168" height="26" rx="6" fill="${C.gold}" stroke="${C.ink}" stroke-width="6"/></g>`;
+    const o = K.say('EVERYONE WANTED IT', 960, 150, 90, t, H(W('wanted')), { out: W('syria') - .1 }) + K.say('SYRIA &amp; CANAAN', 960, 150, 100, t, H(W('syria')), { fill: '#fff2b0' });
+    return K.cam(s, lerp(1, 1.35, ease((t - S(11)) / 2)), 930, 560, 0, t) + o;
+  }],
+  [S(15), (t, lt) => { // Kadesh, a fortified city on the Orontes
+    let s = EP.desert(t, { horizon: 560, sky: '#f3dda5' }) + EP.city(960, 600, .95, t, { flag: '#fff' }) + EP.river(680, t, 160);
+    const z = lerp(1.25, 1, ease(lt / 2.4));
+    const o = K.say('ORONTES RIVER', 960, 920, 70, t, H(W('orontes')), { fill: '#cfe6f5' }) + K.say('FORTIFIED', 960, 150, 90, t, H(W('fortified')), { out: W('kadesh') - .2 })
+      + K.stamp('KADESH', 960, 170, t, H(W('kadesh')), -3, { cross: false, size: 160, fill: C.gold });
+    return K.cam(s, z, 960, 520, K.shakeAt(t, [W('kadesh')], .2), t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>
