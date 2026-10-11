@@ -12,7 +12,8 @@ import base64, json, os, re, subprocess, sys, time, pathlib, urllib.request, url
 
 API = "https://generativelanguage.googleapis.com/v1beta"
 KEY = os.environ.get("GEMINI_API_KEY", "")
-STYLE = ("Read this as the narrator of an animated history documentary: a deep, warm male voice, "
+# Direction goes in a notes block; a plain "Read this as ...:" prefix gets spoken aloud by newer models.
+STYLE = ("narrator of an animated history documentary: a deep, warm male voice, "
          "dramatic but with dry humour, confident and brisk, with short pauses between sentences")
 SAMPLE = ("1274 BC. Syria. The most powerful man in the world is about to be ambushed. "
           "His name is Ramesses the Second. Pharaoh of Egypt. Son of the sun god. And very, very sure of himself.")
@@ -36,12 +37,17 @@ def tts_models():
     return [n for n in names if "tts" in n]
 
 def pick_model():
+    # Pro TTS has a free-tier quota of 0, so default to the newest non-lite Flash model;
+    # set GEMINI_TTS_MODEL to override (e.g. a pro model on a paid key).
+    if os.environ.get("GEMINI_TTS_MODEL"): return os.environ["GEMINI_TTS_MODEL"]
     ms = tts_models()
     if not ms: sys.exit("no TTS model available for this key")
-    return next((m for m in ms if "pro" in m), ms[0])
+    ver = lambda m: [int(x) for x in re.findall(r"\d+", m.split("-tts")[0])]
+    flash = sorted((m for m in ms if "flash" in m and "lite" not in m), key=ver, reverse=True)
+    return (flash or ms)[0]
 
 def speak(text, voice, model, mp3):
-    body = {"contents": [{"parts": [{"text": f"{STYLE}:\n\n{text}"}]}],
+    body = {"contents": [{"parts": [{"text": f"### DIRECTOR'S NOTES\nStyle: {STYLE}.\n\n### TRANSCRIPT\n{text}"}]}],
             "generationConfig": {"responseModalities": ["AUDIO"],
                                  "speechConfig": {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": voice}}}}}
     res = call(f"models/{model}:generateContent", body)
