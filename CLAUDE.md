@@ -11,3 +11,6 @@
   Episode 1 (Cannae) is `eYPMUTlmnPM`, published 2026-10-11.
 - Finished episode cuts, reels and TikTok clips live on branch `claude/elevenlabs-dramatic-voices-7x1bsj`
   (`animation/previews/`, `scripts/ep0*/reels.md`). Search all branches before saying something doesn't exist.
+- Narrator TTS options: ElevenLabs (credits ran out after episode 1), Gemini TTS (`scripts/tts_gemini.py` on the
+  branch above, free tier, `GEMINI_API_KEY`), and Kokoro (`scripts/tts_kokoro.py`): local, free, no key or quota,
+  English only. Kokoro samples are in `scripts/voice-samples/kokoro/`.
