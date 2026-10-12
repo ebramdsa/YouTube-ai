@@ -15,3 +15,22 @@
 - Narrator TTS options: ElevenLabs (credits ran out after episode 1; voice: Daniel), Gemini TTS
   (`scripts/tts_gemini.py`, free tier, key in `GEMINI_API_KEY`; used for episode 2 with voice Algenib), and Kokoro
   (`scripts/tts_kokoro.py`): local, free, no key or quota, English only. Kokoro samples are in `scripts/voice-samples/kokoro/`.
+
+## Repo layout
+- `strategy/`, `templates/`, `UPDATED_PLAN.md`: channel strategy, content calendar, style and palette notes (Arabic).
+- `scripts/<ep>/`: episode scripts, narrator audio (`voice/narrator/`), subtitles, `reels.md`, `youtube.md`.
+- `animation/lib/toon.js` (character kit, global `T`) and `animation/lib/kit.js` (props, map, camera, shot runner `K`).
+- `animation/episodes/<ep>/`: one scene HTML per narrator section, `timing.js`, `thumbnail.html` (variants via `#a`, `#b`, `#c`).
+- `animation/previews/`: committed deliverables (large; keep them few). `assets/brand/`, `assets/fonts/`: logo, banner, Sobius, fonts.
+- Full render steps (align, render sections, assemble, music, subtitles, reels, TikTok) are in `animation/README.md`.
+
+## Animation pipeline
+Scenes are 1920×1080 SVG built in immediate mode: `window.render(t)` rebuilds the whole SVG for time `t` (seconds).
+Keep it a pure function of `t`: no timers, CSS animations or `Math.random()` (use `T.rng(seed)`).
+Run from `animation/` with `NODE_PATH=$(npm root -g)` (Playwright; Chromium and ffmpeg are pre-installed):
+`node tools/still.js <scene.html[#variant]> /tmp/shot 0 5.2` for PNG stills (look at them before a full render),
+`node render.js <scene.html> out.mp4 <seconds> 24` for an MP4. Write scratch renders outside the repo.
+
+## Gotchas
+- `PRODUCTION_STATUS.md` is partly stale (describes deleted `opening/hamilcar/alps-scene.html`). Trust the code.
+- Historical accuracy matters (army sizes, casualty figures): double-check numbers in scripts, titles and thumbnails.
