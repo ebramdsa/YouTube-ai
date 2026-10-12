@@ -1,0 +1,14 @@
+{"source": "animation/previews/ep01-full.mp4",
+ "srt": "scripts/ep01-cannae/subtitles/ep01.en.srt",
+ "font": "assets/fonts/LilitaOne-Regular.ttf",
+ "out_dir": "animation/previews/tiktok",
+ "clips": [
+  {"name": "ep01-short1-cease-to-exist", "segments": [[29.4, 33.0], [0.4, 37.8]], "title": ["86,000 ROMANS", "GONE IN A DAY"]},
+  {"name": "ep01-short2-elephants", "segments": [[111.25, 115.36], [102.83, 132.45]], "title": ["OVER THE ALPS", "WITH ELEPHANTS"]},
+  {"name": "ep01-short3-the-trap", "segments": [[393.5, 396.31], [350.02, 396.31]], "title": ["THE PERFECT", "TRAP"]},
+  {"name": "ep01-part1", "segments": [[0, 92.75]], "title": ["CANNAE", "ROME'S WORST DAY"], "badge": "PART 1 OF 5", "end": "FOLLOW FOR PART 2"},
+  {"name": "ep01-part2", "segments": [[92.75, 195.71]], "title": ["CANNAE", "ROME'S WORST DAY"], "badge": "PART 2 OF 5", "end": "FOLLOW FOR PART 3"},
+  {"name": "ep01-part3", "segments": [[195.71, 333.96]], "title": ["CANNAE", "ROME'S WORST DAY"], "badge": "PART 3 OF 5", "end": "FOLLOW FOR PART 4"},
+  {"name": "ep01-part4", "segments": [[333.96, 441.04]], "title": ["CANNAE", "ROME'S WORST DAY"], "badge": "PART 4 OF 5", "end": "FOLLOW FOR PART 5"},
+  {"name": "ep01-part5", "segments": [[441.04, 577.5]], "title": ["CANNAE", "ROME'S WORST DAY"], "badge": "PART 5 OF 5", "end": "FOLLOW FOR MORE HISTORY"}
+ ]}

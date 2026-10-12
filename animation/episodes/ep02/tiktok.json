@@ -1,0 +1,15 @@
+{"source": "animation/previews/ep02-full.mp4",
+ "srt": "scripts/ep02-kadesh/subtitles/ep02.en.srt",
+ "font": "assets/fonts/LilitaOne-Regular.ttf",
+ "out_dir": "animation/previews/tiktok",
+ "clips": [
+  {"name": "ep02-short1-ambushed", "segments": [[19.1, 23.69], [0, 46.2]], "title": ["AMBUSHED, BEATEN...", "THEN HE 'WON'"]},
+  {"name": "ep02-short2-the-spies", "segments": [[206.09, 209.62], [169.88, 220.24]], "title": ["TWO 'NOMADS'", "FOOLED A PHARAOH"]},
+  {"name": "ep02-short3-his-version", "segments": [[304.25, 307.5], [287.71, 315.7]], "title": ["HIS VERSION", "VS HISTORIANS"]},
+  {"name": "ep02-part1", "segments": [[0, 103.0]], "title": ["KADESH", "WHO REALLY WON?"], "badge": "PART 1 OF 6", "end": "FOLLOW FOR PART 2"},
+  {"name": "ep02-part2", "segments": [[103.0, 220.29]], "title": ["KADESH", "WHO REALLY WON?"], "badge": "PART 2 OF 6", "end": "FOLLOW FOR PART 3"},
+  {"name": "ep02-part3", "segments": [[220.29, 287.71]], "title": ["KADESH", "WHO REALLY WON?"], "badge": "PART 3 OF 6", "end": "FOLLOW FOR PART 4"},
+  {"name": "ep02-part4", "segments": [[287.71, 355.58]], "title": ["KADESH", "WHO REALLY WON?"], "badge": "PART 4 OF 6", "end": "FOLLOW FOR PART 5"},
+  {"name": "ep02-part5", "segments": [[355.58, 436.88]], "title": ["KADESH", "WHO REALLY WON?"], "badge": "PART 5 OF 6", "end": "FOLLOW FOR PART 6"},
+  {"name": "ep02-part6", "segments": [[436.88, 538.21]], "title": ["KADESH", "WHO REALLY WON?"], "badge": "PART 6 OF 6", "end": "FOLLOW FOR MORE HISTORY"}
+ ]}

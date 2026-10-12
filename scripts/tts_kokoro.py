@@ -1,5 +1,5 @@
 """Narrator voice with Kokoro TTS (hexgrad/Kokoro-82M): free, runs locally, no API key or quota.
-Alternative to ElevenLabs and Gemini TTS (scripts/tts_gemini.py on branch claude/elevenlabs-dramatic-voices-7x1bsj).
+Alternative to ElevenLabs and Gemini TTS (scripts/tts_gemini.py).
 
 Output matches tts_gemini.py: voice/narrator/NN_slug.mp3 + .txt, NARRATOR_full.mp3 and timings.json,
 so animation/tools/align.py works unchanged. English only (no Arabic voices); no style prompts.

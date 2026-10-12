@@ -1,0 +1,101 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 2 — The young pharaoh, his army, and two kinds of chariot
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(2);
+const hits = [], H = t => (hits.push(t), t);
+const egCrew = (t, e) => [EP.egyptian({ s: .45, e: E('determined'), seed: 3 }), EP.egyptian({ s: .45, seed: 9, e: e || E('angry'), arms: { r: { x: 120, y: 40, pose: 'grip' } } })];
+const hitCrew = () => [EP.hittite({ s: .45, seed: 3 }), EP.hittite({ s: .45, seed: 5, shield: [-40, 150, .8] }), EP.hittite({ s: .45, seed: 7, spear: [50, 270, 110, -250] })];
+const label = (str, x, y, tx, ty, t, t0, col = '#fff') => { const k = ease((t - t0) / .3); if (k <= 0) return '';
+  return `<g opacity="${f(k)}"><path d="M${x},${y + 30} L${tx},${ty}" stroke="${C.ink}" stroke-width="12" stroke-linecap="round"/><path d="M${x},${y + 30} L${tx},${ty}" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>` + K.say(str, x, y, 58, t, t0, { fill: col }); };
+
+const shots = [
+  [0, (t, lt) => { // Ramesses wants Kadesh
+    let s = K.burst(t, '#3f6fb0', '#4f7fc0');
+    s += EP.path('M560,1080 L560,520 Q560,470 610,470 L1110,470 Q1160,470 1160,520 L1160,1080Z', C.gold, 9);
+    s += EP.ramesses({ x: 860, y: 330 + K.breathe(t), s: 1, e: E('determined'), arms: { r: { x: 420, y: 40, pose: 'point' } } });
+    s += `<g transform="translate(1560,420) rotate(4)">${EP.path('M-200,-150 L200,-150 L200,150 L-200,150Z', '#efe2c4', 8)}${EP.city(0, 60, .25, t, { flag: EP.P.hit })}</g>`;
+    const o = K.chapter(2, 'THE YOUNG PHARAOH', t, 0, 3) + K.speech('MINE.', 1180, 140, t, H(W('kadesh')), { size: 70 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(1), (t, lt) => { // his father captured it once... and lost it again
+    let s = EP.desert(t, { horizon: 640 }) + EP.city(960, 700, .9, t, { flag: t > W('lost') ? EP.P.hit : t > W('captured') ? C.gold : EP.P.hit });
+    const o = K.say('DAD: CAPTURED IT ✓', 960, 170, 84, t, H(W('captured')), { fill: C.gold, out: W('lost') - .1 }) + K.stamp('...LOST IT AGAIN', 960, 180, t, H(W('lost')), -3, { cross: false, size: 96, fill: '#9fc3ff' });
+    return K.cam(s, 1 + lt * .02, 960, 560, K.shakeAt(t, [W('lost')], .2), t) + o;
+  }],
+  [S(2), (t, lt) => { // year 5: the march north with ~20,000 men
+    let s = EP.desert(t, { horizon: 520 });
+    s += EP.column(9, -260 + lt * 120, 720, 200, t, EP.egSoldier(EP.P.egBlue), .42, { sp: 7 });
+    s += EP.column(9, -360 + lt * 120, 900, 200, t, EP.egSoldier(C.red), .5, { sp: 7 });
+    s += EP.chariot({ x: 1300 + lt * 40, y: 640, s: .8, t, crew: [EP.egyptian({ s: .45 }), EP.ramesses({ s: .45, pose: 'chibi', e: E('proud'), arms: { r: { x: 120, y: -60, pose: 'point' } } })] });
+    const o = K.dateCard('YEAR 5', t, H(W('fifth'))) + K.say('NORTH!', 960, 160, 110, t, H(W('north')), { out: W('biggest') - .1 }) + K.say('BIGGEST ARMY', 960, 160, 100, t, H(W('biggest')), { fill: C.gold, out: S(3) - .1 })
+      + K.stamp('~20,000 MEN', 960, 170, t, H(W('twenty')), -4, { cross: false, size: 130, fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(4), (t, lt) => { // four divisions named after gods
+    let s = `<rect width="1920" height="1080" fill="#e9c77d"/>` + K.ground('#d8b468', 640, '#c9a457');
+    const D = [['AMUN', 'amun', C.gold, '☀'], ['RA', 'ra', C.red, '●'], ['PTAH', 'ptah', C.teal, '✦'], ['SET', 'set', C.purple, '✕']];
+    D.forEach(([name, w, col, sym], i) => { const t0 = W(w), k = T.back((t - t0) / .35), x = 280 + i * 460;
+      if (k <= 0) return;
+      s += `<g transform="translate(${x},${f(420 + (1 - k) * 600)})">${T.tube('M0,0 L0,-300', 12, '#9a6a3a', 5)}${EP.path('M-90,-300 L90,-300 L90,-150 L0,-120 L-90,-150Z', col, 7)}<text x="0" y="-190" font-family="Luckiest" font-size="70" text-anchor="middle" fill="#fff" stroke="${C.ink}" stroke-width="6" paint-order="stroke">${sym}</text></g>`;
+      for (let j = 0; j < 3; j++) s += `<g transform="translate(${x - 110 + j * 110},${f(600 + (1 - k) * 600)}) scale(.5)">${EP.egyptian({ seed: 500 + i * 3 + j, col, e: i === 3 && j === 1 ? E('bored') : E('determined'), spear: [50, 270, 110, -250] })}</g>`;
+      s += K.say(name, x, 970, 92, t, t0, { fill: col === C.gold ? C.gold : '#fff' }); });
+    const o = K.say('4 DIVISIONS', 960, 140, 110, t, H(W('four')), { out: W('named') - .1 }) + K.say('...EACH NAMED AFTER A GOD', 960, 140, 80, t, W('named'), { fill: C.gold, out: W('amun') - .1 });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('amun'), W('ra'), W('ptah'), W('set')], .12), t) + o;
+  }],
+  [S(9), (t, lt) => { // the weapon of the age: the chariot
+    let s = K.burst(t, '#d8b468', '#e2c47e');
+    s += EP.chariot({ x: 620, y: 900, s: 1.3, t, speed: .3, crew: egCrew(t) });
+    const o = K.stamp('THE CHARIOT', 960, 190, t, H(W('chariot')), -4, { cross: false, size: 150, fill: C.gold });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('chariot')], .2), t) + o;
+  }],
+  [S(10), (t, lt) => { // Egyptian: light and fast, driver + archer
+    let s = EP.desert(t, { horizon: 520 }) + K.dust(t * 2, 16, -1, '#f1dfae', 4);
+    for (let i = 0; i < 7; i++) { const y = 420 + i * 70, x = ((1 - (t * 1.6 + i * .37) % 1)) * 2400 - 200; s += `<path d="M${f(x)},${y} l220,0" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".7"/>`; }
+    const cx = 520 + Math.sin(t * 2) * 20;
+    s += EP.chariot({ x: cx, y: 900, s: 1.3, t: t * 1.6, crew: egCrew(t), stripes: 1 });
+    if (t > W('archer')) for (let i = 0; i < 3; i++) { const k = ((t - W('archer')) * 1.3 + i * .33) % 1; s += `<g transform="translate(${f(cx + 300 + k * 1300)},${f(560 - k * 120)}) rotate(-6)">${T.spear(0, 0, 90, 0)}</g>`; }
+    const o = K.say('LIGHT', 1300, 180, 100, t, H(W('light'))) + K.say('&amp; FAST', 1560, 180, 100, t, H(W('fast')), { fill: C.gold })
+      + label('DRIVER', 380, 300, cx + 20 * 1.3, 900 - 300 * 1.3 + 40, t, H(W('driver')))
+      + label('ARCHER', 780, 300, cx + 100 * 1.3, 900 - 300 * 1.3 + 30, t, H(W('archer')), C.gold);
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(12), (t, lt) => { // Hittite: heavier, three men, built to smash
+    let s = EP.desert(t, { horizon: 520, sky: '#e9d6a8' });
+    const sm = W('smash'), cx = lerp(420, 1000, ease((t - sm + .4) / .5));
+    s += EP.path('M1500,1080 L1500,520 L1920,520 L1920,1080Z', EP.P.stone, 8) + EP.glyphs(1600, 600, 4, 8, .8);
+    s += EP.chariot({ kind: 'hit', x: cx, y: 920, s: 1.2, t: t * (t > sm - .4 ? 1.6 : .7), crew: hitCrew() });
+    s += K.poof(1520, 760, (t - sm - .05) / 1, 1.8, 6);
+    const o = K.say('HEAVIER', 960, 160, 110, t, H(W('heavier')), { fill: '#9fc3ff', out: W('three') - .1 }) + K.say('3 MEN', 960, 160, 110, t, H(W('three')), { out: sm - .2 })
+      + (t < sm - .4 ? label('DRIVER', 260, 300, cx - 25 * 1.2, 920 - 280 * 1.2, t, H(W('driver', 2)), '#fff') + label('SHIELD', 640, 260, cx + 30 * 1.2, 920 - 280 * 1.2, t, H(W('shield')), C.gold)
+      + label('SPEAR', 1080, 300, cx + 90 * 1.2, 920 - 290 * 1.2, t, H(W('spearman')), '#9fc3ff') : '')
+      + K.stamp('SMASH!', 1300, 300, t, H(sm + .1), 6, { cross: false, size: 140, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [sm + .1], .35), t) + o;
+  }],
+  [S(15), (t, lt) => { // sports car against tank
+    let s = `<rect width="1920" height="1080" fill="${EP.P.egBlue}"/><rect x="960" width="960" height="1080" fill="#7a4a3a"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="12"/>`;
+    const ck = clamp((t - W('car')) / .3), tk = clamp((t - W('tank')) / .3);
+    s += `<g opacity="${f(1 - ck)}">${EP.chariot({ x: 180, y: 820, s: .9, t, crew: egCrew(t) })}</g><g opacity="${f(1 - tk)}">${EP.chariot({ kind: 'hit', x: 1140, y: 820, s: .9, t, speed: .3, crew: hitCrew() })}</g>`;
+    if (ck > 0) s += EP.car(480, 780, .9 * T.back(ck), t * 2) + K.dust(t * 3, 8, -1, '#cfe0ff', 3).replace(/opacity="[\d.]+"/g, 'opacity=".25"');
+    if (tk > 0) s += EP.tank(1440, 780, .9 * T.back(tk), t);
+    const o = K.say('SPORTS CAR', 480, 220, 100, t, H(W('car')), { fill: C.gold }) + K.say('VS', 960, 540, 140, t, H(W('against'))) + K.say('TANK', 1440, 220, 120, t, H(W('tank')), { fill: '#c9e08a' });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('tank')], .2), t) + o;
+  }],
+  [S(16), (t, lt) => { // Muwatalli: older, quieter, much sneakier
+    let s = `<rect width="1920" height="1080" fill="#1f2a3e"/>` + K.columns(t, '#4a5a7a', '#1f2a3e', 4).replace('<rect width="1920" height="1080" fill="#1f2a3e"/>', '') + `<rect width="1920" height="1080" fill="#000" opacity=".35"/>`;
+    s += `<circle cx="960" cy="420" r="460" fill="#ffd27a" opacity=".12"/>`;
+    const sneaky = t > W('sneakier') - .4, q = t > W('quieter') && t < W('much');
+    const look = sneaky ? [Math.sign(Math.sin(t * 3)) * .8, 0] : [0, 0];
+    s += EP.muwatalli({ x: 960, y: 380 + K.breathe(t), s: 1.1, e: sneaky ? E('smug', { lid: .6, look }) : E('neutral', { lid: .5 }), arms: q ? { r: { x: 40, y: 50, pose: 'point', ang: -90 } } : { r: { x: 110, y: 210 + Math.sin(t * 3) * 12, pose: 'open', bend: 40 } } });
+    const o = K.lowerThird('MUWATALLI II', 'King of the Hittites', t, H(W('muwatalli')), EP.P.hit)
+      + K.stamp('OLDER', 380, 260, t, H(W('older')), -6, { cross: false, size: 90 }) + K.stamp('QUIETER', 1540, 260, t, H(W('quieter')), 5, { cross: false, size: 90, fill: '#9fc3ff' })
+      + (q ? K.speech('SHH.', 1260, 420, t, W('quieter') + .2, { size: 54 }) : '')
+      + K.stamp('MUCH, MUCH SNEAKIER', 960, 980, t, H(W('sneakier')), -3, { cross: false, size: 96, fill: C.gold });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

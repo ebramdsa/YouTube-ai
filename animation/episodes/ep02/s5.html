@@ -1,0 +1,74 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 5 — The chariots strike
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(5);
+const hits = [], H = t => (hits.push(t), t);
+const hitCrew = i => [EP.hittite({ s: .45, seed: 3 + i, e: E('angry') }), EP.hittite({ s: .45, seed: 5 + i, shield: [-40, 150, .8], e: E('determined') }), EP.hittite({ s: .45, seed: 7 + i, spear: [50, 270, 110, -250], e: E('shout') })];
+// Ra column marching north at x≈930; Hittite chariots come across the river from the east
+const raCol = (t, scatter) => { let s = ''; for (let i = 0; i < 30; i++) { const R = T.rng(i + 1), sx = (R() - .5) * 2, sy = (R() - .5) * 2;
+  const x = 920 + (i % 2) * 28 + sx * 260 * scatter - scatter * 80, y = 640 + Math.floor(i / 2) * 32 - Math.min(t, 6) * 8 + sy * 160 * scatter;
+  s += K.token(x, y, C.red, 11, { op: 1 - scatter * (i % 3 === 0 ? .9 : .2) }); } return s; };
+const cav = (t, k, x0, x1, y0, n = 16) => { let s = ''; for (let i = 0; i < n; i++) { const r = Math.floor(i / 4), c = i % 4; s += K.cavToken(lerp(x0, x1, k) + r * 50, y0 + c * 70 + r * 20, EP.P.hit, 180, 18); } return s; };
+
+const shots = [
+  [0, (t, lt) => { // overhead: chariots cross the river and slam into Ra
+    let s = EP.board(t);
+    for (let i = 0; i < 6; i++) s += EP.tentTop(500 + (i % 3) * 70, 240 + Math.floor(i / 3) * 70, 1);
+    const sl = W('slammed'), k = ease((t - .6) / (sl - .6)), sc = clamp((t - sl) / 2.5);
+    s += raCol(t, ease(sc)) + cav(t, k, 1700, 1000, 640);
+    const o = K.chapter(5, 'THE CHARIOTS STRIKE', t, 0, 2.4) + K.say('RA DIVISION', 700, 960, 70, t, H(W('ra')), { fill: C.red }) + K.stamp('SLAMMED!', 1300, 300, t, H(sl), -5, { cross: false, size: 120, fill: '#fff' })
+      + K.say('LONG, LOOSE COLUMN', 960, 160, 76, t, H(W('column')), { fill: C.gold });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [sl], .35), t) + o;
+  }],
+  [S(1), (t, lt) => { // thousands of chariots, three men each
+    let s = EP.desert(t, { horizon: 460, sky: '#e9d0a0' }) + K.dust(t * 2, 22, -1, '#e8d3a0', 7);
+    for (let r = 0; r < 3; r++) for (let i = 0; i < 3; i++) { const x = 2100 - ((lt * 380 + i * 760 + r * 300) % 2600), y = 620 + r * 190, sc = .5 + r * .14;
+      s += EP.chariot({ kind: 'hit', x, y, s: sc, flip: true, t: t + i + r, crew: hitCrew(i + r) }); }
+    const o = K.say('THOUSANDS', 960, 150, 120, t, H(W('thousands')), { fill: '#9fc3ff' }) + K.stamp('×3 MEN EACH', 960, 290, t, H(W('three')), -3, { cross: false, size: 90, fill: C.gold });
+    return K.cam(s, 1, 960, 540, .06, t) + o;
+  }],
+  [S(3), (t, lt) => { // Ra didn't form up, didn't fight, just broke
+    let s = EP.desert(t, { horizon: 520 });
+    const br = W('broke'), run = clamp((t - br) / 1.5);
+    for (let i = 0; i < 7; i++) { const R = T.rng(i + 9), x0 = 200 + i * 230, y0 = 620 + (i % 2) * 80;
+      const wob = run > 0 ? 0 : Math.sin(t * 7 + i) * 30, x = x0 + wob - run * (900 + R() * 600), m = K.march(t, i, run > 0 ? 16 : 3);
+      s += EP.egyptian({ x, y: y0 + (run > 0 ? m.bob : 0), s: .6, flip: run > 0 || i % 2 === 1, seed: 700 + i, col: C.red, step: run > 0 ? m.step : 0,
+        e: run > 0 ? E('scared') : E('worried', { look: [i % 2 ? -.6 : .6, 0] }), sweat: run > 0 ? 1 : .5, shield: run > 0 ? undefined : [-40, 170, .7] });
+      if (run > 0) { const fk = clamp(run * 3 - i * .1); s += `<g transform="translate(${f(x0 + 30)},${f(lerp(y0 + 60, y0 + 160, ease(fk)))}) rotate(${f(fk * 80)}) scale(.42)">${EP.path('M-52,-92 Q-52,-124 0,-124 Q52,-124 52,-92 L52,104 L-52,104Z', '#efe2d2', 7)}</g>`; } }
+    const o = K.stamp('FORM UP', 480, 200, t, H(W('form')), -5, { size: 100 }) + K.stamp('FIGHT', 1000, 170, t, H(W('fight')), 3, { size: 110 })
+      + K.stamp('BROKE', 1460, 230, t, H(br), -4, { cross: false, size: 130, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [br], .25), t) + o;
+  }],
+  [S(6), (t, lt) => { // survivors flee north into the camp, chariots right behind
+    let s = EP.board(t);
+    for (let i = 0; i < 6; i++) s += EP.tentTop(500 + (i % 3) * 70, 240 + Math.floor(i / 3) * 70, 1);
+    const k = ease((t - S(6)) / 3.4), ck = ease((t - W('behind') + .8) / 2.2);
+    for (let i = 0; i < 14; i++) { const R = T.rng(i + 30), x = lerp(900 + R() * 200, 560 + R() * 160, k), y = lerp(700 + R() * 200, 320 + R() * 120, k); s += K.token(x + Math.sin(t * 10 + i) * 4, y, C.red, 11); }
+    s += cav(t, 0, 0, 0, 0, 0);
+    for (let i = 0; i < 16; i++) { const r = Math.floor(i / 4), c = i % 4, x = lerp(1150 + r * 50, 680 + r * 50, ck), y = lerp(760 + c * 60, 340 + c * 50, ck); s += K.cavToken(x, y, EP.P.hit, 210, 18); }
+    const o = K.say('SURVIVORS RUN NORTH', 960, 980, 76, t, H(W('survivors'))) + K.say('CAMP', 600, 150, 70, t, W('camp'), { fill: C.gold })
+      + K.stamp('RIGHT BEHIND THEM', 1300, 160, t, H(W('behind')), 4, { cross: false, size: 84, fill: '#9fc3ff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(8), (t, lt) => { // chaos in the camp; the pharaoh nearly surrounded
+    let s = EP.desert(t, { horizon: 520, sky: '#efc98a' });
+    const tr = W('trampled');
+    for (let i = 0; i < 5; i++) s += EP.tent(140 + i * 420, 640 + (i % 2) * 30, .9, '#efe2c4', clamp((t - tr - i * .1) / .3), i === 2 ? C.gold : 0);
+    for (let i = 0; i < 6; i++) { const dir = i % 2 ? 1 : -1, x = 960 + dir * (((t * 500 + i * 330) % 1400) - 200), m = K.march(t, i, 16);
+      s += EP.egyptian({ x, y: 800 + (i % 3) * 50 + m.bob, s: .5, flip: dir < 0, step: m.step, seed: 800 + i, e: E('scared'), sweat: 1 }); }
+    const sr = W('surrounded');
+    s += EP.ramesses({ pose: 'chibi', x: 960, y: 560, s: .9, e: t > sr - .6 ? E('scared') : E('shocked'), sweat: 1 });
+    if (t > W('nearly') - .2) for (let i = 0; i < 3; i++) { const a = t * .9 + i * 2.1, x = 960 + Math.cos(a) * 760, y = 760 + Math.sin(a) * 60;
+      s += EP.chariot({ kind: 'hit', x, y, s: .45, flip: Math.sin(a) > 0, t: t + i, crew: hitCrew(i) }); }
+    s += K.dust(t, 14, 1, '#f1dfae', 8);
+    const o = K.stamp('CHAOS', 960, 170, t, H(W('chaos')), -4, { cross: false, size: 130, fill: C.red }) + K.say('SOLDIERS FLEEING', 520, 330, 70, t, H(W('fleeing')), { fill: '#fff' })
+      + K.say('TENTS TRAMPLED', 1400, 330, 70, t, H(tr), { fill: C.gold }) + K.stamp('NEARLY SURROUNDED', 960, 1000, t, H(sr), 3, { cross: false, size: 96, fill: '#9fc3ff' });
+    return K.cam(s, 1 + lt * .01, 960, 600, K.shakeAt(t, [W('chaos'), tr], .2), t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

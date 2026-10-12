@@ -1,0 +1,80 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="battle.js"></script>
+<script>
+// Section 5 — The trap is set
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(5);
+const hits = [];
+const H = t => (hits.push(t), t);
+const kf = B.kf;
+const state = t => ({
+  rom: { cx: 960, cy: 300, cols: 24, g: 26, spread: kf(t, [[W('pack'), 1], [W('pack') + 4.5, 0]]), op: kf(t, [[S(6), 0], [S(6) + .6, 1]]) },
+  gaul: { cy: 570, width: 700, bulge: kf(t, [[W('crescent'), 0], [W('crescent') + 2, 90]]), op: kf(t, [[W('gauls'), 0], [W('gauls') + .6, 1]]) },
+  afr: { k: 0, op: kf(t, [[W('african') - .4, 0], [W('african') + .4, 1]]) },
+  ccav: { op: kf(t, [[W('cavalry'), 0], [W('cavalry') + .5, 1]]) },
+  rcav: kf(t, [[W('cavalry'), 0], [W('cavalry') + .5, 1]]) > 0 ? {} : null,
+});
+const label = (str, x, y, t, t0, col = '#fff', size = 46) => K.say(str, x, y, size, t, t0, { fill: col });
+
+const shots = [
+  [0, (t, lt) => { // Cannae on the map
+    let s = K.map(t, { tint: { italy: .35 } }) + K.city('ROME', 'rome', t, 0, C.red) + K.city('CANNAE', 'cannae', t, H(W('cannae')), C.gold);
+    return K.cam(s, lerp(1, 2.3, ease((t - W('cannae')) / 2)), lerp(960, 1300, ease((t - W('cannae')) / 2)), lerp(540, 540, 1), 0, t) + K.chapter(5, 'THE TRAP IS SET', t, 0, 2.8);
+  }],
+  [S(1), (t, lt) => { // river and open plains
+    let s = B.board(t, { rom: { cx: 960, cy: 300, cols: 24, g: 26, op: 0 } });
+    if (t < S(2)) s += `<path d="M150,-20 Q230,250 170,520 Q110,800 210,1100" fill="none" stroke="#fff" stroke-width="${f(10 + 6 * Math.sin(t * 8))}" opacity=".6"/>`;
+    return K.cam(s, 1, 960, 540, 0, t) + K.say('THE RIVER AUFIDUS', 760, 420, 80, t, H(W('aufidus')), { fill: '#cfe6f5', out: S(2) }) + K.say('OPEN PLAINS', 1060, 560, 120, t, H(S(2)), { fill: C.gold });
+  }],
+  [S(3), (t, lt) => { // consuls take turns
+    let s = K.columns(t, '#e8dcc4', '#c9a46a', 5);
+    const day = t > W('each') ? Math.floor((t - W('each')) * 1.6) % 2 : -1;
+    s += T.paullus({ x: 520, y: 460, s: .95, e: E(day === 0 ? 'proud' : 'neutral'), bob: day === 0 ? -20 : 0 });
+    s += T.varro({ x: 1400, y: 460, s: .95, e: E(day === 1 ? 'proud' : 'smug'), flip: true, bob: day === 1 ? -20 : 0 });
+    s += `<g transform="translate(960,330)"><rect x="-130" y="-140" width="260" height="280" rx="18" fill="#fff" stroke="${C.ink}" stroke-width="8"/><rect x="-130" y="-140" width="260" height="70" rx="18" fill="${C.red}" stroke="${C.ink}" stroke-width="8"/>
+      <text y="-90" font-family="Luckiest" font-size="44" text-anchor="middle" fill="#fff">DAY</text><text y="70" font-family="Luckiest" font-size="130" text-anchor="middle" fill="${C.ink}">${day < 0 ? 1 : 1 + Math.floor((t - W('each')) * 1.6)}</text></g>`;
+    return K.cam(s, 1, 960, 540, 0, t) + K.say('TAKING TURNS', 960, 900, 90, t, H(W('turns'))) ;
+  }],
+  [S(5), (t, lt) => { // Varro's turn
+    let s = K.ground('#d8b468', 640, '#c9a457');
+    s += K.rider(lerp(1500, 900, ease(lt / 1.2)), 940, 1.0, T.varro({ pose: 'chibi', e: E('proud', { mouth: { type: 'smile', w: 40 } }), arms: { r: { x: 120, y: 40, pose: 'thumb' } } }), { t, gallop: lt < 1.2, flip: true, blanket: C.red });
+    return K.cam(s, 1, 960, 540, 0, t) + K.lowerThird('VARRO', 'In command today', t, H(W('varros'))) + K.stamp('THE IMPATIENT ONE', 1300, 200, t, H(W('impatient')), -4, { cross: false, size: 80, fill: C.red });
+  }],
+  [S(6), (t, lt) => { // the Roman block
+    const P = state(t);
+    let s = B.board(t, P);
+    s += K.arrowAlong([[960, 470], [960, 800]], ease((t - W('battering')) / .6), C.red, 30);
+    const o = K.say('2× THE SOLDIERS', 960, 980, 90, t, H(W('twice'))) + K.stamp('BATTERING RAM', 1500, 760, t, H(W('battering')), -6, { cross: false, size: 80, fill: C.red });
+    return K.cam(s, lerp(1.25, 1, ease(lt / 3)), 960, lerp(440, 540, ease(lt / 3)), 0, t) + o;
+  }],
+  [S(9), (t, lt) => { // Hannibal smiles
+    let s = K.burst(t, '#6d3f91', '#7b4ca0');
+    const e = lt > 1.1 ? T.mix(E('bored'), E('smug', { mouth: { type: 'smile', w: 30 } }), ease((lt - 1.1) / .5)) : E('bored');
+    s += T.hannibal({ x: 960, y: 400, s: 1.25, e });
+    return K.cam(s, 1 + lt * .015, 960, 500, 0, t) + K.say('ALREADY WON', 960, 960, 120, t, H(S(10) + .3), { fill: C.gold });
+  }],
+  [S(11), (t, lt) => { // the crescent, the Africans, the cavalry
+    const P = state(t);
+    let s = B.board(t, P);
+    const port = (svg, x, t0) => { const k = T.back((t - t0) / .35); return t > t0 ? `<g transform="translate(${x},790) scale(${f(.45 * k)})">${svg}</g>` : ''; };
+    let o = '';
+    if (t < S(13)) o += port(T.gaul({ e: E('bored') }), 760, W('gauls')) + port(T.iberian({ e: E('worried') }), 1160, W('spaniards'))
+      + K.say('WEAKEST TROOPS', 960, 1010, 64, t, H(W('weakest')));
+    if (t > S(12) && t < S(13)) o += K.say('CRESCENT', 960, 420, 80, t, H(W('crescent')), { fill: C.gold });
+    if (t >= S(13) && t < S(14)) o += port(T.african({ e: E('determined'), shield: [40, 170, .9] }), 960, W('african')) + K.say('HIDDEN: AFRICAN VETERANS', 960, 1010, 64, t, H(W('african')));
+    if (t >= S(14)) o += label('HEAVY CAVALRY', 420, 720, t, H(W('heavy')), C.gold, 44) + label('NUMIDIANS', 1600, 720, t, H(W('numidian')), '#bfe6e2', 44);
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(15), (t, lt) => { // the wind
+    let s = K.burst(t, '#d9b46a', '#e3c27e');
+    s += T.legionary({ x: 760, y: 400, s: 1.2, pose: 'bust', e: E(t > S(16) ? 'bored' : 'neutral', { lid: t > S(16) ? .72 : .12, look: [.4, 0] }), sweat: t > S(17) ? 1 : 0, seed: 6 });
+    s += `<g opacity="${f(ease((t - S(16)) / .6))}">${K.dust(t, 34, -1, '#f1dfae', 3)}</g>`;
+    for (let i = 0; i < 6; i++) { const x = 1900 - ((t * 700 + i * 340) % 2200), y = 160 + i * 140; if (t > S(16)) s += `<path d="M${f(x)},${y} q60,-30 120,0 t120,0" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" opacity=".8"/>`; }
+    const o = K.say('ONE MORE THING', 960, 170, 96, t, H(S(15)), { out: S(16) }) + K.say('HOT, DUSTY WIND', 960, 170, 100, t, H(S(16))) + K.stamp('IN THEIR FACES', 1300, 900, t, H(W('faces')), -4, { cross: false, size: 90, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('faces')], .2) * .6, t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

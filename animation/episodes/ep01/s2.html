@@ -1,0 +1,99 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script>
+<script>
+// Section 2 — The shortcut nobody takes
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(2);
+const hits = [];
+const H = t => (hits.push(t), t);
+
+const shots = [
+  [0, (t, lt) => { // Hannibal, now a general
+    let s = K.burst(t, '#6d3f91', '#7b4ca0');
+    s += T.hannibal({ x: 960, y: 380 + K.breathe(t), s: 1.2, e: E('smug'), arms: { r: { x: 170, y: 120, pose: 'fist' } } });
+    return K.cam(s, 1.04 - lt * .01, 960, 540, 0, t) + K.lowerThird('HANNIBAL', 'General of Carthage', t, .5, C.purple) + K.chapter(2, 'THE SHORTCUT NOBODY TAKES', t, 0, 2.6);
+  }],
+  [S(1), (t, lt) => { // war again
+    let s = K.burst(t, '#c4372c', '#d24a3c');
+    s += T.legionary({ x: 520, y: 420, s: 1, pose: 'bust', e: E('shout'), seed: 4 }) + T.hannibal({ x: 1400, y: 420, s: 1, e: E('angry'), flip: true });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(1) + .3], .25), t) + K.say('WAR!', 960, 260, 220, t, H(S(1) + .3));
+  }],
+  [S(2), (t, lt) => { // Rome expects Spain or Africa
+    let s = K.map(t, { tint: { italy: .4, spain: .3, africa: .3 } }) + K.city('ROME', 'rome', t, S(2), C.red);
+    s += K.arrowAlong([[1075, 445], [800, 420], [560, 480]], ease((t - W('spain')) / .8), C.red, 16);
+    s += K.arrowAlong([[1075, 445], [1040, 600], [1000, 690]], ease((t - W('africa')) / .8), C.red, 16);
+    s += K.say('SPAIN?', 360, 520, 70, t, H(W('spain'))) + K.say('AFRICA?', 1000, 860, 70, t, H(W('africa')));
+    const o = K.say('NORMAL PLACES', 960, 160, 100, t, H(S(3)), { fill: C.gold });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(4), (t, lt) => { // Hannibal has a different idea
+    let s = K.burst(t, '#f2cf2e', '#f7dc55');
+    const e = lt > .8 ? E('smug', { brow: { r: 26 } }) : E('bored');
+    s += T.hannibal({ x: 960, y: 400, s: 1.2, e, arms: { r: { x: 150, y: -20, pose: 'point' } } });
+    const bk = T.back((lt - .8) / .35);
+    if (lt > .8) s += `<g transform="translate(1250,170) scale(${f(bk)})"><circle r="70" fill="#fff6a8" stroke="${C.ink}" stroke-width="7"/><rect x="-30" y="60" width="60" height="40" rx="8" fill="${C.iron}" stroke="${C.ink}" stroke-width="6"/>
+      <path d="M-24,0 Q0,-30 24,0" stroke="${C.ink}" stroke-width="6" fill="none"/>${[0, 1, 2, 3, 4].map(i => { const a = -Math.PI * (.15 + i * .175); return `<path d="M${f(Math.cos(a) * 95)},${f(Math.sin(a) * 95)} L${f(Math.cos(a) * 130)},${f(Math.sin(a) * 130)}" stroke="${C.ink}" stroke-width="8" stroke-linecap="round"/>`; }).join('')}</g>`;
+    return K.cam(s, 1, 960, 540, 0, t);
+  }],
+  [S(5), (t, lt) => { // the route
+    let s = K.map(t, { tint: { italy: .35, spain: .35 } }) + K.city('', 'newcarthage', t, S(5), C.purple) + K.city('ROME', 'rome', t, S(5), C.red);
+    const k = ease((t - S(5)) / (W('elephants') + 1 - S(5)));
+    s += K.arrowAlong(K.ROUTE, k, C.purple, 18);
+    s += K.say('PYRENEES', 560, 420, 52, t, H(W('pyrenees'))) + K.say('GAUL', 760, 210, 56, t, H(W('france'))) + K.say('ALPS', 960, 140, 70, t, H(W('alps')), { fill: '#fff' });
+    if (t > W('elephants')) s += K.elephant(1020, 330, .35 * T.back((t - W('elephants')) / .35), { t, walk: true });
+    const o = K.stamp('IN AUTUMN', 1500, 760, t, H(W('autumn')), -6, { cross: false, fill: C.gold, size: 90 })
+      + K.stamp('WITH ELEPHANTS', 1440, 900, t, H(W('elephants')), 3, { cross: false, size: 80 });
+    return K.cam(s, lerp(1, 1.25, ease((t - S(5)) / 8)), 800, 420, 0, t) + o;
+  }],
+  [S(11), (t, lt) => { // insane
+    let s = K.burst(t, '#f2cf2e', '#f7dc55');
+    s += K.elephant(1250, 640, 1.2, { t, e: E('shocked'), sweat: 1 });
+    s += T.legionary({ x: 520, y: 380, s: 1, pose: 'bust', e: E('shocked'), seed: 9, sweat: 1, arms: { l: { x: -170, y: 0, pose: 'open' }, r: { x: 170, y: 0, pose: 'open' } } });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(11) + .2], .25), t) + K.stamp('INSANE', 960, 200, t, H(S(11) + .2), -5, { cross: false, size: 170, fill: C.red });
+  }],
+  [S(12), (t, lt) => { // the Alps take their toll
+    let s = K.mountains(t);
+    const line = 9;
+    for (let i = 0; i < line; i++) {
+      const x = 140 + i * 200 + lt * 20, m = K.march(t, i * .8, 4), y = 800 + m.bob;
+      const gone = i % 2 === 1 && t > W('half') ? ease((t - W('half') - i * .08) / .5) : 0;
+      const frozen = i === 4 && t > S(14);
+      const buried = (i === 6 || i === 8) && t > S(15) + .6;
+      if (gone >= 1 || buried) continue;
+      const ch = i % 3 === 0 ? T.gaul : i % 3 === 1 ? T.iberian : T.african;
+      let c = ch({ x, y, s: .56, step: frozen ? 0 : m.step, e: E(frozen ? 'shocked' : 'worried'), sweat: .6, seed: i + 1 });
+      if (frozen) c = `<g>${c}<rect x="${x - 50}" y="${y - 60}" width="100" height="200" rx="16" fill="#bfe6f5" opacity=".75" stroke="${C.ink}" stroke-width="5"/></g>`;
+      s += `<g opacity="${f(1 - gone)}">${c}</g>`;
+    }
+    // elephant slipping
+    const ek = clamp((t - S(13)) / 1.6);
+    if (t < S(14) + 1) s += `<g opacity="${f(1 - ease((t - S(13) - 1.2) / .4))}">${K.elephant(1500 + ek * 120, 760 + ek * ek * 500, .7, { t, e: E(ek > 0 ? 'scared' : 'worried'), sweat: 1, rot: ek * 60 })}</g>`;
+    // rockslide
+    const rk = clamp((t - S(15)) / .8);
+    if (rk > 0) for (let i = 0; i < 7; i++) { const y = lerp(-120, 820 + (i % 3) * 30, ease(clamp(rk * 1.4 - i * .06))); s += `<path d="${T.blobPath(1300 + i * 70, y, 50, T.rng(i + 2))}" fill="#7a6e60" stroke="${C.ink}" stroke-width="6"/>`; }
+    s += K.poof(1450, 860, (t - S(15) - .6) / 1, 1.4, 5, '#d9d4cc');
+    s += K.snowfall(t, 80, 1.6);
+    const o = K.say('HALF HIS MEN: LOST', 960, 150, 90, t, H(W('half')), { out: S(13) })
+      + K.say('ELEPHANTS: ALMOST ALL DEAD', 960, 150, 76, t, H(S(13)), { out: S(14) })
+      + K.say('FROZEN', 960, 150, 110, t, H(S(14)), { out: S(15), fill: '#bfe6f5' })
+      + K.say('ROCKSLIDES', 960, 150, 110, t, H(S(15)));
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(15) + .6], .4), t) + o;
+  }],
+  [S(16), (t, lt) => { // out of the fog, into Italy
+    let s = `<rect width="1920" height="1080" fill="#a9c4d6"/>` + K.hills(t, '#8fb35a', '#7a9e48', 700);
+    const em = ease((t - S(17)) / 2);
+    s += K.rider(lerp(-200, 560, em), 900, .9, T.hannibal({ pose: 'chibi', e: E('smug'), arms: { r: { x: 120, y: 40, pose: 'point' } } }), { t, gallop: em < 1, blanket: C.purple });
+    s += K.fog(t, lerp(1, .25, ease((t - S(17)) / 1.5)), 12) + `<rect width="1920" height="1080" fill="#f4f1ea" opacity="${f(lerp(.85, 0, ease((t - S(17)) / 1.5)))}"/>`;
+    const o = K.say('NORTHERN ITALY', 1300, 220, 96, t, H(W('northern'))) + K.stamp('OUT OF NOWHERE', 1300, 380, t, H(S(18)), -4, { cross: false, size: 84, fill: C.gold });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(19), (t, lt) => { // Rome didn't see it coming
+    let s = K.columns(t, '#e8dcc4', '#c9a46a', 5);
+    s += T.senator({ x: 600, y: 480, s: 1, seed: 5, e: E('shocked'), sweat: 1 }) + T.senator({ x: 1320, y: 480, s: 1, seed: 9, e: E('shocked'), sweat: 1, flip: true });
+    return K.cam(s, 1 + lt * .03, 960, 540, K.shakeAt(t, [S(19) + .1], .3), t) + K.say('?!', 960, 260, 200, t, H(S(19) + .1), { fill: C.red });
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

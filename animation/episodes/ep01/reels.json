@@ -1,0 +1,9 @@
+{"source": "animation/previews/ep01-full.mp4",
+ "srt": "scripts/ep01-cannae/subtitles/ep01.en.srt",
+ "font": "assets/fonts/LilitaOne-Regular.ttf",
+ "out_dir": "animation/previews/reels",
+ "reels": [
+  {"name": "ep01-reel1-cold-open", "start": 0.0, "end": 37.8, "title": ["86,000 ROMANS", "GONE IN ONE DAY"]},
+  {"name": "ep01-reel2-alps", "start": 102.7, "end": 132.5, "title": ["HE CROSSED THE ALPS", "WITH ELEPHANTS"]},
+  {"name": "ep01-reel3-the-trap", "start": 333.96, "end": 396.3, "title": ["THE PERFECT TRAP", "BATTLE OF CANNAE"]}
+ ]}

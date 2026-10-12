@@ -1,0 +1,118 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 7 — Who won?
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(7);
+const hits = [], H = t => (hits.push(t), t);
+
+const shots = [
+  [0, (t, lt) => { // day two: they fight again; nobody breaks through
+    let s = `<rect width="1920" height="1080" fill="#f2b880"/><circle cx="960" cy="420" r="160" fill="#ffd9a0" opacity=".8"/>`;
+    s += `<path d="M-20,520 Q960,480 1940,520 L1940,1100 L-20,1100Z" fill="#c9a457" stroke="${C.ink}" stroke-width="7"/>`;
+    const clash = W('fought'), push = Math.sin(t * 4) * 20 * clamp((t - clash) / .5);
+    s += EP.column(5, 40 + push, 760, 150, t, EP.egSoldier(EP.P.egBlue, E('angry')), .55, { sp: 2 });
+    s += EP.column(5, 1880 + push, 760, -150, t, EP.hitSoldier(E('angry')), .55, { sp: 2, flip: true });
+    if (t > clash) s += K.poof(960 + push, 760, ((t - clash) * 1.2) % 1, 1.6, Math.floor((t - clash) * 1.2) + 2);
+    const o = K.chapter(7, 'WHO WON?', t, 0, 2.4) + K.dateCard('NEXT DAY', t, H(W('next'))) + K.stamp('NOBODY BROKE THROUGH', 960, 240, t, H(W('nobody')), -3, { cross: false, size: 96, fill: '#fff' });
+    return K.cam(s, 1, 960, 560, t > clash ? .05 : 0, t) + o;
+  }],
+  [S(2), (t, lt) => { // can't take Kadesh, tired, far from home → turns around
+    let s = EP.desert(t, { horizon: 560 }) + EP.city(1350, 600, .7, t, { flag: EP.P.hit });
+    for (let i = 0; i < 4; i++) s += EP.egyptian({ x: 180 + i * 160, y: 720 + (i % 2) * 30, s: .55, seed: 1200 + i, e: E('bored', { lid: .75 }), sweat: .6, rot: Math.sin(t + i) * 4 });
+    const turn = t > S(3);
+    s += EP.chariot({ x: turn ? lerp(900, 2600, ease((t - S(3) - .6) / 3)) : 800, y: 960, s: .8, flip: turn, t, speed: turn ? 1 : 0, crew: [EP.ramesses({ s: .45, pose: 'chibi', e: E(turn ? 'bored' : 'worried'), sweat: .5 })] });
+    if (turn) s += `<g transform="translate(300,820)">${T.tube('M0,0 L0,-220', 14, '#9a6a3a', 6)}${EP.path('M-170,-230 L130,-230 L170,-190 L130,-150 L-170,-150Z', '#efe2c4', 7)}<text x="-10" y="-176" font-family="Luckiest" font-size="40" text-anchor="middle" fill="${C.ink}">EGYPT ←</text></g>`;
+    const o = K.stamp("CAN'T TAKE KADESH", 960, 160, t, H(W('couldnt')), -3, { cross: false, size: 90, fill: '#fff' }) + K.say('TIRED', 400, 330, 80, t, H(W('tired')), { fill: C.gold, out: S(3) })
+      + K.say('FAR FROM HOME', 960, 330, 70, t, H(W('far')), { out: S(3) }) + K.say('BACK TO EGYPT', 960, 330, 90, t, H(W('turned')), { fill: C.gold });
+    return K.cam(s, 1, 960, 560, 0, t) + (turn ? o.replace(/CAN'T TAKE KADESH/g, '') : o);
+  }],
+  [S(4), (t, lt) => { // Kadesh stays Hittite; they push south. On paper: a Hittite win
+    const sp = ease((t - W('pushed')) / 1.6);
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6, spread: sp } }) + K.city('KADESH', EP.PL.kadesh, t, 0, EP.P.hit, { dx: -110, dy: 10 });
+    const pk = W('paper');
+    let card = '';
+    if (t > pk) { const k = T.back((t - pk) / .4);
+      card += `<g transform="translate(1440,540) scale(${f(k)}) rotate(4)">${EP.path('M-300,-260 L300,-260 L300,300 L-300,300Z', '#f6efd8', 9)}
+      <text x="0" y="-180" font-family="Luckiest" font-size="54" text-anchor="middle" fill="${C.ink}">SCORECARD</text>
+      <path d="M-260,-140 L260,-140" stroke="${C.ink}" stroke-width="5"/>
+      <text x="-250" y="-60" font-family="Lilita" font-size="46" fill="${C.ink}">Kept Kadesh</text><text x="-250" y="20" font-family="Lilita" font-size="46" fill="${C.ink}">Gained land</text><text x="-250" y="100" font-family="Lilita" font-size="46" fill="${C.ink}">Went home</text>
+      <text x="200" y="-60" font-family="Luckiest" font-size="54" fill="${EP.P.hit}">H</text><text x="200" y="20" font-family="Luckiest" font-size="54" fill="${EP.P.hit}">H</text><text x="200" y="100" font-family="Luckiest" font-size="54" fill="${C.gold}">E</text></g>`; }
+    const o = K.say('KADESH: STILL HITTITE', 960, 160, 90, t, H(W('stayed')), { fill: '#9fc3ff', out: W('pushed') - .1 }) + K.say('...AND MORE', 960, 160, 90, t, H(W('pushed')), { fill: '#9fc3ff', out: pk - .1 })
+      + K.stamp('HITTITE WIN?', 1440, 980, t, H(W('win')), -3, { cross: false, size: 90, fill: '#9fc3ff' });
+    return K.cam(s, lerp(1.6, 1.3, ease(lt / 3)), 820, 520, 0, t) + card + o;
+  }],
+  [S(7), (t, lt) => { // back home: his version carved into his greatest temples
+    let s = `<rect width="1920" height="1080" fill="#f0c879"/>` + EP.path('M-20,1100 L-20,760 Q960,700 1940,760 L1940,1100Z', '#d9a85a');
+    const names = [['KARNAK', 'karnak'], ['LUXOR', 'luxor'], ['ABYDOS', 'abydos'], ['RAMESSEUM', 'ramesseum'], ['ABU SIMBEL', 'abu']];
+    names.forEach(([n, w], i) => { const k = T.back((t - W(w)) / .35); if (k <= 0) return;
+      s += `<g transform="translate(${200 + i * 380},${f(820 + (1 - k) * 400)}) scale(.42)">${EP.pylon(0, 0, 1)}</g>` + K.say(n, 200 + i * 380, 900, 46, t, W(w), { fill: '#fff' }); });
+    const ck = W('carved');
+    if (t > ck && t < W('karnak')) s += EP.ramesses({ x: 960, y: 300, s: .8, e: E('smug', { look: [.4, .3] }), arms: { r: { x: 250, y: 100, pose: 'point' } } });
+    const o = K.say('MEANWHILE, BACK HOME...', 960, 160, 84, t, H(S(7) + .2), { fill: C.gold, out: W('karnak') - .1 }) + K.say('CARVE IT. ALL OF IT.', 960, 980, 70, t, H(ck), { fill: '#fff', out: W('karnak') - .1 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(13), (t, lt) => { // huge scenes of him alone, crushing the Hittites — propaganda
+    let s = EP.wall(t, { x: 40, y: 40, w: 1840, h: 1000 });
+    const relief = EP.chariot({ t: 0, speed: 0, crew: [EP.ramesses({ s: .45, pose: 'chibi', e: E('proud'), arms: { r: { x: 140, y: 30, pose: 'fist' } } })] });
+    s += EP.carve(relief, 120, 860, 1.7);
+    for (let i = 0; i < 8; i++) s += EP.carve(EP.hittite({ s: .32, e: E(i % 2 ? 'scared' : 'shocked'), rot: (i * 47) % 180 - 90, seed: 1300 + i }), 1250 + (i % 4) * 140, 300 + Math.floor(i / 4) * 300 + (i % 2) * 60, 1);
+    const pk = W('propaganda');
+    let mega = '';
+    if (t > pk - .3) { const k = T.back((t - pk + .3) / .35); mega = `<g transform="translate(1520,840) scale(${f(k)}) rotate(-20)">${EP.path('M-120,-40 L60,-110 L60,110 L-120,40Z', C.red, 8)}${EP.path('M-170,-40 L-120,-40 L-120,40 L-170,40Z', C.iron, 7)}<path d="M100,-60 Q130,0 100,60 M140,-90 Q190,0 140,90" stroke="${C.ink}" stroke-width="10" fill="none" stroke-linecap="round"/></g>`; }
+    const o = K.say('ALONE', 520, 160, 90, t, H(W('alone')), { fill: C.gold }) + K.say('CRUSHING THE HITTITES', 1300, 160, 70, t, H(W('crushing')), { fill: '#fff' })
+      + mega + K.stamp('PROPAGANDA', 960, 560, t, H(pk), -6, { cross: false, size: 170, fill: C.red });
+    return K.cam(s, lerp(1.05, 1, ease(lt / 3)), 960, 540, K.shakeAt(t, [pk], .25), t) + o;
+  }],
+  [S(15), (t, lt) => { // the Hittite records: the Egyptian king was beaten and sent home
+    let s = `<rect width="1920" height="1080" fill="#2f3a52"/>` + `<circle cx="760" cy="440" r="420" fill="#ffd27a" opacity=".14"/>`;
+    s += EP.muwatalli({ x: 700, y: 380, s: 1, e: E('smug', { lid: .55, look: [.6, .3] }), arms: { r: { x: 320, y: 220, pose: 'grip' } } });
+    s += EP.tablet(1300, 560, 1.6, -4);
+    const bt = W('beaten');
+    if (t > bt - .3) s += `<g transform="translate(1300,560) rotate(-4)"><rect x="-160" y="-110" width="320" height="220" rx="16" fill="#f6efd8" opacity=".95" stroke="${C.ink}" stroke-width="6"/>
+      <text x="0" y="-40" font-family="Luckiest" font-size="42" text-anchor="middle" fill="${C.ink}">EGYPTIAN KING:</text><text x="0" y="20" font-family="Luckiest" font-size="50" text-anchor="middle" fill="${C.red}">BEATEN.</text><text x="0" y="78" font-family="Luckiest" font-size="44" text-anchor="middle" fill="${EP.P.hit}">SENT HOME.</text></g>`;
+    const o = K.say('THE HITTITE RECORDS', 960, 150, 90, t, H(W('records')), { fill: '#9fc3ff' }) + K.say('(TRANSLATED)', 1300, 900, 50, t, bt, { fill: C.gold });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(17), (t, lt) => { // nobody could check; historians almost forgot the Hittites existed
+    let s = `<rect width="1920" height="1080" fill="#e9d6a8"/>`;
+    for (let i = 0; i < 6; i++) { const k = (t * .4 + i / 6) % 1; s += T.text('?', 200 + i * 300, 1000 - k * 900, 140, { fill: '#c9a46a', k: Math.sin(k * Math.PI) * .7 }); }
+    const ft = W('forgotten');
+    s += EP.historian({ x: 960, y: 420, s: 1, e: t > ft ? E('worried', { look: [.3, -.3] }) : E('neutral', { lid: .4 }), arms: { r: { x: 120, y: -60 + Math.sin(t * 8) * 10, pose: 'open', bend: 50 } } });
+    const o = K.say('NOBODY COULD CHECK', 960, 150, 96, t, H(W('nobody')), { out: ft - .3 }) + K.speech('THE HITTI-WHO?', 1400, 250, t, H(ft), { size: 60 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(19), (t, lt) => { // archaeologists dig up Hattusa: thousands of clay tablets
+    let s = `<rect width="1920" height="1080" fill="#cfe0ea"/>` + EP.path('M-20,1100 L-20,640 Q500,560 960,600 Q1400,560 1940,640 L1940,1100Z', '#b8955a');
+    s += EP.path('M600,760 Q960,700 1320,760 Q1300,900 960,920 Q620,900 600,760Z', '#7a5a3a', 7);
+    const tb = W('tablets'), n = Math.floor(clamp((t - tb + .6) / 2) * 40);
+    for (let i = 0; i < n; i++) { const R = T.rng(i + 3); s += EP.tablet(640 + R() * 640, 860 - Math.floor(i / 10) * 40 - R() * 30, .22, R() * 60 - 30, { seed: i }); }
+    const dig = Math.sin(t * 6);
+    s += EP.historian({ x: 380, y: 520, s: .7, e: t > tb ? E('shocked') : E('determined'), arms: { r: { x: 220, y: 200 + dig * 30, pose: 'grip' }, l: { x: 160, y: 120 + dig * 30, pose: 'grip' } } });
+    s += `<g transform="translate(${f(560 + dig * 10)},${f(700 + dig * 20)}) rotate(30)">${T.tube('M0,-160 L0,60', 14, '#9a6a3a', 6)}${EP.path('M-40,60 L40,60 L30,140 L-30,140Z', C.iron, 6)}</g>`;
+    if (t > tb) s += EP.historian({ x: 1560, y: 520, s: .7, seed: 260, e: E('shocked'), arms: { l: { x: -170, y: -120, pose: 'open' }, r: { x: 170, y: -120, pose: 'open' } } });
+    const o = K.dateCard('c. 1906', t, H(W('hundred'))) + K.say('HATTUSA', 960, 160, 110, t, H(W('hattusa')), { fill: '#9fc3ff', out: tb - .1 })
+      + K.stamp('THOUSANDS OF TABLETS', 960, 200, t, H(tb), -3, { cross: false, size: 80, fill: C.gold });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(20), (t, lt) => { // finally, the other side of the story
+    let s = K.burst(t, '#3f6aa8', '#4f7ab8');
+    s += EP.muwatalli({ x: 960, y: 380, s: 1.05, e: E('proud', { mouth: { type: 'smile', w: 30 } }), arms: { l: { x: -220, y: 80, pose: 'open' }, r: { x: 220, y: 80, pose: 'open' } } });
+    const o = K.say('FINALLY:', 960, 150, 90, t, H(W('finally')), { fill: C.gold }) + K.say('THE OTHER SIDE', 960, 980, 110, t, H(W('other')), { fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(21), (t, lt) => { // two kings, one battle, two stories
+    let s = `<rect width="1920" height="1080" fill="${EP.P.egBlue}"/><rect x="960" width="960" height="1080" fill="${EP.P.hit}"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="12"/>`;
+    s += EP.ramesses({ x: 480, y: 360, s: .9, e: E('smug', { look: [.5, 0] }) }) + EP.muwatalli({ x: 1440, y: 380, s: .9, flip: true, e: E('smug', { lid: .55, look: [.5, 0] }) });
+    const bk = W('battle');
+    if (t > bk) s += `<g transform="translate(960,560) scale(${f(T.back((t - bk) / .35))})"><g transform="rotate(45)">${T.spear(-150, 0, 150, 0)}</g><g transform="rotate(-45)">${T.spear(150, 0, -150, 0)}</g></g>`;
+    const st = W('stories');
+    if (t > st) { const k = T.back((t - st) / .35); s += `<g transform="translate(480,880) scale(${f(k * .6)}) rotate(-6)">${EP.wall(0, { x: -200, y: -150, w: 400, h: 300, bg: 'none' }).replace(/<rect width="1920" height="1080"[^>]*>/, '')}</g>` + EP.tablet(1440, 880, .8 * k, 6); }
+    const o = K.say('TWO KINGS', 960, 140, 100, t, H(W('kings'))) + K.say('ONE BATTLE', 960, 140, 100, t, H(bk), { fill: C.gold }) + K.say('TWO STORIES', 960, 140, 100, t, H(st), { fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + (t < bk ? K.say('TWO KINGS', 960, 140, 100, t, W('kings')) : t < st ? K.say('ONE BATTLE', 960, 140, 100, t, bk, { fill: C.gold }) : K.say('TWO STORIES', 960, 140, 100, t, st, { fill: '#fff' }));
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

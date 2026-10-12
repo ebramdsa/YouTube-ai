@@ -1,0 +1,97 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script>
+<script>
+// Section 1 — Two empires, one grudge
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(1);
+const hits = [];
+const H = t => (hits.push(t), t);
+
+const shots = [
+  [0, (t, lt) => { // map: Rome & Carthage
+    const tin = ease((t - S(1)) / 1.5);
+    let s = K.map(t, { tint: { italy: tin * .45, africa: tin * .45 } });
+    s += K.city('ROME', 'rome', t, H(W('rome')), C.red) + K.city('CARTHAGE', 'carthage', t, H(W('carthage')), C.purple, { dy: 64 });
+    const o = K.say('TWO SUPERPOWERS', 960, 160, 96, t, H(W('superpowers')));
+    return K.cam(s, 1 + lt * .01, 960, 540, K.shakeAt(t, [W('superpowers')], .12), t) + o + K.chapter(1, 'TWO EMPIRES, ONE GRUDGE', t, 0, 3.2);
+  }],
+  [S(2), (t, lt) => { // Rome: farmers & soldiers
+    let s = K.ground('#c9a457', 700, '#b8963f');
+    for (let i = 0; i < 6; i++) { const m = K.march(t, i);
+      s += T.legionary({ x: 160 + i * 130, y: 600 + m.bob, s: .42, step: m.step, e: E(i % 2 ? 'determined' : 'angry'), shield: [-40, 175, .78], spear: [50, 270, 110, -250], seed: i + 3 }); }
+    s += T.legionary({ x: 1380, y: 330 + K.breathe(t), s: 1.15, pose: 'bust', e: E('angry'), seed: 7, arms: { r: { x: 150, y: 120, pose: 'fist' } } });
+    const o = K.stamp('STUBBORN', 560, 200, t, H(W('stubborn')), -6, { cross: false, fill: C.gold })
+      + K.stamp('ORGANIZED', 600, 360, t, H(W('organized')), 4, { cross: false, size: 100 })
+      + K.stamp('BRUTAL', 560, 520, t, H(W('brutal')), -3, { cross: false, fill: C.red, size: 140 });
+    return K.cam(s, 1.02 + lt * .004, 960, 540, K.shakeAt(t, [W('stubborn'), W('organized'), W('brutal')], .15), t) + o;
+  }],
+  [S(3), (t, lt) => { // Carthage: trade, navy, money, mercenaries
+    let s = K.sea(t, '#6fa8c9');
+    for (let i = 0; i < 3; i++) s += K.ship(240 + i * 300 + lt * 22, 560 + i * 40, .55 + i * .08, C.purple, { t });
+    s += K.waves(800, t, '#4f8db3', 12);
+    s += T.senator({ x: 1460, y: 300 + K.breathe(t), s: 1.1, carth: true, seed: 11, e: E('smug'), talk: t > W('wealthy') && t < W('wealthy') + .6 ? .6 : 0, t,
+      arms: { r: { x: 150, y: 210, pose: 'grip' } } });
+    // coins
+    const ck = clamp((t - W('money')) / .8);
+    if (ck > 0) for (let i = 0; i < 12; i++) { const y = lerp(-80, 760 + (i % 4) * 30, ease(clamp(ck * 1.6 - i * .05))); s += `<g transform="translate(${1180 + (i % 6) * 70},${f(y)})"><circle r="30" fill="${C.gold}" stroke="${C.ink}" stroke-width="6"/><text y="13" font-family="Luckiest" font-size="36" text-anchor="middle" fill="${C.bronzeDark}">$</text></g>`; }
+    const mk = W('mercenary');
+    if (t > mk) { s += T.gaul({ x: 380, y: 760 - 300 * (1 - T.back((t - mk) / .4)), s: .55, e: E('smug'), arms: { r: { x: 110, y: 170, pose: 'thumb' } } });
+      s += T.iberian({ x: 660, y: 760 - 300 * (1 - T.back((t - mk - .2) / .4)), s: .55, e: E('determined'), spear: [50, 270, 110, -250] }); }
+    const o = K.say('BEST NAVY', 520, 200, 96, t, H(W('navy'))) + K.say('$$$', 1280, 140, 120, t, W('money'), { fill: C.gold }) + K.say('MERCENARIES', 520, 360, 76, t, H(mk), { fill: C.gold });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(4), (t, lt) => { // first war at sea
+    let s = K.sea(t, '#5f98bb');
+    const sink = clamp((t - S(6)) / 2.2);
+    s += K.ship(560 + lt * 10, 560, .9, C.purple, { t, sink });
+    s += K.ship(1400 - lt * 10, 560, .9, C.red, { t: t + 1 }).replace('scale(0.9)', 'scale(-0.9,0.9)');
+    s += K.waves(760, t, '#3f7ea6', 14);
+    s += K.poof(560, 560, (t - S(6)) / 1.2, 1.4, 3, '#cfe6f5');
+    const o = K.say('23 YEARS OF WAR', 960, 180, 110, t, H(S(5))) + K.say('HUNDREDS OF THOUSANDS DEAD', 960, 320, 66, t, H(S(6)), { fill: C.gold });
+    return K.cam(s, 1 + lt * .006, 960, 540, K.shakeAt(t, [S(5), S(6)], .15), t) + o;
+  }],
+  [S(7), (t, lt) => { // Rome won: flags
+    let s = K.burst(t, '#d8b468', '#e2c47e');
+    s += K.flag(620, 900, C.purple, 1 - ease(lt / 1.2), t) + K.flag(1180, 900, C.red, ease(lt / 1.2), t, 'SPQR');
+    const o = K.say('ROME WON', 960, 180, 140, t, H(S(7) + .9), { fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(7) + .9], .2), t) + o;
+  }],
+  [S(8), (t, lt) => { // Hamilcar didn't handle losing well
+    let s = K.burst(t, '#7a2a2a', '#8a3a32');
+    const angry = clamp((t - S(8) - 1.2) / .4);
+    const e = T.mix(E('angry'), E('shout'), angry * (Math.sin(t * 9) > 0 ? 1 : .6));
+    const sh = angry * Math.sin(t * 40) * 6;
+    s += T.hamilcar({ x: 960 + sh, y: 360, s: 1.25, e, sweat: angry, arms: { l: { x: -180, y: 60, pose: 'fist' }, r: { x: 180, y: 60, pose: 'fist' } } });
+    // steam puffs
+    if (angry) for (let i = 0; i < 2; i++) { const k = (t * 1.3 + i * .5) % 1; s += `<g opacity="${f(1 - k)}"><path d="${T.blobPath(960 + (i ? 160 : -160) * (1 + k * .6), 170 - k * 160, 40 + k * 30, T.rng(i + 4))}" fill="#fff" stroke="${C.ink}" stroke-width="5"/></g>`; }
+    const o = K.lowerThird('HAMILCAR BARCA', 'Carthaginian general', t, H(S(9)), C.purple);
+    return K.cam(s, 1.05 - lt * .005, 960, 540, angry * .15, t) + o;
+  }],
+  [S(10), (t, lt) => { // the oath at the altar
+    let s = K.columns(t, '#d9c9a8', '#6a4a7a', 5) + `<rect width="1920" height="1080" fill="#2a1d17" opacity=".35"/>`;
+    s += K.altar(960, 860, 1.2, t, ease(lt / .6));
+    s += T.hamilcar({ x: 520, y: 470 + K.breathe(t), s: .95, e: E('determined'), arms: { r: { x: 320, y: 150, pose: 'open' } } });
+    s += T.boyHannibal({ x: 1380, y: 560 + K.breathe(t, 1), s: .85, e: E('worried', { look: [-.4, 0] }) });
+    const o = K.say('A PROMISE', 960, 170, 110, t, H(W('promise')), { fill: C.gold });
+    return K.cam(s, 1 + lt * .01, 960, 600, 0, t) + o;
+  }],
+  [S(11), (t, lt) => { // that boy: Hannibal
+    let s = K.columns(t, '#d9c9a8', '#6a4a7a', 5) + `<rect width="1920" height="1080" fill="#2a1d17" opacity=".45"/>` + K.altar(1500, 980, 1.1, t, 1);
+    const e = t > S(12) + .6 ? T.mix(E('worried'), E('determined'), ease((t - S(12) - .6) / .5)) : E('worried', { look: [-.4, 0] });
+    s += T.boyHannibal({ x: 1240, y: 420 + K.breathe(t, 1), s: 1.25, e });
+    s += T.hamilcar({ x: 380, y: 470, s: 1.05, e: E('shout'), talk: t > S(12) ? 1 : 0, t, arms: { r: { x: 260, y: 40, pose: 'point' } } });
+    const o = K.lowerThird('HANNIBAL', 'Age 9', t, H(W('hannibal')), C.purple)
+      + K.speech('NEVER BE AT PEACE WITH ROME!', 760, 150, t, H(S(12) + .2), { size: 50 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(13), (t, lt) => { // Hannibal never forgot: zoom on the eyes
+    let s = `<rect width="1920" height="1080" fill="#6a1f1f"/>` + K.burst(t, '#6a1f1f', '#7f2a24', 960, 420);
+    s += T.boyHannibal({ x: 960, y: 520, s: 1.3, e: E('angry', { look: [0, 0] }) });
+    const z = lerp(1, 2.1, ease(lt / 2.6));
+    return K.cam(s, z, 960, 520, 0, t) + K.say('NEVER FORGOT', 960, 940, 110, t, H(S(13) + .4));
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

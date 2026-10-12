@@ -390,7 +390,7 @@ function hannibal(o = {}) {
   let s = A.back;
   if (kind === 'chibi') s += legs({});
   s += body(kind, 'cuirass', seed);
-  s += head({ e, seed, patch: 'R', beard: { col: C.beard }, scars: [[-62, 44, -20, .9]], sweat: o.sweat });
+  s += head({ e, seed, patch: o.noPatch ? undefined : 'R', beard: { col: C.beard }, scars: [[-62, 44, -20, .9]], sweat: o.sweat });
   s += carthHelm({ seed });
   s += A.front;
   return wrap(o, s);
@@ -459,6 +459,93 @@ function iberian(o = {}) {
   return wrap(o, s);
 }
 
+
+// ---- extra cast for the full episode ----
+function fabius(o = {}) {
+  const kind = o.pose || 'bust', seed = o.seed || 88;
+  const e = talkMouth(o.e || expr('neutral', { lid: .4 }), o);
+  const A = armsFor(o, kind, C.white);
+  let s = A.back;
+  if (kind === 'chibi') s += legs({});
+  s += body(kind, 'tunic', seed);
+  const sash = kind === 'bust' ? `<path d="M-120,110 Q20,240 110,440 L160,440 Q60,220 -70,94Z" fill="${C.white}" stroke="${C.ink}" stroke-width="6"/><path d="M-110,124 Q30,250 122,440" stroke="${C.red}" stroke-width="12" fill="none"/>`
+                               : `<path d="M-56,90 Q10,150 50,236 L70,232 Q30,140 -30,84Z" fill="${C.white}" stroke="${C.ink}" stroke-width="4.5"/>`;
+  s += sash;
+  s += head({ e, seed, beard: { col: '#c9c4bc', curl: '#8d8a86', len: 1.0 }, wrinkles: true, browCol: '#8d8a86',
+    hair: `<path d="M-100,-10 Q-112,-60 -84,-70 Q-90,-30 -78,-8Z M100,-10 Q112,-60 84,-70 Q90,-30 78,-8Z" fill="#c9c4bc" stroke="${C.ink}" stroke-width="5"/>` });
+  if (o.cup) s += `<g transform="translate(${o.cup[0]},${o.cup[1]})"><path d="M-30,-40 L30,-40 Q28,10 0,14 Q-28,10 -30,-40Z" fill="${C.gold}" stroke="${C.ink}" stroke-width="6"/><path d="M-26,-34 L26,-34" stroke="#7a1f3a" stroke-width="10"/><path d="M0,14 L0,46 M-22,50 L22,50" stroke="${C.ink}" stroke-width="8" stroke-linecap="round"/></g>`;
+  s += A.front;
+  return wrap(o, s);
+}
+function paullus(o = {}) {
+  const kind = o.pose || 'bust', seed = o.seed || 91;
+  const e = talkMouth(o.e || expr('worried', { lid: .3 }), o);
+  const A = armsFor(o, kind, C.red);
+  let s = A.back;
+  if (kind === 'chibi') s += legs({});
+  s += body(kind, 'consul', seed, '#7a2a2a');
+  s += head({ e, seed, beard: { col: '#8d8a86', curl: '#5f5c58', len: .8 }, wrinkles: true, browCol: '#5f5c58', sweat: o.sweat });
+  s += galea({ seed, metal: C.iron, crest: C.red, crestH: 150 });
+  s += A.front;
+  return wrap(o, s);
+}
+function senator(o = {}) {
+  const kind = o.pose || 'bust', seed = o.seed || 101;
+  const e = talkMouth(o.e || expr('worried'), o);
+  const A = armsFor(o, kind, o.carth ? '#e6d2a8' : C.white);
+  const R = rng(seed);
+  let s = A.back;
+  if (kind === 'chibi') s += legs({});
+  s += body(kind, o.carth ? 'robe' : 'tunic', seed);
+  const hairCol = ['#2b211c', '#8d8a86', '#5a4636', '#c9c4bc'][Math.floor(R() * 4)];
+  const bald = R() < .5;
+  const hair = bald ? `<path d="M-100,-6 Q-110,-50 -86,-64 Q-90,-28 -80,-4Z M100,-6 Q110,-50 86,-64 Q90,-28 80,-4Z" fill="${hairCol}" stroke="${C.ink}" stroke-width="5"/>`
+                    : `<path d="M-100,-20 Q-100,-108 0,-106 Q100,-108 100,-20 Q70,-70 0,-74 Q-70,-70 -100,-20Z" fill="${hairCol}" stroke="${C.ink}" stroke-width="6"/>`;
+  s += head({ e, seed, shape: R() < .4 ? 'wide' : undefined, wrinkles: R() < .6, beard: o.carth || R() < .3 ? { col: hairCol, len: .8 } : undefined, hair, sweat: o.sweat });
+  if (o.carth) s += `<path d="M-96,-40 Q-100,-118 0,-122 Q100,-118 96,-40 Q0,-70 -96,-40Z" fill="${C.purple}" stroke="${C.ink}" stroke-width="6"/><rect x="-98" y="-52" width="196" height="18" rx="8" fill="${C.gold}" stroke="${C.ink}" stroke-width="5"/>`;
+  s += A.front;
+  return wrap(o, s);
+}
+function mago(o = {}) {
+  const kind = o.pose || 'bust', seed = o.seed || 111;
+  const e = talkMouth(o.e || expr('proud'), o);
+  const A = armsFor(o, kind, C.purple);
+  let s = A.back;
+  if (kind === 'chibi') s += legs({});
+  s += body(kind, 'cuirass', seed);
+  s += head({ e, seed, beard: { col: '#3b2a1e', len: .7 }, scars: [[54, 40, 10, .7]] });
+  s += carthHelm({ seed, plume: C.gold });
+  s += A.front;
+  return wrap(o, s);
+}
+function maharbal(o = {}) {
+  const kind = o.pose || 'bust', seed = o.seed || 121;
+  const e = talkMouth(o.e || expr('angry'), o);
+  const A = armsFor(o, kind, C.teal);
+  let s = A.back;
+  if (kind === 'chibi') s += legs({});
+  s += body(kind, 'cuirass', seed, C.teal);
+  s += head({ e, seed, shape: 'wide', beard: { col: C.beard, len: 1.2 }, scars: [[-50, 30, 10, .9], [40, -60, 30, .7]], stubble: true });
+  s += carthHelm({ seed, metal: C.iron, plume: C.teal });
+  s += A.front;
+  return wrap(o, s);
+}
+function african(o = {}) {
+  const kind = o.pose || 'chibi', seed = o.seed || 131;
+  const e = talkMouth(o.e || expr('determined'), o);
+  const A = armsFor(o, kind, C.purpleDark);
+  let s = '';
+  if (o.spear) s += spear(...o.spear);
+  s += A.back;
+  if (kind === 'chibi') s += legs({});
+  s += body(kind, 'cuirass', seed, C.purpleDark);
+  s += head({ e, seed, stubble: true, scars: [[50, 44, 15, .8]] });
+  s += carthHelm({ seed, metal: C.bronze, plume: C.purpleDark });
+  if (o.shield) s += scutum(o.shield[0], o.shield[1], o.shield[2] || .9, seed, C.purple);
+  s += A.front;
+  return wrap(o, s);
+}
+
 // ---------------- scenery & text ----------------
 function defs(W = 1920, H = 1080) {
   return `<defs>
@@ -498,6 +585,6 @@ function pop(t, t0, d = .35) { const x = (t - t0) / d; return { scale: x <= 0 ? 
 
 window.T = { C, nid, f, lerp, clamp, ease, back, rng, blobPath, grime, hatch, EXPR, expr, mix, eye, brows, mouth, head, beard, sweat,
   tube, glove, arm, galea, carthHelm, curlyHair, body, legs, scutum, spear, standard,
-  legionary, hannibal, varro, hamilcar, boyHannibal, gaul, iberian, defs, bg, crowd, overlay, text, pop,
+  legionary, hannibal, varro, hamilcar, boyHannibal, gaul, iberian, fabius, paullus, senator, mago, maharbal, african, defs, bg, crowd, overlay, text, pop,
   reset() { uid = 0; } };
 })();

@@ -1,8 +1,8 @@
 # Cannae Episode 1 — Production Status
 
 **Project:** Spears & Tears (@SpearsAndTears) — YouTube History Channel  
-**Target Episode:** "Cannae: The Day Rome Lost Everything" (22 minutes)  
-**Status:** PREVIEW GENERATED ✓
+**Target Episode:** "Cannae: The Day Rome Lost Everything" (~9.5 minutes, first cut)  
+**Status:** FIRST CUT ANIMATED ✓ — full episode rendered (`animation/previews/ep01-full.mp4`)
 
 ---
 
@@ -85,17 +85,16 @@
 ## 🎯 Next Steps (Remaining Work)
 
 ### Immediate (This Week)
-1. **Voice Recording**
-   - User to record all narrator lines in ElevenLabs
-   - Generate single MP3 with consistent tone/pacing
-   - Sync timing with 22-minute script sections
+1. ~~**Voice Recording**~~ ✅ Done — Daniel voice, all 9 sections
+   - `scripts/ep01-cannae/voice/narrator/NARRATOR_full.mp3` (9.5 min)
+   - Section start times in `timings.json` (use these, not the script's 22-min timestamps)
 
-2. **Character Sprite Library**
+2. ~~**Character Sprite Library**~~ ✅ Done — `animation/lib/toon.js` (13 characters)
    - Finalize all 8 character designs with consistent style
    - Create multiple poses per character (standing, pointing, wounded, dead)
    - Export as SVG for reuse in all scenes
 
-3. **Map Animation Set**
+3. ~~**Map Animation Set**~~ ✅ Done — `animation/lib/kit.js` map + `episodes/ep01/battle.js`
    - Mediterranean base map
    - Alps route animation (with elevation changes)
    - Battle of Trebia River
@@ -104,7 +103,7 @@
    - Combat unit movements and formations
 
 ### Mid-Production (Week 2-3)
-4. **Detailed Battle Scenes**
+4. ~~**Detailed Battle Scenes**~~ ✅ Done — sections 3, 5, 6
    - Trebia River ambush (Section 3: 5:00–7:00)
    - Trasimene encirclement (Section 3 continued)
    - Fabius "Delayer" strategy animation (Section 4: 7:00–8:45)
@@ -112,7 +111,7 @@
    - Cannae full battle sequence (Section 6: 10:30–16:00)
    - Aftermath sequence (Section 7: 16:00–19:30)
 
-5. **Full Animation Assembly**
+5. **Full Animation Assembly** — ✅ sections rendered with narration, wind bed and impact hits; still to add: music, subtitles, richer SFX
    - Render all 9 sections to individual MP4s
    - Integrate narrator voice files at correct timings
    - Add subtitle overlays (English text)
@@ -140,11 +139,11 @@
 | Aspect | Target | Status |
 |--------|--------|--------|
 | Script Length | 22 min | ✅ Complete (2,118 words) |
-| Animation Scenes | 9 sections | 🟡 3/9 previewed (33%) |
-| Voice Track | Single narrator | ⏳ Pending user recording |
+| Animation Scenes | 9 sections | ✅ 9/9 animated, synced to narration |
+| Voice Track | Single narrator | ✅ Daniel, 9.5 min |
 | Character Sprites | 8 unique | ⏳ Design in progress |
 | Maps | 5 animated | ⏳ In production queue |
-| Total Runtime | 22 min | 🟡 ~2.5 min preview ready |
+| Total Runtime | ~9.5 min (first cut; 22 min later) | ✅ full first cut rendered |
 | Video Quality | 1280×720 @ 24fps | ✅ Preview at full spec |
 | YouTube Format | 1920×1080 @ 24fps | ⏳ Will upscale from 720p |
 

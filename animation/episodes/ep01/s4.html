@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script>
+<script>
+// Section 4 — The man who said 'no'
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(4);
+const hits = [];
+const H = t => (hits.push(t), t);
+const senate = (t, mood, n = 4, seed = 1) => { let s = K.columns(t, '#e8dcc4', '#c9a46a', 5);
+  for (let i = 0; i < n; i++) s += T.senator({ x: 260 + i * (1400 / (n - 1)), y: 620 + K.breathe(t, i), s: .7, seed: seed + i * 3, e: E(typeof mood === 'function' ? mood(i) : mood), sweat: mood === 'worried' ? .6 : 0, flip: i >= n / 2 });
+  return s; };
+const italyCam = (inner, t) => K.cam(inner, 2.1, 1180, 470, 0, t);
+
+const shots = [
+  [0, (t, lt) => { // after two defeats, something smart
+    let s = senate(t, 'worried', 4, 2);
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + K.chapter(4, "THE MAN WHO SAID 'NO'", t, 0, 2.8) + K.say('SOMETHING SMART', 960, 200, 100, t, H(W('smart')), { fill: C.gold });
+  }],
+  [S(1), (t, lt) => { // Fabius
+    let s = K.burst(t, '#c9a46a', '#d6b47a');
+    s += T.fabius({ x: 960, y: 380 + K.breathe(t), s: 1.15, e: E('neutral', { lid: .45 }) });
+    return K.cam(s, 1, 960, 540, 0, t) + K.lowerThird('FABIUS MAXIMUS', 'Old, calm, patient', t, H(W('quintus')));
+  }],
+  [S(2), (t, lt) => { // don't fight
+    let s = K.burst(t, '#c9a46a', '#d6b47a');
+    s += T.fabius({ x: 760, y: 380, s: 1.15, e: E('smug', { lid: .5 }), talk: t > W('dont') && t < W('dont') + .9 ? .8 : 0, t, arms: { r: { x: 160, y: -40, pose: 'point' } } });
+    return K.cam(s, 1, 960, 540, 0, t) + K.speech("DON'T FIGHT.", 1420, 300, t, H(W('dont')), { size: 72 });
+  }],
+  [S(3), (t, lt) => { // follow Hannibal, cut supplies, pick off groups, no big battle
+    let s = K.map(t, { tint: { italy: .35 } }) + K.city('ROME', 'rome', t, 0, C.red, { size: 30, dy: -34 });
+    const path = [[1030, 330], [1100, 420], [1200, 520], [1290, 600], [1230, 660], [1160, 560], [1090, 470], [1150, 400]];
+    const at = u => { const L = path.length - 1, x = clamp(u) * L, i = Math.min(L - 1, Math.floor(x)), q = x - i; return [lerp(path[i][0], path[i + 1][0], q), lerp(path[i][1], path[i + 1][1], q)]; };
+    const u = ((t - S(3)) / 9.5) % 1, [hx, hy] = at(u), [rx, ry] = at(Math.max(0, u - .09));
+    s += `<g transform="translate(${f(hx)},${f(hy)}) scale(.12)">${T.hannibal({})}</g>`;
+    if (t > W('follow')) s += `<g transform="translate(${f(rx)},${f(ry)}) scale(.12)">${T.fabius({})}</g>`;
+    const sk = clamp((t - S(4)) / .4); if (sk > 0) s += `<g transform="translate(${f(hx + 40)},${f(hy - 40)}) scale(${f(.6 * T.back(sk))})"><circle r="40" fill="#e8c77a" stroke="${C.ink}" stroke-width="6"/><path d="M-30,-30 L30,30 M30,-30 L-30,30" stroke="${C.red}" stroke-width="10"/></g>`;
+    if (t > S(5)) for (let i = 0; i < 4; i++) { const k = clamp((t - S(5) - i * .3) / .4); s += `<g opacity="${f(1 - k)}"><circle cx="${f(hx - 60 + i * 30)}" cy="${f(hy + 50)}" r="${f(8 + k * 12)}" fill="${C.purple}" stroke="${C.ink}" stroke-width="3"/></g>`; }
+    const o = K.say('CUT HIS SUPPLIES', 560, 860, 70, t, H(S(4)), { out: S(5) }) + K.say('PICK OFF SMALL GROUPS', 560, 860, 70, t, H(S(5)), { out: S(6) })
+      + K.stamp('BIG BATTLE', 560, 860, t, H(S(6)), -4, { size: 90 });
+    return italyCam(s, t) + o;
+  }],
+  [S(7), (t, lt) => { // Hannibal far from home, hungry
+    let s = K.burst(t, '#8a7a5a', '#968666');
+    const food = clamp(1 - (t - S(7)) / 4.5);
+    s += T.hannibal({ x: 760, y: 400, s: 1.1, e: E('bored', { mouth: { type: 'wavy' } }), sweat: .5 });
+    s += `<g transform="translate(1380,420)"><rect x="-60" y="-260" width="120" height="420" rx="20" fill="#fff" stroke="${C.ink}" stroke-width="8"/>
+      <rect x="-44" y="${f(-244 + 388 * (1 - food))}" width="88" height="${f(388 * food)}" rx="10" fill="${food > .35 ? C.gold : C.red}"/></g>`;
+    const o = K.say('FOOD', 1380, 120, 70, t, S(7)) + K.say('ENEMY TERRITORY', 760, 950, 76, t, H(W('enemy')), { out: W('food') - .2 }) + K.say('RUNNING OUT OF FOOD', 760, 950, 76, t, H(W('food')));
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(8), (t, lt) => { // time on Rome's side
+    let s = K.burst(t, '#c4372c', '#d24a3c') + K.hourglass(960, 560, 1.4, clamp((t - S(8)) / 2), t);
+    return K.cam(s, 1, 960, 540, 0, t) + K.say("TIME IS ON ROME'S SIDE", 960, 150, 90, t, H(S(8) + .2));
+  }],
+  [S(9), (t, lt) => { // it was working, but they hated it
+    let s = K.ground('#d0b060', 650, '#bf9f4f');
+    const mood = t > S(10) ? 'angry' : 'bored';
+    for (let i = 0; i < 4; i++) s += T.legionary({ x: 280 + i * 450, y: 420 + K.breathe(t, i), s: .8, pose: 'bust', e: E(mood), seed: i + 3, talk: t > S(10) + i * .3 ? .7 : 0, t,
+      arms: t > S(10) ? { r: { x: 140, y: -30, pose: 'fist' } } : undefined });
+    const o = K.say('IT WAS WORKING', 960, 160, 96, t, H(S(9)), { out: S(10) })
+      + K.speech('BORING!', 420, 170, t, H(S(10) + .4), { size: 56 }) + K.speech('FIGHT HIM!', 1300, 160, t, S(10) + 1, { size: 56 }) + K.speech('COWARD!', 860, 120, t, S(10) + 1.7, { size: 56 });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(10) + .4], .2), t) + o;
+  }],
+  [S(11), (t, lt) => { // Cunctator
+    let s = senate(t, i => 'shout', 4, 7);
+    s += T.fabius({ x: 960, y: 450, s: .95, e: E('neutral', { lid: .55 }), cup: [130, 260], arms: { r: { x: 130, y: 250, pose: 'grip' } } });
+    const o = K.stamp('CUNCTATOR', 960, 170, t, H(W('cunctator')), -3, { cross: false, size: 130, fill: C.gold })
+      + K.say('= "THE DELAYER"', 960, 290, 80, t, H(S(12))) + K.stamp('NOT A COMPLIMENT', 960, 960, t, H(S(13)), 3, { cross: false, size: 80, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('cunctator')], .2), t) + o;
+  }],
+  [S(14), (t, lt) => { // new consuls Paullus & Varro
+    let s = K.columns(t, '#e8dcc4', '#c9a46a', 5);
+    s += T.paullus({ x: 560, y: 440 + K.breathe(t), s: 1, e: E('worried', { lid: .3 }) }) + T.varro({ x: 1360, y: 440 + K.breathe(t, 2), s: 1, e: E('smug'), flip: true });
+    const lk = t > W('gaius') ? 1 : 0;
+    return K.cam(s, 1, 960, 540, 0, t) + K.dateCard('216 BC', t, W('216')) + K.say('TWO NEW CONSULS', 960, 160, 90, t, H(W('consuls')))
+      + `<g>${K.lowerThird('PAULLUS', 'Consul', t, H(W('lucius')))}</g>` + `<g transform="translate(1180,0)">${K.lowerThird('VARRO', 'Consul', t, H(W('gaius')))}</g>`;
+  }],
+  [S(16), (t, lt) => { // no more waiting
+    let s = K.burst(t, '#c4372c', '#d24a3c');
+    s += T.varro({ x: 960, y: 400, s: 1.2, e: E('shout'), talk: 1, t, arms: { r: { x: 180, y: -40, pose: 'fist' } } });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('waiting')], .3), t) + K.stamp('NO MORE WAITING', 960, 180, t, H(W('waiting')), -4, { cross: false, size: 110, fill: '#fff' });
+  }],
+  [S(17), (t, lt) => { // the biggest army... today
+    let s = K.ground('#d8b468', 560, '#c9a457');
+    for (let r = 0; r < 4; r++) for (let i = 0; i < 11; i++) { const m = K.march(t, i + r, 7), sc = .3 + r * .08;
+      s += T.legionary({ x: -160 + i * 200 * (sc / .4) + (r % 2) * 80 + lt * 40, y: 470 + r * 120 + m.bob, s: sc, step: m.step, e: E(r % 2 ? 'smug' : 'determined'), shield: [-40, 175, .78], spear: [50, 270, 110, -250], seed: i + r * 11 }); }
+    const o = K.say('THE BIGGEST ARMY ROME EVER RAISED', 960, 150, 72, t, H(W('biggest'))) + K.stamp('TODAY.', 960, 330, t, H(S(18)), -5, { cross: false, size: 170, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [S(18)], .3), t) + o;
+  }],
+  [S(19), (t, lt) => { // cautious vs blood
+    let s = `<rect width="960" height="1080" fill="#5f7f95"/><rect x="960" width="960" height="1080" fill="#a52a20"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="10"/>`;
+    const pound = t > S(20) + .4 ? Math.abs(Math.sin((t - S(20)) * 8)) : 0;
+    s += T.paullus({ x: 480, y: 400, s: 1, e: E('worried'), sweat: .7 });
+    s += T.varro({ x: 1440, y: 400, s: 1, e: E('shout'), flip: true, talk: t > S(20) ? 1 : 0, t, arms: { r: { x: 170, y: lerp(-60, 60, pound), pose: 'fist' } } });
+    const o = K.say('CAUTIOUS', 480, 960, 100, t, H(W('cautious')), { fill: '#cfe6f5' }) + K.say('BLOOD', 1440, 960, 130, t, H(W('blood')), { fill: C.red, stroke: '#fff' });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('blood')], .3) * 1, t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

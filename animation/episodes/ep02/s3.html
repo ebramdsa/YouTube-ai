@@ -1,0 +1,84 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 3 — The two spies
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(3);
+const hits = [], H = t => (hits.push(t), t);
+const amunTokens = (t, k) => { let s = ''; for (let i = 0; i < 24; i++) { const x = lerp(820 + (i % 6) * 30, 560 + (i % 6) * 34, k), y = lerp(1000 + Math.floor(i / 6) * 30, 300 + Math.floor(i / 6) * 34, k); s += K.token(x, y, C.gold, 12); } return s; };
+
+const shots = [
+  [0, (t, lt) => { // two nomads bow to Ramesses
+    let s = EP.desert(t, { horizon: 600 }) + EP.city(1500, 600, .35, t, { flag: '#fff' });
+    const bow = Math.max(0, Math.sin(t * 2.4)) * 30;
+    s += EP.nomad({ x: 420, y: 520, s: .95, rot: bow, e: E('smug', { look: [.6, 0] }), seed: 1 }) + EP.nomad({ x: 680, y: 530, s: .9, rot: bow * .8, e: E('smug', { look: [.6, 0] }), seed: 2, band: C.teal });
+    s += EP.ramesses({ pose: 'chibi', x: 1260, y: 500, s: 1.05, e: E('neutral', { look: [-.6, 0] }) });
+    const o = K.chapter(3, 'THE TWO SPIES', t, 0, 2.6) + K.say('TWO LOCAL NOMADS', 960, 960, 80, t, H(W('nomads')), { fill: C.gold, out: S(1) })
+      + K.speech('WE SWITCH SIDES!', 560, 230, t, H(S(1)), { size: 50, out: S(2) - .1 }) + K.speech('GREAT NEWS!', 560, 230, t, H(S(2) + .1), { size: 56 });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+  [S(3), (t, lt) => { // "the Hittite army is far away, near Aleppo"
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6 } }) + K.city('KADESH', EP.PL.kadesh, t, 0, C.gold);
+    s += K.arrowAlong([EP.PL.kadesh, [960, 380], EP.PL.aleppo], clamp((t - W('far')) / .8), '#fff', 12);
+    s += K.city('ALEPPO', EP.PL.aleppo, t, H(W('aleppo')), EP.P.hit, { dy: -50 });
+    const o = K.say('"FAR AWAY"', 960, 900, 100, t, H(W('far')), { fill: '#fff' }) + K.say('(SAY THE NOMADS)', 960, 990, 50, t, W('far') + .6, { fill: C.gold });
+    return K.cam(s, lerp(1.6, 1.9, ease(lt / 4)), 960, 400, 0, t) + o;
+  }],
+  [S(4), (t, lt) => { // "too scared to face the mighty pharaoh" — the nomads' version
+    let s = K.burst(t, '#9fc3ff', '#b5d2ff');
+    s += `<g opacity=".95">${EP.path('M380,140 Q960,40 1540,140 Q1700,540 1540,940 Q960,1040 380,940 Q220,540 380,140Z', '#fff', 10, 'stroke-dasharray="40 24"')}</g>`;
+    const shake = Math.sin(t * 50) * 6;
+    for (let i = 0; i < 3; i++) s += EP.hittite({ x: 640 + i * 320 + shake, y: 470, s: .95, seed: 420 + i, e: E('scared', { look: [0, -.3] }), sweat: 1, arms: { l: { x: -60, y: 20, pose: 'open' }, r: { x: 60, y: 20, pose: 'open' } } });
+    const o = K.say('TOO SCARED', 960, 210, 110, t, H(W('scared'))) + K.say('...OF THE MIGHTY PHARAOH', 960, 880, 70, t, H(W('mighty')), { fill: C.gold })
+      + T.text('(THE NOMADS\' VERSION)', 1500, 1040, 40, { fill: '#fff', font: 'Lilita', sw: 7 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(5), (t, lt) => { // Ramesses loved this. He didn't check.
+    let s = K.burst(t, '#e8b04a', '#f0c060');
+    for (let i = 0; i < 5; i++) { const k = ((t * .6 + i * .2) % 1); s += `<g transform="translate(${f(560 + i * 200 + Math.sin(t * 3 + i) * 30)},${f(800 - k * 700)}) scale(${f(.6 + k * .4)})" opacity="${f(1 - k)}"><path d="M0,30 C-60,-10 -40,-60 0,-30 C40,-60 60,-10 0,30Z" fill="${C.red}" stroke="${C.ink}" stroke-width="7"/></g>`; }
+    s += EP.ramesses({ x: 960, y: 360 + K.breathe(t), s: 1.1, e: E('proud', { mouth: { type: 'smile', w: 34 } }), arms: { r: { x: 220, y: 60, pose: 'thumb' }, l: { x: -220, y: 60, pose: 'thumb' } } });
+    const ck = W('check');
+    const box = t > ck ? `<g transform="translate(1500,330)"><rect x="-70" y="-70" width="140" height="140" rx="12" fill="#fff" stroke="${C.ink}" stroke-width="10"/></g>` + K.say('CHECKED?', 1500, 200, 60, t, ck) : '';
+    const o = K.say('LOVED IT', 420, 220, 100, t, H(W('loved')), { fill: C.red }) + box + K.stamp('DIDN\'T CHECK', 960, 960, t, H(ck), -3, { cross: false, size: 110, fill: '#fff' });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [ck], .2), t) + o;
+  }],
+  [S(7), (t, lt) => { // Amun races ahead to camp beside Kadesh; the rest strung out behind
+    let s = EP.board(t);
+    const k = ease((t - W('raced') + .3) / 2.2);
+    s += amunTokens(t, k);
+    if (k > .8) for (let i = 0; i < 6; i++) s += EP.tentTop(500 + (i % 3) * 70, 240 + Math.floor(i / 3) * 70, 1);
+    const rest = clamp((t - S(8)) / .6);
+    if (rest > 0) [['RA', C.red, 840], ['PTAH', C.teal, 930], ['SET', C.purple, 1020]].forEach(([n, col, y], i) => {
+      for (let j = 0; j < 10; j++) s += K.token(lerp(-200, 260, ease(rest)) + j * 32, y, col, 11);
+      s += T.text(n, lerp(-300, 150, ease(rest)), y + 14, 44, { fill: '#fff', font: 'Lilita', sw: 7 }); });
+    if (rest > 0) s += `<path d="M640,${f(860)} L780,${f(700)}" stroke="#fff" stroke-width="8" stroke-dasharray="20 16" opacity="${f(rest)}"/>`;
+    const o = K.say('AMUN', 820, 1000 - k * 650, 60, t, W('amun'), { fill: C.gold }) + K.say('CAMP', 600, 150, 70, t, H(W('camp'))) + K.say('MILES BEHIND', 1500, 900, 80, t, H(W('miles')), { fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(9), (t, lt) => { // one problem: the nomads were Hittite spies
+    let s = `<rect width="1920" height="1080" fill="#2a1d17"/><circle cx="960" cy="560" r="560" fill="#5a4636" opacity=".55"/>`;
+    const sp = W('spies'), rev = clamp((t - sp) / .4), wink = t > S(10) && t < sp;
+    const look1 = t > S(10) - .3 ? [.7, 0] : [0, 0], look2 = t > S(10) - .3 ? [-.7, 0] : [0, 0];
+    if (rev < .5) s += EP.nomad({ x: 620, y: 420, s: 1.1, pose: 'bust', e: E('smug', { look: look1 }), wink, seed: 1 }) + EP.nomad({ x: 1300, y: 420, s: 1.1, pose: 'bust', flip: true, e: E('smug', { look: look2 }), wink, seed: 2, band: C.teal });
+    else s += EP.hittite({ x: 620, y: 420, s: 1.1, pose: 'bust', cap: 1, e: E('smug', { look: [.7, 0] }), seed: 1 }) + EP.hittite({ x: 1300, y: 420, s: 1.1, pose: 'bust', flip: true, cap: 1, e: E('smug', { look: [.7, 0] }), seed: 2 });
+    s += K.poof(620, 400, (t - sp) / .8, 1.5, 3) + K.poof(1300, 400, (t - sp) / .8, 1.5, 5);
+    const o = K.say('ONE PROBLEM...', 960, 160, 100, t, H(W('problem')), { out: sp - .1 }) + K.stamp('HITTITE SPIES', 960, 170, t, H(sp), -4, { cross: false, size: 130, fill: '#9fc3ff' });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [sp], .25), t) + o;
+  }],
+  [S(11), (t, lt) => { // the whole Hittite army hiding behind the city, watching the campfires
+    let s = `<rect width="1920" height="1080" fill="#2f3b5c"/>` + `<circle cx="300" cy="160" r="70" fill="#f3efe0" opacity=".9"/>`;
+    s += `<path d="M-20,640 Q500,600 960,630 T1940,620 L1940,1100 L-20,1100Z" fill="#6a5a3a" stroke="${C.ink}" stroke-width="7"/>`;
+    const ch = W('chariots');
+    for (let r = 0; r < 2; r++) for (let i = 0; i < 6; i++) { const k = clamp((t - (r ? ch : S(11) + .6) - i * .1) / .4); s += EP.hitPeeker(1180 + i * 130 + r * 60, lerp(700, 520 - r * 40, ease(k)), .42, t, i + r * 6); }
+    if (t > ch) for (let i = 0; i < 4; i++) { const k = clamp((t - ch - i * .12) / .4); s += `<g transform="translate(${1250 + i * 170},${f(lerp(760, 600, ease(k)))}) scale(.5)">${EP.wheel(0, 0, 70, t * .5, '#8a5a3a')}</g>`; }
+    s += EP.city(960, 660, .6, t, { flag: EP.P.hit }) + `<rect width="1920" height="1080" fill="#1a2238" opacity=".25"/>`;
+    for (let i = 0; i < 4; i++) s += EP.tent(160 + i * 160, 700 + (i % 2) * 20, .45, '#cbbf9f') + EP.campfire(230 + i * 160, 740 + (i % 2) * 20, .4, t + i);
+    const o = K.say('THE ENTIRE HITTITE ARMY', 960, 150, 90, t, H(W('entire')), { fill: '#9fc3ff', out: ch - .1 }) + K.say('THOUSANDS OF CHARIOTS', 960, 150, 90, t, H(ch), { fill: C.gold })
+      + K.speech('NICE FIRES.', 1500, 330, t, W('campfires'), { size: 50, tail: -1 });
+    return K.cam(s, 1 + lt * .01, 960, 560, 0, t) + o;
+  }],
+];
+K.runScene(shots, { duration: dur, hits });
+</script></body></html>

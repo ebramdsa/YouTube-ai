@@ -1,0 +1,9 @@
+{"source": "animation/previews/ep02-full.mp4",
+ "srt": "scripts/ep02-kadesh/subtitles/ep02.en.srt",
+ "font": "assets/fonts/LilitaOne-Regular.ttf",
+ "out_dir": "animation/previews/reels",
+ "reels": [
+  {"name": "ep02-reel1-cold-open", "start": 0.0, "end": 46.2, "title": ["AMBUSHED, BEATEN...", "THEN HE 'WON'"]},
+  {"name": "ep02-reel2-the-spies", "start": 169.88, "end": 220.2, "title": ["TWO 'NOMADS'", "FOOLED A PHARAOH"]},
+  {"name": "ep02-reel3-his-version", "start": 287.71, "end": 315.7, "title": ["HIS VERSION", "VS HISTORIANS"]}
+ ]}

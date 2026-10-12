@@ -1,0 +1,111 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../lib/fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}</style></head><body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../lib/toon.js"></script><script src="../../lib/kit.js"></script><script src="timing.js"></script><script src="cast.js"></script>
+<script>
+// Section 0 — Cold open: the smug pharaoh, the ambush, two victory stories
+const { C, ease, clamp, lerp, f } = T, E = T.expr;
+const { S, W, dur } = K.timingFor(0);
+const hits = [], H = t => (hits.push(t), t);
+const TAIL = 2.6; // hold the title card after the last word
+
+const shots = [
+  [0, (t, lt) => { // the plain, Kadesh on the river, a golden chariot racing in
+    let s = EP.desert(t, { horizon: 560 }) + EP.city(1380, 520, .45, t, { flag: EP.P.hit }) + EP.river(600, t, 70);
+    s += K.dust(t, 14, -1, '#f1dfae', 3);
+    const x = lerp(-700, 520, ease(lt / 3.2));
+    s += EP.chariot({ x, y: 960, s: 1.15, t, crew: [EP.egyptian({ s: .45, e: E('determined') }), EP.ramesses({ s: .45, pose: 'chibi', e: E('smug', { look: [.3, -.2] }) })] });
+    s += K.poof(x + 20, 940, ((t * 3) % 1), .8, 2, '#e8d3a0');
+    const o = K.dateCard('1274 BC', t, H(W('1274'))) + K.say('SYRIA', 960, 180, 120, t, H(W('syria')), { fill: C.gold });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+  [S(2), (t, lt) => { // most powerful man in the world... about to be ambushed
+    let s = EP.desert(t, { horizon: 700, sky: '#f3dda5' });
+    const up = clamp((t - W('ambushed') + .3) / .5);
+    for (let i = 0; i < 6; i++) s += EP.hitPeeker(160 + i * 320, lerp(860, 690 - (i % 2) * 30, ease(up - i * .08)), .5, t, i);
+    for (let i = 0; i < 6; i++) s += EP.rock(160 + i * 320, 820, .9, i + 3);
+    s += `<rect y="868" width="1920" height="220" fill="#cfa458"/><path d="M0,868 L1920,868" stroke="${C.ink}" stroke-width="7"/>`;
+    s += EP.ramesses({ x: 960, y: 330 + K.breathe(t), s: 1.05, e: E('proud', { look: [0, -.4] }), arms: { l: { x: -150, y: 260, pose: 'fist' }, r: { x: 150, y: 260, pose: 'fist' } } });
+    const o = K.say('MOST POWERFUL MAN', 960, 140, 96, t, H(W('powerful'))) + K.say('IN THE WORLD', 960, 250, 70, t, W('world'), { fill: C.gold })
+      + (up > .5 ? K.speech('...?', 1460, 640, t, W('ambushed') + .6, { size: 52 }) : '');
+    return K.cam(s, 1 + lt * .02, 960, 560, 0, t) + o;
+  }],
+  [S(3), (t, lt) => { // Ramesses the Second: pharaoh, son of the sun god, 25
+    let s = K.burst(t, '#3f6fb0', '#4f7fc0');
+    const sun = clamp((t - W('sun')) / .5);
+    if (sun > 0) s += EP.sunFace(1560, lerp(-300, 260, T.back(sun)), 130, t, E('proud'), { thumb: t > W('god') + .3 });
+    s += EP.ramesses({ x: 900, y: 360 + K.breathe(t), s: 1.15, e: E('smug'), talk: 0 });
+    const o = K.lowerThird('RAMESSES II', 'Pharaoh of Egypt', t, H(W('ramesses')), EP.P.egBlue)
+      + K.say('SON OF THE SUN GOD', 640, 160, 84, t, H(W('son')), { fill: C.gold, out: S(6) - .1 })
+      + K.stamp('AGE: 25', 640, 170, t, H(W('twenty')), -4, { cross: false, size: 110, fill: '#fff' });
+    return K.cam(s, 1 + lt * .012, 960, 540, K.shakeAt(t, [W('twenty')], .15), t) + o;
+  }],
+  [S(7), (t, lt) => { // very, very sure of himself (admires himself in a mirror)
+    let s = K.burst(t, '#e8b04a', '#f0c060');
+    const wink = t > W('himself') + .2 && t < W('himself') + .5;
+    s += EP.ramesses({ x: 760, y: 380 + K.breathe(t), s: 1.1, e: E('smug', { look: [.6, 0] }), arms: { r: { x: 320, y: 120, pose: 'grip' } } });
+    const refl = EP.ramesses({ x: 0, y: 40, s: .5, flip: true, e: wink ? E('smug', { lid: .95 }) : E('smug', { look: [-.6, 0] }) });
+    s += EP.mirror(1170, 280, 1.15, `<rect x="-120" y="-120" width="240" height="240" fill="#f6e6b8"/>` + refl);
+    for (let i = 0; i < 4; i++) s += EP.sparkle(1060 + (i % 2) * 240, 150 + Math.floor(i / 2) * 260, .8, t, i);
+    const o = K.say('VERY', 420, 200, 100, t, H(W('very'))) + K.say('VERY', 420, 320, 120, t, H(W('very', 2)), { fill: C.gold })
+      + K.stamp('SURE OF HIMSELF', 960, 960, t, H(W('sure')), -3, { cross: false, size: 96, fill: '#fff' });
+    return K.cam(s, 1.02, 960, 540, 0, t) + o;
+  }],
+  [S(8), (t, lt) => { // the army will be cut in half
+    let s = EP.desert(t, { horizon: 520 });
+    const cut = W('half'), apart = ease((t - cut) / .8);
+    const left = EP.column(5, 120, 800, 170, t, EP.egSoldier(EP.P.egBlue), .5);
+    const right = EP.column(5, 1010, 800, 170, t, EP.egSoldier(EP.P.egBlue, E('shocked')), .5);
+    s += `<g transform="translate(${f(-apart * 120)},0)">${left}</g><g transform="translate(${f(apart * 260)},${f(apart * 30)}) rotate(${f(apart * 4)} 1400 800)">${right}</g>`;
+    const sx = lerp(2200, 960, ease((t - W('cut') + .5) / .5));
+    s += EP.scissors(sx, 820, 1.1, t < cut ? .7 + .3 * Math.sin(t * 20) : 0);
+    const o = K.say('IN A FEW HOURS...', 960, 170, 96, t, W('few')) + K.stamp('CUT IN HALF', 960, 330, t, H(cut), -4, { cross: false, size: 110, fill: C.red });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [cut], .2), t) + o;
+  }],
+  [W('camp'), (t, lt) => { // camp overrun, fighting for his life
+    let s = EP.desert(t, { horizon: 520 });
+    const ov = W('overrun');
+    for (let i = 0; i < 5; i++) s += EP.tent(160 + i * 400, 700 + (i % 2) * 40, .9, '#efe2c4', clamp((t - ov - i * .12) / .35), i === 2 ? C.gold : 0);
+    s += K.dust(t, 18, 1, '#f1dfae', 5);
+    const fight = t > W('fighting');
+    s += EP.ramesses({ pose: 'chibi', x: 960, y: 610 + (fight ? Math.abs(Math.sin(t * 12)) * -14 : 0), s: .95, e: E(fight ? 'scared' : 'worried'), sweat: 1, arms: { l: { x: -120, y: fight ? -40 + Math.sin(t * 16) * 30 : 160, pose: 'fist' }, r: { x: 130, y: fight ? -60 + Math.cos(t * 16) * 30 : 160, pose: 'fist' } } });
+    if (fight) for (let i = 0; i < 4; i++) { const side = i % 2 ? 1 : -1, k = ease((t - W('fighting') - i * .15) / .6);
+      s += EP.hittite({ x: 960 + side * lerp(1100, 330 + (i > 1 ? 160 : 0), k), y: 640 + (i > 1 ? 40 : 0), s: .7, flip: side > 0, e: E('angry'), spear: [50, 270, 110, -250] }); }
+    const o = K.stamp('CAMP OVERRUN', 960, 170, t, H(ov), 3, { cross: false, size: 100, fill: C.red });
+    return K.cam(s, 1 + lt * .02, 960, 600, K.shakeAt(t, [ov, W('fighting')], .2), t) + o;
+  }],
+  [S(9), (t, lt) => { // ...and yet he carved his great victory into five temples
+    let s = EP.wall(t, { glyphs: [1380, 180, 6, 13] });
+    const reveal = clamp((t - W('carved') + .2) / 1.6), id = 'rv';
+    const relief = EP.chariot({ t: 0, speed: 0, crew: [EP.ramesses({ s: .45, pose: 'chibi', e: E('proud'), arms: { r: { x: 140, y: 40, pose: 'fist' } } })] })
+      + EP.hittite({ x: 600, y: -190, s: .38, flip: true, e: E('scared'), rot: -60 }) + EP.hittite({ x: 680, y: -120, s: .38, e: E('shocked'), rot: 70 });
+    s += `<clipPath id="${id}"><rect x="0" y="0" width="${f(1300 * reveal)}" height="1080"/></clipPath><g clip-path="url(#${id})">${EP.carve(relief, 250, 840, 1.3)}</g>`;
+    if (reveal > 0 && reveal < 1) s += `<g transform="translate(${f(1300 * reveal)},${f(520 + Math.sin(t * 30) * 10)}) rotate(-30)">${T.tube('M0,0 L-160,0', 18, C.iron, 6)}${T.tube('M-150,0 L-260,0', 28, '#8a5a3a', 6)}</g>`;
+    const five = W('five');
+    let icons = ''; for (let i = 0; i < 5; i++) { const k = T.back((t - five - i * .12) / .3); if (k > 0) icons += `<g transform="translate(${360 + i * 300},1000) scale(${f(.22 * k)})">${EP.pylon(0, 0, 1)}</g>`; }
+    const o = K.say('GREAT VICTORY!', 700, 160, 100, t, H(W('victory')), { fill: C.gold }) + icons + K.say('×5 TEMPLES', 1540, 160, 80, t, H(five));
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(10), (t, lt) => { // meanwhile, the other king records his victory too
+    let s = `<rect width="1920" height="1080" fill="#2f3a52"/>` + K.columns(t, '#5a6a8a', '#2f3a52', 5).replace('<rect width="1920" height="1080" fill="#2f3a52"/>', '') + `<rect width="1920" height="1080" fill="#000" opacity=".25"/>`;
+    const writing = t > W('recorded') - .3;
+    s += EP.muwatalli({ x: 760, y: 360 + K.breathe(t), s: 1.05, e: E('smug', { lid: .55, look: [.5, .4] }), arms: { r: { x: 330 + (writing ? Math.sin(t * 14) * 16 : 0), y: 230 + (writing ? Math.cos(t * 11) * 10 : 0), pose: 'grip' } } });
+    s += EP.tablet(1180, 700, 1.1, -6);
+    const o = K.lowerThird('MUWATALLI II', 'Hittite king', t, H(W('other') - .2), EP.P.hit) + K.say('MEANWHILE...', 960, 150, 96, t, W('meanwhile'))
+      + K.stamp('ALSO A VICTORY', 1240, 330, t, H(W('too')), 6, { cross: false, size: 80, fill: '#9fc3ff' });
+    return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+  [S(12), (t, lt) => { // so who actually won? — title card
+    const tk = clamp((t - W('kadesh') + .1) / .4);
+    let s = `<rect width="1920" height="1080" fill="${EP.P.egBlue}"/><rect x="960" width="960" height="1080" fill="${EP.P.hit}"/><path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="12"/>`;
+    s += EP.ramesses({ x: 480, y: 380 + K.breathe(t), s: .95, e: E('smug', { look: [.5, 0] }), arms: { r: { x: 150, y: 120, pose: 'thumb' } } });
+    s += EP.muwatalli({ x: 1440, y: 400 + K.breathe(t, 1), s: .95, flip: true, e: E('smug', { lid: .55, look: [.5, 0] }), arms: { r: { x: 150, y: 120, pose: 'thumb' } } });
+    s += K.say('WINNER', 480, 960, 90, t, S(12) + .3, { fill: C.gold }) + K.say('WINNER', 1440, 960, 90, t, S(12) + .5, { fill: C.gold });
+    s += K.say('WHO ACTUALLY WON?', 960, 150, 100, t, H(W('won')));
+    if (tk > 0) { s += `<rect width="1920" height="1080" fill="${C.ink}" opacity="${f(.85 * tk)}"/>`;
+      s += K.say('KADESH', 960, 560, 260, t, H(W('kadesh')), { fill: C.gold }) + K.say('THE FIRST FAKE NEWS IN HISTORY', 960, 700, 64, t, W('kadesh') + .7); }
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [W('kadesh')], .25), t);
+  }],
+];
+K.runScene(shots, { duration: dur + TAIL, hits });
+</script></body></html>
