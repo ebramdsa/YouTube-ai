@@ -1,5 +1,5 @@
 # Kadesh: The First Fake News in History
-## Full Script — Narrator Only (~10 minutes)
+## Full Script — Narrator Only (~13 minutes, extended cut)
 
 **Language:** English
 **Voice:** One narrator (same tone as episode 1: dramatic, dry humour, fast-paced)
@@ -53,6 +53,20 @@
 
 "The key to it all was a fortified city on the Orontes River. Its name was Kadesh."
 
+[*Added for the extended cut.*]
+
+"Neither empire could ever let go of it."
+
+"For more than a century, the little kingdoms of Syria switched sides whenever the wind changed, paying tribute to Egypt one year and to the Hittites the next."
+
+"Kadesh itself had changed sides more than once."
+
+"And it was not an easy city to take."
+
+"It sat between the Orontes and a smaller stream, with a moat dug across the gap, so the city was almost completely surrounded by water."
+
+"If you held Kadesh, you held the road north."
+
 ---
 
 ## 2. THE YOUNG PHARAOH (2:00–3:00)
@@ -74,6 +88,24 @@
 
 "Waiting for him was the Hittite king, Muwatalli the Second. Older. Quieter. And much, much sneakier."
 
+[*Added for the extended cut.*]
+
+"And Muwatalli had every reason to be ready."
+
+"The year before, Ramesses had marched up the coast and pulled the kingdom of Amurru, a Hittite ally, over to Egypt's side."
+
+"For the Hittites, that was a slap in the face."
+
+"So Muwatalli called in every favour he had."
+
+"Allies came from all over Anatolia and Syria, from more than a dozen different lands."
+
+"Egyptian scribes claimed he brought around two and a half thousand chariots."
+
+"Whatever the real number, it was the biggest army the Hittites had ever put in the field."
+
+"And it was waiting for Ramesses at Kadesh."
+
 ---
 
 ## 3. THE TWO SPIES (3:00–4:15)
@@ -94,6 +126,20 @@
 [*The nomads wink at each other.*]
 
 "The entire Hittite army was hiding on the other side of the city. Thousands of chariots. Close enough to see the Egyptian campfires."
+
+[*Added for the extended cut.*]
+
+"Think about how close that was."
+
+"Ramesses was sitting in his new camp, feeling like a god."
+
+"And just a short ride away, behind the walls and across the river, thousands of horses were waiting for a signal."
+
+"Muwatalli didn't need to beat the whole Egyptian army at once."
+
+"He only needed to catch it in pieces."
+
+"And thanks to his two spies, that's exactly how it was arriving."
 
 ---
 
@@ -127,6 +173,18 @@
 
 "Now the camp was in chaos. Soldiers fleeing. Tents trampled. And the Pharaoh of Egypt was nearly surrounded."
 
+[*Added for the extended cut.*]
+
+"Try to picture it."
+
+"Wave after wave of heavy chariots, each one pulled by two horses, pouring into a camp full of tents, cattle, baggage and terrified men."
+
+"Dust everywhere."
+
+"Nobody knowing where the next attack was coming from."
+
+"For a few terrible minutes, the most powerful army in the world had simply stopped being an army."
+
 ---
 
 ## 6. RAMESSES FIGHTS BACK (6:15–7:45)
@@ -151,6 +209,20 @@
 [*Hittite chariots pulling back across the river.*]
 
 "Muwatalli sent in another thousand chariots. But his huge army of foot soldiers never crossed the river. By nightfall, the Hittite chariots had pulled back."
+
+[*Added for the extended cut.*]
+
+"Ramesses had survived. Barely."
+
+"And according to his own inscriptions, the first thing he did afterwards was give his officers a furious speech."
+
+"Where were you? I was alone! My horses did more than all of you!"
+
+"He even named the two horses that pulled his chariot that day: Victory in Thebes, and Mut is Content."
+
+"And he promised to feed them with his own hands, every single day, for the rest of their lives."
+
+"His officers, presumably, got nothing."
 
 ---
 
@@ -183,6 +255,22 @@
 
 "Two kings. One battle. Two completely different stories."
 
+[*Added for the extended cut.*]
+
+"And the war didn't end there."
+
+"For years after Kadesh, Egypt and the Hittites kept fighting over the cities of Syria, raiding, besieging, and taking towns back and forth."
+
+"Ramesses came north again and again, but nobody could land a knockout blow."
+
+"Then Muwatalli died."
+
+"His son became king, only to be pushed off the throne by his own uncle, Hattusili."
+
+"And far to the east, a new danger was growing, one that worried both empires."
+
+"Assyria."
+
 ---
 
 ## 8. THE PEACE TREATY (9:00–9:50)
@@ -201,6 +289,14 @@
 [*Modern building with flags. A clay tablet on display.*]
 
 "Today, a copy of that treaty is on display at the United Nations in New York. The oldest peace deal, in the home of modern peace deals."
+
+[*Added for the extended cut.*]
+
+"And the friendship got surprisingly personal."
+
+"The Egyptian queen, Nefertari, and the Hittite queen, Puduhepa, wrote letters to each other and exchanged gifts."
+
+"Two royal families that had spent decades trying to destroy each other, now sending each other jewellery and asking about each other's health."
 
 ---
 

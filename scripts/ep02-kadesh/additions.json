@@ -1,0 +1,58 @@
+{
+ "_note": "Lines appended to the end of existing narrator sections to take episode 2 from ~9 to ~12.5 minutes. Generated with scripts/extend_narration.py (one Gemini TTS request per section) and joined onto the original section audio, so the approved narration is untouched and scene references (S(k), W(word)) stay valid.",
+ "1": [
+  "Neither empire could ever let go of it.",
+  "For more than a century, the little kingdoms of Syria switched sides whenever the wind changed, paying tribute to Egypt one year and to the Hittites the next.",
+  "Kadesh itself had changed sides more than once.",
+  "And it was not an easy city to take.",
+  "It sat between the Orontes and a smaller stream, with a moat dug across the gap, so the city was almost completely surrounded by water.",
+  "If you held Kadesh, you held the road north."
+ ],
+ "2": [
+  "And Muwatalli had every reason to be ready.",
+  "The year before, Ramesses had marched up the coast and pulled the kingdom of Amurru, a Hittite ally, over to Egypt's side.",
+  "For the Hittites, that was a slap in the face.",
+  "So Muwatalli called in every favour he had.",
+  "Allies came from all over Anatolia and Syria, from more than a dozen different lands.",
+  "Egyptian scribes claimed he brought around two and a half thousand chariots.",
+  "Whatever the real number, it was the biggest army the Hittites had ever put in the field.",
+  "And it was waiting for Ramesses at Kadesh."
+ ],
+ "3": [
+  "Think about how close that was.",
+  "Ramesses was sitting in his new camp, feeling like a god.",
+  "And just a short ride away, behind the walls and across the river, thousands of horses were waiting for a signal.",
+  "Muwatalli didn't need to beat the whole Egyptian army at once.",
+  "He only needed to catch it in pieces.",
+  "And thanks to his two spies, that's exactly how it was arriving."
+ ],
+ "5": [
+  "Try to picture it.",
+  "Wave after wave of heavy chariots, each one pulled by two horses, pouring into a camp full of tents, cattle, baggage and terrified men.",
+  "Dust everywhere.",
+  "Nobody knowing where the next attack was coming from.",
+  "For a few terrible minutes, the most powerful army in the world had simply stopped being an army."
+ ],
+ "6": [
+  "Ramesses had survived. Barely.",
+  "And according to his own inscriptions, the first thing he did afterwards was give his officers a furious speech.",
+  "Where were you? I was alone! My horses did more than all of you!",
+  "He even named the two horses that pulled his chariot that day: Victory in Thebes, and Mut is Content.",
+  "And he promised to feed them with his own hands, every single day, for the rest of their lives.",
+  "His officers, presumably, got nothing."
+ ],
+ "7": [
+  "And the war didn't end there.",
+  "For years after Kadesh, Egypt and the Hittites kept fighting over the cities of Syria, raiding, besieging, and taking towns back and forth.",
+  "Ramesses came north again and again, but nobody could land a knockout blow.",
+  "Then Muwatalli died.",
+  "His son became king, only to be pushed off the throne by his own uncle, Hattusili.",
+  "And far to the east, a new danger was growing, one that worried both empires.",
+  "Assyria."
+ ],
+ "8": [
+  "And the friendship got surprisingly personal.",
+  "The Egyptian queen, Nefertari, and the Hittite queen, Puduhepa, wrote letters to each other and exchanged gifts.",
+  "Two royal families that had spent decades trying to destroy each other, now sending each other jewellery and asking about each other's health."
+ ]
+}

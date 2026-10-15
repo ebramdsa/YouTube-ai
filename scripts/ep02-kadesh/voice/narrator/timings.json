@@ -14,7 +14,7 @@
   "start": "0:40",
   "end": "2:00",
   "file": "01_two-superpowers.mp3",
-  "duration": 56.764082,
+  "duration": 94.798367,
   "audio_start": 43.6
  },
  {
@@ -23,8 +23,8 @@
   "start": "2:00",
   "end": "3:00",
   "file": "02_the-young-pharaoh.mp3",
-  "duration": 66.847347,
-  "audio_start": 100.36
+  "duration": 111.516735,
+  "audio_start": 138.4
  },
  {
   "index": 3,
@@ -32,8 +32,8 @@
   "start": "3:00",
   "end": "4:15",
   "file": "03_the-two-spies.mp3",
-  "duration": 50.390204,
-  "audio_start": 167.21
+  "duration": 78.28898,
+  "audio_start": 249.91
  },
  {
   "index": 4,
@@ -42,7 +42,7 @@
   "end": "5:00",
   "file": "04_the-truth-comes-out.mp3",
   "duration": 28.081633,
-  "audio_start": 217.6
+  "audio_start": 328.2
  },
  {
   "index": 5,
@@ -50,8 +50,8 @@
   "start": "5:00",
   "end": "6:15",
   "file": "05_the-chariots-strike.mp3",
-  "duration": 39.314286,
-  "audio_start": 245.68
+  "duration": 67.761633,
+  "audio_start": 356.28
  },
  {
   "index": 6,
@@ -60,7 +60,7 @@
   "end": "7:45",
   "file": "06_ramesses-fights-back.mp3",
   "duration": 67.866122,
-  "audio_start": 285.0
+  "audio_start": 424.05
  },
  {
   "index": 7,
@@ -69,7 +69,7 @@
   "end": "9:00",
   "file": "07_who-won.mp3",
   "duration": 81.266939,
-  "audio_start": 352.86
+  "audio_start": 491.91
  },
  {
   "index": 8,
@@ -78,7 +78,7 @@
   "end": "9:50",
   "file": "08_the-peace-treaty.mp3",
   "duration": 54.595918,
-  "audio_start": 434.13
+  "audio_start": 573.18
  },
  {
   "index": 9,
@@ -87,6 +87,6 @@
   "end": "10:30",
   "file": "09_outro.mp3",
   "duration": 45.191837,
-  "audio_start": 488.72
+  "audio_start": 627.77
  }
 ]

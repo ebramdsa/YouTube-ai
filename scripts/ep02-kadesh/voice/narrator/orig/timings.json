@@ -1,0 +1,92 @@
+[
+ {
+  "index": 0,
+  "title": "COLD OPEN",
+  "start": "0:00",
+  "end": "0:40",
+  "file": "00_cold-open.mp3",
+  "duration": 43.598367,
+  "audio_start": 0.0
+ },
+ {
+  "index": 1,
+  "title": "TWO SUPERPOWERS",
+  "start": "0:40",
+  "end": "2:00",
+  "file": "01_two-superpowers.mp3",
+  "duration": 56.764082,
+  "audio_start": 43.6
+ },
+ {
+  "index": 2,
+  "title": "THE YOUNG PHARAOH",
+  "start": "2:00",
+  "end": "3:00",
+  "file": "02_the-young-pharaoh.mp3",
+  "duration": 66.847347,
+  "audio_start": 100.36
+ },
+ {
+  "index": 3,
+  "title": "THE TWO SPIES",
+  "start": "3:00",
+  "end": "4:15",
+  "file": "03_the-two-spies.mp3",
+  "duration": 50.390204,
+  "audio_start": 167.21
+ },
+ {
+  "index": 4,
+  "title": "THE TRUTH COMES OUT",
+  "start": "4:15",
+  "end": "5:00",
+  "file": "04_the-truth-comes-out.mp3",
+  "duration": 28.081633,
+  "audio_start": 217.6
+ },
+ {
+  "index": 5,
+  "title": "THE CHARIOTS STRIKE",
+  "start": "5:00",
+  "end": "6:15",
+  "file": "05_the-chariots-strike.mp3",
+  "duration": 39.314286,
+  "audio_start": 245.68
+ },
+ {
+  "index": 6,
+  "title": "RAMESSES FIGHTS BACK",
+  "start": "6:15",
+  "end": "7:45",
+  "file": "06_ramesses-fights-back.mp3",
+  "duration": 67.866122,
+  "audio_start": 285.0
+ },
+ {
+  "index": 7,
+  "title": "WHO WON?",
+  "start": "7:45",
+  "end": "9:00",
+  "file": "07_who-won.mp3",
+  "duration": 81.266939,
+  "audio_start": 352.86
+ },
+ {
+  "index": 8,
+  "title": "THE PEACE TREATY",
+  "start": "9:00",
+  "end": "9:50",
+  "file": "08_the-peace-treaty.mp3",
+  "duration": 54.595918,
+  "audio_start": 434.13
+ },
+ {
+  "index": 9,
+  "title": "OUTRO",
+  "start": "9:50",
+  "end": "10:30",
+  "file": "09_outro.mp3",
+  "duration": 45.191837,
+  "audio_start": 488.72
+ }
+]
