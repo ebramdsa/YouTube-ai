@@ -1,0 +1,9 @@
+{
+  "auto_pick_cheapest": true,
+  "quality": "balanced",
+  "parallel_jobs": 3,
+  "default_output": {"image": "16:9", "video": "9:16 / 5s"},
+  "request_limit_usd": 3,
+  "monthly_limit_usd": 40,
+  "hard_stop_at_limit": true
+}

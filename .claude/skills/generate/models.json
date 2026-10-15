@@ -1,0 +1,49 @@
+{
+  "_note": "Prices are rough USD estimates per image or per second of video. Check the provider's price page before big runs and update them here. quality: 1 = fast, 2 = balanced, 3 = best.",
+  "gemini-image": {
+    "type": "image", "quality": 2, "unit": "image",
+    "providers": {"google": {"price": 0.039, "model": "gemini-2.5-flash-image"}}
+  },
+  "imagen-4": {
+    "type": "image", "quality": 3, "unit": "image",
+    "providers": {"google": {"price": 0.04, "model": "imagen-4.0-generate-001"}}
+  },
+  "gpt-image": {
+    "type": "image", "quality": 3, "unit": "image",
+    "providers": {"openai": {"price": 0.042, "model": "gpt-image-1"}}
+  },
+  "flux-schnell": {
+    "type": "image", "quality": 1, "unit": "image",
+    "providers": {"fal": {"price": 0.003, "model": "fal-ai/flux/schnell"},
+                  "replicate": {"price": 0.003, "model": "black-forest-labs/flux-schnell"}}
+  },
+  "flux-pro": {
+    "type": "image", "quality": 3, "unit": "image",
+    "providers": {"fal": {"price": 0.04, "model": "fal-ai/flux-pro/v1.1"},
+                  "replicate": {"price": 0.04, "model": "black-forest-labs/flux-1.1-pro"}}
+  },
+  "veo-3-fast": {
+    "type": "video", "quality": 3, "unit": "second",
+    "providers": {"google": {"price": 0.15, "model": "veo-3.0-fast-generate-001"},
+                  "fal": {"price": 0.25, "model": "fal-ai/veo3/fast"}}
+  },
+  "kling-2.1": {
+    "type": "video", "quality": 3, "unit": "second",
+    "providers": {"fal": {"price": 0.056, "model": "fal-ai/kling-video/v2.1/standard/text-to-video"}}
+  },
+  "wan-2.2": {
+    "type": "video", "quality": 2, "unit": "second",
+    "providers": {"fal": {"price": 0.04, "model": "fal-ai/wan/v2.2-a14b/text-to-video"},
+                  "replicate": {"price": 0.05, "model": "wan-video/wan-2.2-t2v-fast"}}
+  },
+  "seedance-lite": {
+    "type": "video", "quality": 1, "unit": "second",
+    "providers": {"fal": {"price": 0.036, "model": "fal-ai/bytedance/seedance/v1/lite/text-to-video"},
+                  "replicate": {"price": 0.036, "model": "bytedance/seedance-1-lite"}}
+  },
+  "seedance-pro": {
+    "type": "video", "quality": 3, "unit": "second",
+    "providers": {"fal": {"price": 0.124, "model": "fal-ai/bytedance/seedance/v1/pro/text-to-video"},
+                  "replicate": {"price": 0.15, "model": "bytedance/seedance-1-pro"}}
+  }
+}
