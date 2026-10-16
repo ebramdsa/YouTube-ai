@@ -6,6 +6,8 @@
 // Section 7 — Who won?
 const { C, ease, clamp, lerp, f } = T, E = T.expr;
 const { S, W, dur } = K.timingFor(7);
+// first occurrence of a word at or after `from` (for the extended-cut lines appended to this section)
+const WA = (w, n = 1, from = S(24)) => { let c = 0; for (const [x, t] of TIMING[7].w) if (x === w && t >= from - .01 && ++c === n) return t; throw new Error('word not found: ' + w); };
 const hits = [], H = t => (hits.push(t), t);
 
 const shots = [
@@ -112,6 +114,43 @@ const shots = [
     if (t > st) { const k = T.back((t - st) / .35); s += `<g transform="translate(480,880) scale(${f(k * .6)}) rotate(-6)">${EP.wall(0, { x: -200, y: -150, w: 400, h: 300, bg: 'none' }).replace(/<rect width="1920" height="1080"[^>]*>/, '')}</g>` + EP.tablet(1440, 880, .8 * k, 6); }
     const o = K.say('TWO KINGS', 960, 140, 100, t, H(W('kings'))) + K.say('ONE BATTLE', 960, 140, 100, t, H(bk), { fill: C.gold }) + K.say('TWO STORIES', 960, 140, 100, t, H(st), { fill: '#fff' });
     return K.cam(s, 1, 960, 540, 0, t) + (t < bk ? K.say('TWO KINGS', 960, 140, 100, t, W('kings')) : t < st ? K.say('ONE BATTLE', 960, 140, 100, t, bk, { fill: C.gold }) : K.say('TWO STORIES', 960, 140, 100, t, st, { fill: '#fff' }));
+  }],
+  // ---- extended cut ----
+  [S(24), (t, lt) => { // the war didn't end: years of raids back and forth
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6, strip: .25 } });
+    const yk = WA('years'), spots = [[850, 640], [930, 470], [1000, 330], [900, 560], [960, 720], [1040, 420]];
+    spots.forEach(([x, y], i) => { if (t > yk + i * .45) s += K.battleMark(x, y, t, yk + i * .45, .7); });
+    const bf = WA('forth');
+    s += K.arrowAlong([[700, 820], [880, 560]], clamp((t - bf + .6) / .6), C.gold, 12) + K.arrowAlong([[1100, 240], [960, 480]], clamp((t - bf) / .6), '#5f8fd0', 12);
+    const ko = WA('knockout');
+    const o = K.stamp("IT DIDN'T END", 960, 150, t, H(S(24) + .1), -3, { cross: false, size: 100, fill: '#fff' }) + K.dateCard('YEARS LATER...', t, H(yk))
+      + K.say('AGAIN AND AGAIN', 960, 950, 84, t, H(WA('again')), { fill: C.gold, out: ko - .1 }) + K.stamp('NO KNOCKOUT', 960, 950, t, H(ko), -3, { cross: false, size: 110, fill: C.red });
+    return K.cam(s, lerp(1.15, 1.35, ease(lt / 8)), 930, 540, 0, t) + o;
+  }],
+  [S(27), (t, lt) => { // Muwatalli dies
+    let s = `<rect width="1920" height="1080" fill="#2a1d17"/>`;
+    const k = ease(lt / 1.2);
+    s += `<g opacity="${f(1 - k * .3)}">${EP.carve(EP.muwatalli({ s: 1, e: E('neutral', { lid: .7 }) }), 960, 420, 1)}</g>`;
+    const o = K.say('MUWATALLI II', 960, 900, 100, t, H(S(27) + .2), { fill: C.gold }) + K.say('c. 1272 BC', 960, 990, 56, t, H(S(27) + .6), { fill: '#fff' });
+    return K.cam(s, lerp(1.1, 1, k), 960, 520, 0, t) + o;
+  }],
+  [S(28), (t, lt) => { // his son is pushed off the throne by uncle Hattusili
+    let s = `<rect width="1920" height="1080" fill="#3f6aa8"/>`;
+    const throne = `<g transform="translate(960,980)">${EP.path('M-180,0 L-180,-420 Q0,-480 180,-420 L180,0Z', C.gold, 8)}${EP.path('M-220,0 L220,0 L220,-200 L-220,-200Z', '#8a5a3a', 8)}</g>`;
+    s += throne;
+    const pk = WA('pushed'), pkk = ease((t - pk) / .6);
+    s += EP.hittite({ pose: 'bust', x: lerp(960, 2200, pkk), y: 470, s: .8, rot: lerp(0, 40, pkk), cap: 1, seed: 260, e: t > pk ? E('shocked') : E('proud') });
+    if (t > pk - .3) s += EP.muwatalli({ x: lerp(-400, 960, ease((t - pk + .3) / .6)), y: 430, s: .85, seed: 290, e: E('smug', { lid: .5, mouth: { type: 'smirk', w: 34 } }) });
+    const o = K.lowerThird('THE SON', 'new Hittite king', t, H(WA('son')), EP.P.hit) + K.say('PUSHED OFF!', 1500, 260, 90, t, H(pk), { fill: C.red, rot: 8 })
+      + (t > WA('hattusili') ? `<g transform="translate(1180,0)">${K.lowerThird('HATTUSILI', 'his uncle', t, WA('hattusili'), C.gold)}</g>` : '');
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [pk], .25), t) + o;
+  }],
+  [S(29), (t, lt) => { // far to the east, a new danger: Assyria
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6 } });
+    const gk = clamp(lt / 3), as = S(30);
+    s += `<defs><radialGradient id="asg"><stop offset="0" stop-color="${C.red}" stop-opacity=".9"/><stop offset="1" stop-color="${C.red}" stop-opacity="0"/></radialGradient></defs><circle cx="1800" cy="380" r="${f(200 + 420 * gk)}" fill="url(#asg)" opacity="${f(.4 + .3 * Math.sin(t * 4))}"/>`;
+    const o = K.say('A NEW DANGER', 1350, 200, 90, t, H(WA('danger')), { fill: '#fff', out: as - .1 }) + K.stamp('ASSYRIA', 1330, 560, t, H(as), -4, { cross: false, size: 140, fill: C.red });
+    return K.cam(s, lerp(1.25, 1.4, ease((t - as) / 1.2)), 1150, 480, K.shakeAt(t, [as], .3), t) + o;
   }],
 ];
 K.runScene(shots, { duration: dur, hits });

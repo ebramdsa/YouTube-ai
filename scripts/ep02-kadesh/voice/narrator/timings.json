@@ -59,7 +59,7 @@
   "start": "6:15",
   "end": "7:45",
   "file": "06_ramesses-fights-back.mp3",
-  "duration": 67.866122,
+  "duration": 102.164898,
   "audio_start": 424.05
  },
  {
@@ -68,8 +68,8 @@
   "start": "7:45",
   "end": "9:00",
   "file": "07_who-won.mp3",
-  "duration": 81.266939,
-  "audio_start": 491.91
+  "duration": 120.659592,
+  "audio_start": 526.21
  },
  {
   "index": 8,
@@ -77,8 +77,8 @@
   "start": "9:00",
   "end": "9:50",
   "file": "08_the-peace-treaty.mp3",
-  "duration": 54.595918,
-  "audio_start": 573.18
+  "duration": 76.956735,
+  "audio_start": 646.87
  },
  {
   "index": 9,
@@ -87,6 +87,6 @@
   "end": "10:30",
   "file": "09_outro.mp3",
   "duration": 45.191837,
-  "audio_start": 627.77
+  "audio_start": 723.83
  }
 ]

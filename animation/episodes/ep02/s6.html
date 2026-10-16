@@ -6,6 +6,8 @@
 // Section 6 — Ramesses fights back: his version, and what probably happened
 const { C, ease, clamp, lerp, f } = T, E = T.expr;
 const { S, W, dur } = K.timingFor(6);
+// first occurrence of a word at or after `from` (for the extended-cut lines appended to this section)
+const WA = (w, n = 1, from = S(23)) => { let c = 0; for (const [x, t] of TIMING[6].w) if (x === w && t >= from - .01 && ++c === n) return t; throw new Error('word not found: ' + w); };
 const hits = [], H = t => (hits.push(t), t);
 const hitCrew = i => [EP.hittite({ s: .45, seed: 3 + i, e: E('angry') }), EP.hittite({ s: .45, seed: 5 + i, shield: [-40, 150, .8] }), EP.hittite({ s: .45, seed: 7 + i, spear: [50, 270, 110, -250] })];
 const epicChariot = (t, x, y, s, glow = 1) => EP.chariot({ x, y, s, t, crew: [EP.ramesses({ s: .45, pose: 'chibi', glow, e: E('determined'), arms: { r: { x: 140, y: 30, pose: 'grip' }, l: { x: 120, y: 60, pose: 'fist' } } })] });
@@ -132,6 +134,42 @@ const shots = [
     for (let i = 0; i < 3; i++) s += EP.chariot({ kind: 'hit', x: 400 + i * 420 + lt * 160, y: 660 - i * 20, s: .5, t: t + i, crew: hitCrew(i) });
     const o = K.say('NIGHTFALL', 960, 170, 110, t, H(W('nightfall')), { fill: '#cfe0ff' }) + K.stamp('PULLED BACK', 960, 960, t, H(W('pulled')), -3, { cross: false, size: 110, fill: '#fff' });
     return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  // ---- extended cut ----
+  [S(23), (t, lt) => { // Ramesses survived. Barely.
+    let s = K.burst(t, '#e2b84a', '#ecc85e');
+    s += EP.ramesses({ x: 960, y: 420 + K.breathe(t), s: 1, sweat: 1, e: t > S(24) ? E('worried', { look: [0, .3] }) : E('proud') });
+    const o = K.stamp('SURVIVED', 960, 900, t, H(WA('survived')), -4, { cross: false, size: 140, fill: C.gold }) + K.say('...BARELY', 1500, 260, 90, t, H(S(24)), { fill: '#fff', rot: 8 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(25), (t, lt) => { // the furious speech to his officers
+    let s = `<rect width="1920" height="1080" fill="#e9cf98"/>` + EP.tent(1500, 760, 1.1, '#efe2c4', 0, C.gold);
+    const yell = t > S(26);
+    s += EP.ramesses({ x: 560 + (yell ? Math.sin(t * 40) * 4 : 0), y: 400, s: .95, e: yell ? E('shout') : E('angry'), talk: yell ? true : false, t,
+      arms: { r: { x: 240, y: -40 + Math.sin(t * 10) * 20, pose: 'point' } } });
+    for (let i = 0; i < 3; i++) s += EP.egyptian({ x: 1140 + i * 200, y: 640, s: .8, flip: true, seed: 750 + i, e: E('scared', { look: [-.6, 0] }), sweat: yell ? 1 : 0, shield: [-40, 170, .7] });
+    const o = K.lowerThird('THE POEM OF KADESH', 'his own inscriptions', t, H(WA('inscriptions')), C.gold)
+      + K.speech('WHERE WERE YOU?', 820, 180, t, H(S(26)), { size: 56, out: S(27) - .05 })
+      + K.speech('I WAS ALONE!', 820, 180, t, H(S(27)), { size: 64, out: S(28) - .05 })
+      + K.speech('MY HORSES DID MORE THAN ALL OF YOU!', 900, 180, t, H(S(28)), { size: 46 });
+    return K.cam(s, 1, 960, 540, yell ? .1 : 0, t) + o;
+  }],
+  [S(29), (t, lt) => { // the two horses: Victory in Thebes and Mut is Content
+    let s = K.burst(t, '#c9a46a', '#d6b37a');
+    s += K.horse(620, 640, 1.2, { t, col: '#c9a46a', dark: '#8a6a3a', blanket: EP.P.egBlue }) + `<g transform="translate(1300,640) scale(-1.2,1.2)">${K.horse(0, 0, 1, { t: t + .4, col: '#e6d3a8', dark: '#8a6a3a', blanket: C.red })}</g>`;
+    const fk = S(30);
+    if (t > fk) for (let i = 0; i < 6; i++) { const y = 520 - ((t - fk) * 120 + i * 60) % 300; s += `<g opacity="${f(clamp(1 - ((t - fk) * 120 + i * 60) % 300 / 300))}" transform="translate(${800 + (i % 3) * 160},${f(y)}) scale(.5)"><path d="M0,30 C-60,-20 -30,-70 0,-36 C30,-70 60,-20 0,30Z" fill="${C.red}" stroke="${C.ink}" stroke-width="8"/></g>`; }
+    const o = K.lowerThird('VICTORY IN THEBES', 'horse no. 1', t, H(WA('victory')), EP.P.egBlue)
+      + (t > WA('mut') ? `<g transform="translate(1180,0)">${K.lowerThird('MUT IS CONTENT', 'horse no. 2', t, WA('mut'), C.red)}</g>` : '')
+      + K.say('FED BY THE PHARAOH. DAILY.', 960, 150, 80, t, H(fk + .3), { fill: C.gold });
+    return K.cam(s, 1, 960, 560, 0, t) + o;
+  }],
+  [S(31), (t, lt) => { // his officers got nothing
+    let s = `<rect width="1920" height="1080" fill="#cbb38a"/>`;
+    for (let i = 0; i < 3; i++) s += EP.egyptian({ x: 560 + i * 400, y: 520, s: .9, seed: 750 + i, e: E('worried', { look: [0, .4] }) });
+    for (let i = 0; i < 3; i++) s += `<g transform="translate(${560 + i * 400},860)"><ellipse rx="90" ry="26" fill="#8a5a3a" stroke="${C.ink}" stroke-width="7"/><ellipse cy="-8" rx="70" ry="14" fill="#5a3a22"/></g>`;
+    const o = K.stamp('NOTHING.', 960, 170, t, H(WA('got')), -4, { cross: false, size: 150, fill: '#fff' });
+    return K.cam(s, lerp(1, 1.1, ease(lt / 2)), 960, 540, 0, t) + o;
   }],
 ];
 K.runScene(shots, { duration: dur, hits });

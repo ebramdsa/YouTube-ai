@@ -6,6 +6,8 @@
 // Section 8 — The peace treaty
 const { C, ease, clamp, lerp, f } = T, E = T.expr;
 const { S, W, dur } = K.timingFor(8);
+// first occurrence of a word at or after `from` (for the extended-cut lines appended to this section)
+const WA = (w, n = 1, from = S(12)) => { let c = 0; for (const [x, t] of TIMING[8].w) if (x === w && t >= from - .01 && ++c === n) return t; throw new Error('word not found: ' + w); };
 const hits = [], H = t => (hits.push(t), t);
 const silver = (x, y, s, rot) => EP.tablet(x, y, s, rot, { col: '#cfd4dc', dark: '#8d939d', seed: 9 });
 
@@ -70,6 +72,22 @@ const shots = [
     const o = K.say('TODAY', 960, 140, 100, t, H(W('today')), { out: W('united') - .1 }) + K.say('UNITED NATIONS, NEW YORK', 960, 140, 80, t, H(W('united')), { fill: C.gold })
       + K.stamp('OLDEST PEACE DEAL', 660, 1000, t, H(S(11)), -3, { cross: false, size: 80, fill: '#fff' }) + K.say('IN THE HOME OF PEACE DEALS', 1320, 260, 54, t, H(W('home')), { fill: '#2f5fa8', stroke: '#fff', sw: 10 });
     return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+  // ---- extended cut ----
+  [S(12), (t, lt) => { // Nefertari and Puduhepa write to each other
+    let s = K.burst(t, '#e2b84a', '#ecc85e');
+    s += EP.princess({ x: 460, y: 440 + K.breathe(t), s: .85, seed: 262, e: E('neutral', { lid: .3, mouth: { type: 'smile', w: 22 } }) });
+    s += EP.princess({ x: 1460, y: 440 + K.breathe(t, 1), s: .85, flip: true, seed: 263, e: E('neutral', { lid: .3, mouth: { type: 'smile', w: 22 } }) });
+    const lk = WA('letters');
+    for (let i = 0; i < 4; i++) { const k = ((t - lk) * .6 + i * .25) % 1, dir = i % 2 ? -1 : 1, x = lerp(dir > 0 ? 640 : 1280, dir > 0 ? 1280 : 640, k), y = 420 - Math.sin(k * Math.PI) * 220;
+      if (t > lk) s += i % 2 ? EP.tablet(x, y, .35, k * 360) : `<g transform="translate(${f(x)},${f(y)}) rotate(${f(k * 200)})">${EP.path('M-50,-36 L50,-36 L50,36 L-50,36Z', C.red, 6)}<path d="M-50,-4 L50,-4 M0,-36 L0,36" stroke="${C.gold}" stroke-width="10"/></g>`; }
+    const o = K.say('SURPRISINGLY PERSONAL', 960, 150, 90, t, H(S(12) + .1), { fill: '#fff', out: WA('nefertari') - .1 })
+      + K.lowerThird('NEFERTARI', 'queen of Egypt', t, H(WA('nefertari')), EP.P.egBlue)
+      + (t > WA('puduhepa') ? `<g transform="translate(1180,0)">${K.lowerThird('PUDUHEPA', 'Hittite queen', t, WA('puduhepa'), EP.P.hit)}</g>` : '')
+      + K.say('PEN PALS', 960, 150, 120, t, H(WA('gifts')), { fill: C.gold, out: S(14) - .1 })
+      + K.speech('HOW IS YOUR HEALTH?', 960, 170, t, H(WA('health') - .6), { size: 54 })
+      + K.say('FROM ENEMIES TO JEWELLERY', 960, 150, 76, t, H(WA('jewellery')), { fill: '#fff', out: WA('health') - .7 });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
   }],
 ];
 K.runScene(shots, { duration: dur, hits });

@@ -6,6 +6,8 @@
 // Section 2 — The young pharaoh, his army, and two kinds of chariot
 const { C, ease, clamp, lerp, f } = T, E = T.expr;
 const { S, W, dur } = K.timingFor(2);
+// first occurrence of a word at or after `from` (for the extended-cut lines appended to this section)
+const WA = (w, n = 1, from = S(20)) => { let c = 0; for (const [x, t] of TIMING[2].w) if (x === w && t >= from - .01 && ++c === n) return t; throw new Error('word not found: ' + w); };
 const hits = [], H = t => (hits.push(t), t);
 const egCrew = (t, e) => [EP.egyptian({ s: .45, e: E('determined'), seed: 3 }), EP.egyptian({ s: .45, seed: 9, e: e || E('angry'), arms: { r: { x: 120, y: 40, pose: 'grip' } } })];
 const hitCrew = () => [EP.hittite({ s: .45, seed: 3 }), EP.hittite({ s: .45, seed: 5, shield: [-40, 150, .8] }), EP.hittite({ s: .45, seed: 7, spear: [50, 270, 110, -250] })];
@@ -95,6 +97,56 @@ const shots = [
       + (q ? K.speech('SHH.', 1260, 420, t, W('quieter') + .2, { size: 54 }) : '')
       + K.stamp('MUCH, MUCH SNEAKIER', 960, 980, t, H(W('sneakier')), -3, { cross: false, size: 96, fill: C.gold });
     return K.cam(s, 1 + lt * .01, 960, 540, 0, t) + o;
+  }],
+  // ---- extended cut ----
+  [S(21), (t, lt) => { // the year before: Ramesses pulls Amurru over to Egypt
+    const ak = clamp((t - WA('amurru')) / .8), sk = clamp((t - WA('side')) / .6);
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6 } });
+    const AM = 'M770,300 Q840,280 880,330 Q890,400 820,430 Q770,420 760,370Z';
+    s += `<path d="${AM}" fill="${sk > 0 ? C.gold : '#5f8fd0'}" opacity="${f(.4 + .5 * Math.max(ak, sk))}" stroke="${C.ink}" stroke-width="6" stroke-dasharray="14 10"/>`;
+    s += K.arrowAlong([[660, 800], [760, 700], [800, 560], [820, 420]], clamp((t - WA('coast') + .3) / 1.1), C.gold, 14);
+    const o = K.dateCard('THE YEAR BEFORE', t, H(S(21))) + K.say('AMURRU', 820, 250, 70, t, H(WA('amurru')), { fill: '#fff' })
+      + K.say('(HITTITE ALLY)', 820, 470, 46, t, H(WA('ally')), { fill: '#cfe0ff', out: WA('side') - .1 })
+      + K.stamp('NOW EGYPTIAN', 820, 480, t, H(WA('side')), -4, { cross: false, size: 64, fill: C.gold });
+    return K.cam(s, lerp(1.3, 1.6, ease(lt / 5)), 800, 500, 0, t) + o;
+  }],
+  [S(22), (t, lt) => { // a slap in the face
+    let s = K.burst(t, '#3f6aa8', '#4f7ab8');
+    const sl = WA('slap'), hit = t > sl;
+    s += EP.muwatalli({ x: 960 + (hit ? Math.sin((t - sl) * 40) * 18 * Math.max(0, 1 - (t - sl) * 2) : 0), y: 420, s: 1, rot: hit ? lerp(-8, 0, clamp((t - sl) * 2)) : 0,
+      e: hit ? E('shocked') : E('neutral', { lid: .4 }) });
+    if (hit) s += `<g opacity="${f(clamp(1 - (t - sl - 1.2)))}"><ellipse cx="1030" cy="420" rx="46" ry="30" fill="${C.red}" opacity=".55"/></g>`;
+    const o = K.say('SLAP!', 1360, 300, 150, t, H(sl), { fill: C.red, rot: 10 });
+    return K.cam(s, 1, 960, 540, K.shakeAt(t, [sl], .35), t) + o;
+  }],
+  [S(23), (t, lt) => { // Muwatalli calls in every favour: allies from a dozen lands
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .4 } }) + K.city('KADESH', EP.PL.kadesh, t, 0, C.gold, { dx: -120, dy: 10 });
+    const ak = WA('allies'), R = T.rng(5);
+    for (let i = 0; i < 26; i++) {
+      const sx = 200 + R() * 1500, sy = -40 + R() * 260, k = ease((t - ak - i * .06) / 2.2);
+      const x = lerp(sx, EP.PL.kadesh[0] + 30 + (i % 6) * 22, k), y = lerp(sy, EP.PL.kadesh[1] - 70 + Math.floor(i / 6) * 20, k);
+      if (t > ak - .2) s += K.token(x, y, i % 3 ? EP.P.hit : C.red, 11);
+    }
+    const o = K.speech('I NEED EVERYONE.', 1320, 200, t, H(S(23)), { size: 56, out: ak - .1 }) + K.say('ALLIES', 960, 960, 100, t, H(ak), { fill: '#9fc3ff', out: WA('dozen') - .1 })
+      + K.stamp('12+ LANDS', 960, 960, t, H(WA('dozen')), -3, { cross: false, size: 120, fill: C.gold });
+    return K.cam(s, lerp(1, 1.25, ease(lt / 5)), 900, 440, 0, t) + o;
+  }],
+  [S(25), (t, lt) => { // 2,500 chariots (Egyptian claim); biggest Hittite army ever
+    let s = `<rect width="1920" height="1080" fill="#e8d3a0"/>`;
+    const ck = WA('chariots');
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 18; c++) { const i = r * 18 + c, k = T.back((t - S(25) - .4 - i * .012) / .3);
+      if (k > 0) s += K.cavToken(160 + c * 94, 330 + r * 84, EP.P.hit, 0, 22 * k); }
+    const big = WA('biggest');
+    const o = K.say('EGYPTIAN SCRIBES CLAIM:', 960, 160, 80, t, H(WA('scribes')), { fill: C.gold, out: ck - .1 }) + K.say('2,500 CHARIOTS', 960, 160, 120, t, H(ck), { fill: '#fff' }) + K.say('(CLAIMED)', 960, 260, 50, t, H(ck + .4), { fill: C.gold, out: big - .1 })
+      + K.stamp('BIGGEST HITTITE ARMY EVER', 960, 980, t, H(big), -2, { cross: false, size: 84, fill: C.gold });
+    return K.cam(s, lerp(1.25, 1, ease(lt / 4)), 960, 600, K.shakeAt(t, [big], .2), t) + o;
+  }],
+  [S(27), (t, lt) => { // waiting at Kadesh
+    let s = EP.desert(t, { horizon: 560, sky: '#d9b88a' }) + EP.city(960, 600, .9, t, { flag: '#9fc3ff' });
+    for (let i = 0; i < 7; i++) { const x = 420 + i * 180, pk = ease((t - S(27) - .3 - i * .1) / .4);
+      s += `<g transform="translate(${x},${f(lerp(420, 330, pk))})"><circle r="16" fill="${EP.P.hit}" stroke="${C.ink}" stroke-width="5"/><circle cx="-5" cy="-2" r="3.5" fill="#fff"/><circle cx="6" cy="-2" r="3.5" fill="#fff"/></g>`; }
+    const o = K.say('WAITING...', 960, 160, 110, t, H(WA('waiting')), { fill: '#fff' });
+    return K.cam(s, lerp(1, 1.15, ease(lt / 3)), 960, 520, 0, t) + o;
   }],
 ];
 K.runScene(shots, { duration: dur, hits });

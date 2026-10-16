@@ -6,6 +6,8 @@
 // Section 3 — The two spies
 const { C, ease, clamp, lerp, f } = T, E = T.expr;
 const { S, W, dur } = K.timingFor(3);
+// first occurrence of a word at or after `from` (for the extended-cut lines appended to this section)
+const WA = (w, n = 1, from = S(14)) => { let c = 0; for (const [x, t] of TIMING[3].w) if (x === w && t >= from - .01 && ++c === n) return t; throw new Error('word not found: ' + w); };
 const hits = [], H = t => (hits.push(t), t);
 const amunTokens = (t, k) => { let s = ''; for (let i = 0; i < 24; i++) { const x = lerp(820 + (i % 6) * 30, 560 + (i % 6) * 34, k), y = lerp(1000 + Math.floor(i / 6) * 30, 300 + Math.floor(i / 6) * 34, k); s += K.token(x, y, C.gold, 12); } return s; };
 
@@ -78,6 +80,36 @@ const shots = [
     const o = K.say('THE ENTIRE HITTITE ARMY', 960, 150, 90, t, H(W('entire')), { fill: '#9fc3ff', out: ch - .1 }) + K.say('THOUSANDS OF CHARIOTS', 960, 150, 90, t, H(ch), { fill: C.gold })
       + K.speech('NICE FIRES.', 1500, 330, t, W('campfires'), { size: 50, tail: -1 });
     return K.cam(s, 1 + lt * .01, 960, 560, 0, t) + o;
+  }],
+  // ---- extended cut ----
+  [S(14), (t, lt) => { // so close: Ramesses in camp vs thousands of horses behind the city
+    let s = EP.desert(t, { horizon: 600, sky: '#f3dda5' });
+    s += EP.tent(260, 760, .8, '#efe2c4', 0, C.gold) + EP.tent(560, 800, .7) + EP.campfire(420, 900, .8, t);
+    const god = WA('god');
+    s += EP.ramesses({ x: 470, y: 470 + K.breathe(t), s: .7, glow: t > god ? clamp((t - god) / .5) : 0, e: E('smug', { lid: .45, mouth: { type: 'smirk', w: 34 } }) });
+    s += `<rect x="960" width="960" height="1080" fill="#2a1d17" opacity="${f(.25 * ease((t - WA('ride')) / .6))}"/>`;
+    s += `<g transform="translate(1440,640) scale(.6)">${EP.city(0, 0, 1, t, { flag: '#9fc3ff' })}</g>` + EP.river(900, t, 90);
+    const hk = WA('horses');
+    for (let i = 0; i < 12; i++) { const k = T.back((t - hk - i * .05) / .3); if (k > 0) s += `<g transform="translate(${1080 + (i % 6) * 130},${700 + Math.floor(i / 6) * 70}) scale(${f(.32 * k)})">${K.horse(0, 0, 1, { t: t + i, col: '#6a4a32', dark: C.ink, blanket: C.red })}</g>`; }
+    s += `<path d="M960,0 L960,1080" stroke="${C.ink}" stroke-width="12"/>`;
+    const o = K.say('SO CLOSE', 960, 140, 120, t, H(S(14) + .1), { out: S(15) - .1 }) + K.say('"I AM A GOD"', 470, 140, 80, t, H(god), { fill: C.gold })
+      + K.say('THOUSANDS OF HORSES', 1440, 140, 70, t, H(hk), { fill: '#9fc3ff' }) + K.stamp('WAITING FOR A SIGNAL', 1440, 1000, t, H(WA('signal')), -3, { cross: false, size: 60, fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
+  }],
+  [S(17), (t, lt) => { // catch the Egyptian army in pieces
+    let s = EP.memap(t, { tint: { hit: .5, egypt: .5 } }) + K.city('KADESH', EP.PL.kadesh, t, 0, C.gold, { dx: -120, dy: 10 });
+    const cols = [[960, 470], [960, 600], [900, 760], [820, 900]];
+    cols.forEach(([x, y], i) => { for (let j = 0; j < 6; j++) s += K.token(x - 30 + (j % 3) * 30, y + Math.floor(j / 3) * 26, C.gold, 11); });
+    const pk = WA('pieces');
+    if (t > pk) cols.forEach(([x, y], i) => { s += `<g opacity="${f(clamp((t - pk) * 2 - i * .3))}"><circle cx="${x}" cy="${y + 12}" r="70" fill="none" stroke="${C.red}" stroke-width="10" stroke-dasharray="20 14"/></g>`; });
+    const o = K.stamp('NOT ALL AT ONCE', 960, 150, t, H(S(17) + .2), -3, { cross: false, size: 96, fill: '#fff' }) + K.stamp('IN PIECES', 1400, 760, t, H(pk), -6, { cross: false, size: 120, fill: C.red });
+    return K.cam(s, lerp(1.2, 1.5, ease(lt / 4)), 920, 650, K.shakeAt(t, [pk], .2), t) + o;
+  }],
+  [S(19), (t, lt) => { // thanks to the two spies
+    let s = K.burst(t, '#c9a46a', '#d6b37a');
+    s += EP.nomad({ x: 700, y: 440 + K.breathe(t), s: .9, wink: Math.floor(t * 1.5) % 2, e: E('smug') }) + EP.nomad({ x: 1220, y: 440 + K.breathe(t, 1), s: .9, flip: true, seed: 243, band: C.teal, e: E('smug', { mouth: { type: 'smirk', w: 34 } }) });
+    const o = K.say('THANKS, SPIES', 960, 150, 110, t, H(WA('spies')), { fill: C.gold }) + K.say('ARRIVING IN PIECES', 960, 960, 80, t, H(WA('arriving')), { fill: '#fff' });
+    return K.cam(s, 1, 960, 540, 0, t) + o;
   }],
 ];
 K.runScene(shots, { duration: dur, hits });

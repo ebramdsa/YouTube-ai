@@ -6,6 +6,8 @@
 // Section 1 — Two superpowers (and a correction)
 const { C, ease, clamp, lerp, f } = T, E = T.expr;
 const { S, W, dur } = K.timingFor(1);
+// first occurrence of a word at or after `from` (for the extended-cut lines appended to this section)
+const WA = (w, n = 1, from = S(17)) => { let c = 0; for (const [x, t] of TIMING[1].w) if (x === w && t >= from - .01 && ++c === n) return t; throw new Error('word not found: ' + w); };
 const hits = [], H = t => (hits.push(t), t);
 const PL = EP.PL;
 
@@ -82,6 +84,38 @@ const shots = [
     const o = K.say('ORONTES RIVER', 960, 920, 70, t, H(W('orontes')), { fill: '#cfe6f5' }) + K.say('FORTIFIED', 960, 150, 90, t, H(W('fortified')), { out: W('kadesh') - .2 })
       + K.stamp('KADESH', 960, 170, t, H(W('kadesh')), -3, { cross: false, size: 160, fill: C.gold });
     return K.cam(s, z, 960, 520, K.shakeAt(t, [W('kadesh')], .2), t) + o;
+  }],
+  // ---- extended cut ----
+  [S(17), (t, lt) => { // neither empire could let go: Syria's kingdoms switch sides every year
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6, strip: .35 + .15 * Math.sin(t * 5) } });
+    const sw = WA('switched');
+    for (const [i, [x, y]] of [[850, 640], [930, 470], [1000, 330], [900, 560], [960, 720]].entries()) {
+      const side = t < sw ? 0 : Math.floor((t - sw) * 1.6 + i * .5) % 2;
+      s += `<g transform="translate(${x},${y})">${T.tube('M0,0 L0,-70', 6, '#9a6a3a', 4)}${EP.path(`M2,-68 Q26,${f(-74 + Math.sin(t * 7 + i) * 5)} 50,-62 L50,-36 Q26,${f(-42 + Math.sin(t * 7 + i) * 5)} 2,-36Z`, side ? EP.P.hit : C.gold, 4)}</g>`;
+    }
+    const o = K.say('NEITHER COULD LET GO', 960, 150, 90, t, H(S(17) + .2), { out: WA('century') - .2 })
+      + K.dateCard('100+ YEARS', t, H(WA('century'))) + K.say('SWITCHING SIDES', 960, 150, 96, t, H(sw), { fill: '#fff2b0', out: S(19) - .2 })
+      + K.say('PAY EGYPT', 600, 960, 70, t, H(WA('egypt')), { fill: C.gold }) + K.say('PAY THE HITTITES', 1320, 960, 70, t, H(WA('hittites')), { fill: '#9fc3ff' })
+      + K.stamp('AGAIN AND AGAIN', 960, 150, t, H(S(19)), -3, { cross: false, size: 96, fill: C.gold });
+    return K.cam(s, lerp(1.2, 1.4, ease(lt / 6)), 930, 540, 0, t) + o;
+  }],
+  [S(20), (t, lt) => { // not an easy city to take: river, stream, moat
+    let s = `<rect width="1920" height="1080" fill="#d9b56a"/>`;
+    const rk = ease((t - WA('orontes') + .2) / .6), sk = ease((t - WA('stream') + .2) / .6), mk = ease((t - WA('moat') + .2) / .6);
+    const band = (d, k, w) => k > 0 ? `<path d="${d}" stroke="${C.ink}" stroke-width="${w + 14}" fill="none" stroke-linecap="round" stroke-dasharray="${f(k * 1600)} 1600"/><path d="${d}" stroke="${EP.P.nile}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-dasharray="${f(k * 1600)} 1600"/>` : '';
+    s += band('M1260,1100 Q1220,700 1150,440 Q1100,240 1110,-20', rk, 90) + band('M560,1100 Q640,780 860,660 Q1040,560 1150,440', sk, 50) + band('M760,330 L1130,300', mk, 40);
+    s += `<g transform="translate(940,470) scale(.42)">${EP.city(0, 0, 1, t, { flag: C.gold })}</g>`;
+    const o = K.stamp('NOT EASY', 960, 150, t, H(S(20)), -4, { cross: false, size: 120, fill: C.red, }) + K.say('ORONTES', 1420, 760, 70, t, H(WA('orontes')), { fill: '#cfe6f5' })
+      + K.say('STREAM', 560, 900, 64, t, H(WA('stream')), { fill: '#cfe6f5' }) + K.say('MOAT', 760, 300, 64, t, H(WA('moat')), { fill: '#cfe6f5' })
+      + K.say('ALMOST AN ISLAND', 960, 980, 84, t, H(WA('water')), { fill: '#fff' });
+    return K.cam(s, lerp(1.15, 1, ease(lt / 3)), 960, 540, K.shakeAt(t, [S(20)], .15), t) + o;
+  }],
+  [S(22), (t, lt) => { // hold Kadesh, hold the road north
+    let s = EP.memap(t, { tint: { hit: .6, egypt: .6 } }) + K.city('KADESH', EP.PL.kadesh, t, 0, C.gold, { dx: -120, dy: 10 });
+    s += K.arrowAlong([[930, 470], [960, 380], [1010, 300], [1060, 200]], clamp((t - WA('road')) / .9), C.gold, 16);
+    const z = lerp(1.6, 1.9, ease(lt / 3));
+    const o = K.stamp('THE ROAD NORTH', 960, 900, t, H(WA('road')), -3, { cross: false, size: 110, fill: C.gold });
+    return K.cam(s, z, 940, 420, 0, t) + o;
   }],
 ];
 K.runScene(shots, { duration: dur, hits });
