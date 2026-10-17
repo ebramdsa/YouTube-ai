@@ -1,6 +1,6 @@
 # Episode 2 — YouTube upload sheet
 
-Video: `animation/previews/ep02-full.mp4` (8:58, 1080p) · Thumbnail: `animation/previews/ep02-thumbnail.jpg` (backup: `ep02-thumbnail-b.jpg`)
+Video: `animation/previews/ep02-full.mp4` (12:53, 1080p, extended cut) · Thumbnail: `animation/previews/ep02-thumbnail.jpg` (backup: `ep02-thumbnail-b.jpg`)
 
 ## Title
 Kadesh: The Battle Both Sides Won (Apparently)
@@ -12,19 +12,19 @@ Alternatives:
 ## Description
 1274 BC. Ramesses II — 25 years old, son of the sun god, and very sure of himself — walked straight into a trap at Kadesh. His army was cut in half and his camp overrun. Then he went home and carved his great victory into five temples. The Hittite king went home and recorded his victory too.
 
-So who actually won? Two superpowers, two fake deserters, thousands of chariots, a pet lion, and the oldest peace treaty ever found.
+So who actually won? Two superpowers, two fake deserters, thousands of chariots, a pet lion, two very well-fed horses, and the oldest peace treaty ever found.
 
 ⏱️ Chapters
 0:00 1274 BC: The Ambush
 0:46 Two Superpowers
-1:43 The Young Pharaoh
-2:49 The Two Spies
-3:40 The Truth Comes Out
-4:08 The Chariots Strike
-4:47 Ramesses Fights Back
-5:55 Who Won?
-7:16 The Peace Treaty
-8:11 He Won the Story
+2:21 The Young Pharaoh
+4:12 The Two Spies
+5:30 The Truth Comes Out
+5:58 The Chariots Strike
+7:06 Ramesses Fights Back
+8:48 Who Won?
+10:49 The Peace Treaty
+12:06 He Won the Story
 
 📚 Sources
 - Ramesses II's "Poem" and "Bulletin" inscriptions (Karnak, Luxor, Abydos, the Ramesseum, Abu Simbel)
@@ -58,5 +58,8 @@ Episode 3 (Sunday 25 Oct) falls on the day Europe switches to winter time: 17:00
 - Altered or synthetic content: yes (AI narration voice)
 - Captions: upload subtitles/ep02.en.srt (English) and subtitles/ep02.ar.srt (Arabic)
 - Playlist: "Ancient Battles"
-- End screen: subscribe button + episode 1 (from 8:45)
-- Pinned comment: "Who do YOU think won at Kadesh — Ramesses or Muwatalli? ⚔️"
+- End screen: subscribe button + episode 1 (from 12:33, the last 20 s)
+- Pinned comment: "Who do YOU think won at Kadesh — Ramesses or Muwatalli? ⚔️" (pinning is locked until Google approves the identity verification)
+- Tags: paste the list into the tag box and check that each one shows up as its own chip (on episode 1 they ended up as one long tag)
+- Thumbnail: start with "WHO WON?" (ep02-thumbnail.jpg); swap to ep02-thumbnail-b.jpg if CTR stays under 3% after ~500 impressions
+- Don't share the link with friends for the first 24-48 h (their quick views skewed episode 1's signals)
